@@ -6,6 +6,14 @@
         "path": "assets/audio/day1-demos/.DS_Store"
       },
       {
+        "filename": "21.wav",
+        "path": "assets/audio/day1-demos/21.wav"
+      },
+      {
+        "filename": "Another Angle.mp3",
+        "path": "assets/audio/day1-demos/Another Angle.mp3"
+      },
+      {
         "filename": "BABE I KNOW U.m4a",
         "path": "assets/audio/day1-demos/BABE I KNOW U.m4a"
       },
@@ -20,20 +28,48 @@
       {
         "filename": "DREAM.m4a",
         "path": "assets/audio/day1-demos/DREAM.m4a"
+      },
+      {
+        "filename": "If it Lasts.wav",
+        "path": "assets/audio/day1-demos/If it Lasts.wav"
+      },
+      {
+        "filename": "Lost you at hello.mp3",
+        "path": "assets/audio/day1-demos/Lost you at hello.mp3"
+      },
+      {
+        "filename": "Nice Guy.mp3",
+        "path": "assets/audio/day1-demos/Nice Guy.mp3"
+      },
+      {
+        "filename": "tough shit !.mp3",
+        "path": "assets/audio/day1-demos/tough shit !.mp3"
       }
     ],
     "finished": [
       {
-        "filename": "Cards (M3).mp3",
-        "path": "assets/audio/finished/Cards (M3).mp3"
+        "filename": ".DS_Store",
+        "path": "assets/audio/finished/.DS_Store"
+      },
+      {
+        "filename": "Beverly.mp3",
+        "path": "assets/audio/finished/Beverly.mp3"
+      },
+      {
+        "filename": "Cards.mp3",
+        "path": "assets/audio/finished/Cards.mp3"
       },
       {
         "filename": "Clayton_Mary_Masterr.m4a",
         "path": "assets/audio/finished/Clayton_Mary_Masterr.m4a"
       },
       {
-        "filename": "Doormat (M3) 2.wav",
-        "path": "assets/audio/finished/Doormat (M3) 2.wav"
+        "filename": "Doormat.wav",
+        "path": "assets/audio/finished/Doormat.wav"
+      },
+      {
+        "filename": "Shitty Song.mp3",
+        "path": "assets/audio/finished/Shitty Song.mp3"
       },
       {
         "filename": "Sitcom (M2) 2.wav",
@@ -46,8 +82,16 @@
         "path": "assets/audio/board-tapes/.DS_Store"
       },
       {
+        "filename": "Enough.m4a",
+        "path": "assets/audio/board-tapes/Enough.m4a"
+      },
+      {
         "filename": "HOLD.m4a",
         "path": "assets/audio/board-tapes/HOLD.m4a"
+      },
+      {
+        "filename": "Right on the line.m4a",
+        "path": "assets/audio/board-tapes/Right on the line.m4a"
       },
       {
         "filename": "THE SPINS.m4a",
@@ -56,6 +100,14 @@
       {
         "filename": "WALKIN.m4a",
         "path": "assets/audio/board-tapes/WALKIN.m4a"
+      },
+      {
+        "filename": "What if?.m4a",
+        "path": "assets/audio/board-tapes/What if?.m4a"
+      },
+      {
+        "filename": "what the lovers do.m4a",
+        "path": "assets/audio/board-tapes/what the lovers do.m4a"
       }
     ]
   },
