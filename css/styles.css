@@ -214,6 +214,10 @@ a{ color:inherit; }
 }
 
 .poster__title{
+  max-width: 900px;
+  line-height: 1.05;
+  text-wrap: balance;
+
   margin:10px 0 10px;
   font-family:var(--cond);
   font-size:58px;
@@ -411,7 +415,11 @@ a{ color:inherit; }
   .shell{ grid-template-columns: 1fr; }
   .stage{ grid-template-columns:1fr; }
   .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .poster__title{ font-size:46px; }
+  .poster__title{
+  max-width: 900px;
+  line-height: 1.05;
+  text-wrap: balance;
+ font-size:46px; }
 }
 @media (max-width: 520px){
   .grid{ grid-template-columns: 1fr; }
