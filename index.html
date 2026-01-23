@@ -1,84 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Clayton Brown — Producer / Writer / Mixer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAYTON — Dossier</title>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta name="description" content="CLAYTON — songs, sessions, live footage, and the archive. A world you can explore." />
+  <meta name="theme-color" content="#0b0a08" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
-  <header class="site-header">
-    <a href="#top" class="logo">CLAYTON BROWN</a>
-    <nav class="site-nav">
-      <a href="#work">Work</a>
-      <a href="#archive">Archive</a>
-      <a href="#about">About</a>
-      <a href="#contact" class="cta">Contact</a>
-    </nav>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="topbar__left">
+      <div class="mark">
+        <div class="mark__name">CLAYTON</div>
+        <div class="mark__sub">DOSSIER / PORTFOLIO / ARCHIVE</div>
+      </div>
+    </div>
+
+    <div class="topbar__right">
+      <a class="chip" href="#room=contact" data-open="contact">BOOK / CONTACT</a>
+      <button class="chip chip--ghost" id="btnCmd" type="button" title="Open Command Palette (K)">⌘K</button>
+    </div>
   </header>
 
-  <!-- HERO GALLERY -->
-  <section id="top" class="hero-gallery">
-    <div class="gallery-grid" id="heroGrid">
-      <!-- JS will insert images here -->
+  <main class="shell">
+    <aside class="nav">
+      <div class="nav__section">
+        <div class="nav__label">SETLIST</div>
+        <button class="nav__item" data-open="work">Work</button>
+        <button class="nav__item" data-open="archive">Archive</button>
+        <button class="nav__item" data-open="live">Live</button>
+        <button class="nav__item" data-open="photos">Photos</button>
+        <button class="nav__item" data-open="about">About</button>
+        <button class="nav__item" data-open="contact">Contact</button>
+      </div>
+
+      <div class="nav__section">
+        <div class="nav__label">STATUS</div>
+        <div class="nav__status" id="statusLine">Loading the world…</div>
+      </div>
+
+      <div class="nav__section">
+        <div class="nav__label">SHORTCUTS</div>
+        <div class="nav__hint">K → command palette</div>
+        <div class="nav__hint">Esc → close room</div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="poster">
+        <div class="poster__kicker">THE FILE</div>
+        <h1 class="poster__title">THE BOSSBOARD</h1>
+        <p class="poster__lede">
+          Everything I’ve made — finished songs, day-one demos, board tapes, live chaos, photos — organized like a world.
+          Stay on the surface if you want. Or go deep.
+        </p>
+
+        <div class="poster__grid">
+          <button class="card" data-open="work">
+            <div class="card__title">WORK</div>
+            <div class="card__meta">featured tracks + sessions</div>
+          </button>
+
+          <button class="card" data-open="archive">
+            <div class="card__title">ARCHIVE</div>
+            <div class="card__meta">demos + board tapes</div>
+          </button>
+
+          <button class="card" data-open="live">
+            <div class="card__title">LIVE</div>
+            <div class="card__meta">photos now, videos later</div>
+          </button>
+
+          <button class="card" data-open="photos">
+            <div class="card__title">PHOTOS</div>
+            <div class="card__meta">years of the project</div>
+          </button>
+        </div>
+
+        <div class="poster__footer">
+          <div class="stamp">NASHVILLE / INDEPENDENT / STORYTELLING</div>
+          <div class="stamp stamp--muted">Powered by your local assets + manifest.json</div>
+        </div>
+      </div>
+
+      <section class="quick">
+        <div class="quick__row">
+          <div class="quick__label">Quick Facts</div>
+          <div class="quick__value" id="quickFacts">—</div>
+        </div>
+        <div class="quick__row">
+          <div class="quick__label">Latest</div>
+          <div class="quick__value" id="latestLine">—</div>
+        </div>
+        <div class="quick__row">
+          <div class="quick__label">Tap In</div>
+          <div class="quick__value">
+            <a class="link" href="#room=work" data-open="work">Work</a> •
+            <a class="link" href="#room=archive" data-open="archive">Archive</a> •
+            <a class="link" href="#room=contact" data-open="contact">Contact</a>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- ROOM OVERLAY -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="overlay__backdrop" data-close></div>
+
+    <div class="room" role="dialog" aria-modal="true" aria-label="Room">
+      <div class="room__top">
+        <div class="room__title" id="roomTitle">Room</div>
+        <button class="room__close" type="button" data-close aria-label="Close">Esc</button>
+      </div>
+
+      <div class="room__body" id="roomBody">
+        <!-- injected -->
+      </div>
     </div>
-    <div class="hero-overlay">
-      <h1>Studio‑Ready. Taste‑Forward.</h1>
-      <p class="hero-sub">Producer, writer, mixer & collaborator — based in Nashville.</p>
+  </div>
+
+  <!-- AUDIO DOCK -->
+  <footer class="dock" id="dock" aria-label="Audio player">
+    <div class="dock__now">
+      <div class="dock__label">Now Playing</div>
+      <div class="dock__title" id="nowTitle">—</div>
     </div>
-  </section>
 
-  <!-- WORK / FEATURED -->
-  <section id="work" class="section">
-    <h2>Featured Sessions</h2>
-    <div class="featured-grid" id="featuredGrid">
-      <!-- JS will insert featured cards here -->
+    <div class="dock__controls">
+      <button class="btn" id="btnPrev" type="button">Prev</button>
+      <button class="btn btn--primary" id="btnPlay" type="button">Play</button>
+      <button class="btn" id="btnNext" type="button">Next</button>
     </div>
-  </section>
 
-  <!-- ARCHIVE -->
-  <section id="archive" class="section">
-    <h2>Archive</h2>
-    <p class="archive-note">Dig through demos, finished tracks, and tapes. Numbered for exploration.</p>
-    <div class="archive-grid" id="archiveGrid">
-      <!-- JS will insert archive entries here -->
+    <div class="dock__bar">
+      <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
+      <div class="dock__time">
+        <span id="tCur">0:00</span> / <span id="tDur">0:00</span>
+      </div>
     </div>
-  </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="section">
-    <h2>About</h2>
-    <p>
-      I’m Clayton Brown — a Nashville‑based producer, writer, mixer, and all‑around studio operator.
-      I’ve been writing a song a day for over a year, producing for artists on Music Row, selling out shows as an independent artist,
-      and working arena tours as a production assistant. I make records that feel as good as they sound, move fast with limited tools,
-      and keep the energy right in every session.
-    </p>
-    <p>
-      Whether you need someone to lead a session, build a track from scratch, mix a project to radio‑ready, or support your live show,
-      I’m ready to go.
-    </p>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="section contact-section">
-    <h2>Contact</h2>
-    <p>Prefer text. Let’s talk sessions, production, or live ops.</p>
-    <a href="sms:+12563850539" class="btn primary">Text: 256‑385‑0539</a>
-    <a href="mailto:claybrown530@gmail.com" class="btn">Email: claybrown530@gmail.com</a>
-  </section>
-
-  <footer class="site-footer">
-    © <span id="year"></span> Clayton Brown. Built for Music Row.
+    <audio id="audio" preload="metadata"></audio>
   </footer>
 
-  <script src="js/app.js"></script>
+  <!-- COMMAND PALETTE -->
+  <div class="palette" id="palette" aria-hidden="true">
+    <div class="palette__backdrop" data-pal-close></div>
+    <div class="palette__panel" role="dialog" aria-modal="true" aria-label="Command palette">
+      <input class="palette__input" id="palInput" placeholder="Type a room (work, archive, live, photos, about, contact)..." />
+      <div class="palette__list" id="palList"></div>
+      <div class="palette__hint">Enter → open • Esc → close</div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
