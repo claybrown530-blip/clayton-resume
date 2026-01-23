@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>IF ALL ISN'T LOST, WHERE IS IT? — CLAYTON</title>
 
   <meta name="theme-color" content="#0a0a09" />
@@ -23,7 +23,7 @@
       <div class="brand__sub">CLAYTON <span class="dot">•</span> still breathin</div>
     </a>
 
-    <nav class="nav">
+    <nav class="nav" aria-label="Site navigation">
       <a href="#dossier" class="nav__link">Dossier</a>
       <a href="#gallery" class="nav__link">Gallery</a>
       <a href="#contact" class="nav__link">Contact</a>
@@ -34,21 +34,23 @@
     <!-- DOSSIER -->
     <section id="dossier" class="panel">
       <div class="panel__head">
-        <h1 class="h1">Listen while you read.</h1>
+        <h1 class="h1">listen while you read.</h1>
       </div>
 
       <div class="grid">
         <!-- LEFT: PLAYER + LIST -->
         <div class="card">
           <div class="player">
-            <button id="playBtn" class="playBtn" aria-label="Play/Pause">
-              <span class="playBtn__icon" aria-hidden="true">▶</span>
-            </button>
+            <div class="playerTop">
+              <button id="playBtn" class="playBtn" aria-label="Play/Pause">
+                <span class="playBtn__icon" aria-hidden="true">▶</span>
+              </button>
 
-            <div class="now">
-              <div class="now__kicker">NOW PLAYING</div>
-              <div id="nowTitle" class="now__title">Babe I Know You</div>
-              <div id="nowMeta" class="now__meta">FINISHED</div>
+              <div class="now">
+                <div class="now__kicker">NOW PLAYING</div>
+                <div id="nowTitle" class="now__title">Babe I Know You</div>
+                <!-- intentionally no “FINISHED/DEMO/…” line -->
+              </div>
             </div>
 
             <div class="transport">
@@ -59,17 +61,17 @@
                 <span id="tDur">0:00</span>
               </div>
               <div class="transport__right">
-                <button id="nextBtn" class="ghost" type="button">Next</button>
+                <button id="nextBtn" class="ghost" type="button" aria-label="Next track">Next</button>
               </div>
             </div>
 
             <audio id="audio" preload="metadata"></audio>
           </div>
 
-          <div class="tabs">
-            <button class="tab is-active" data-group="finished" type="button">Finished</button>
-            <button class="tab" data-group="demos" type="button">Demos</button>
-            <button class="tab" data-group="boardtapes" type="button">Boardtapes</button>
+          <div class="tabs" role="tablist" aria-label="Track groups">
+            <button class="tab is-active" data-group="finished" type="button" role="tab" aria-selected="true">Finished</button>
+            <button class="tab" data-group="demos" type="button" role="tab" aria-selected="false">Demos</button>
+            <button class="tab" data-group="boardtapes" type="button" role="tab" aria-selected="false">Boardtapes</button>
           </div>
 
           <div class="tracks">
@@ -86,6 +88,7 @@
             <div class="photoFrame">
               <img id="photo" alt="CLAYTON photo" loading="lazy" />
             </div>
+            <div class="photoHint">photos rotate while audio plays</div>
           </div>
 
           <div class="card resume">
@@ -105,16 +108,15 @@
                 <div class="resumeBlock__title">Studio</div>
                 <ul class="list">
                   <li><span class="muted">DAW:</span> Logic Pro</li>
-                  <li><span class="muted">Tracking:</span> 8.2</li>
-                  <li><span class="muted">Editing:</span> 7.6</li>
-                  <li><span class="muted">Mixing:</span> 8.5</li>
-                  <li><span class="muted">Production:</span> 9</li>
-                  <li><span class="muted">Vocal prod:</span> 8.6</li>
+                  <li><span class="muted">Editing:</span> fast + musical</li>
+                  <li><span class="muted">Mixing:</span> clean + character</li>
+                  <li><span class="muted">Production:</span> songwriter-first</li>
+                  <li><span class="muted">Vocal prod:</span> confident</li>
                 </ul>
               </div>
 
               <div class="resumeBlock">
-                <div class="resumeBlock__title">Sessions</div>
+                <div class="resumeBlock__title">What I’m like in session</div>
                 <ul class="list">
                   <li>Writer in the room.</li>
                   <li>Producer hat more and more.</li>
@@ -123,22 +125,19 @@
               </div>
 
               <div class="resumeBlock">
-                <div class="resumeBlock__title">Live + Touring</div>
+                <div class="resumeBlock__title">Live</div>
                 <ul class="list">
                   <li>Opened for Judah &amp; the Lion (Mars Music Hall, sold out).</li>
                   <li>Sold out: East Room (Nashville), Eddie’s Attic (Atlanta).</li>
-                  <li>Sold out: Marathon Music Works (Nashville).</li>
-                  <li>Produced/hosted: Dive Motel (sold out), backyard show 400+.</li>
                   <li>Kenny Rogers estate show: sold out 227 (ticketed).</li>
-                  <li>Production Assistant tours: MercyMe (arena), Dude Perfect (arena), Kari Jobe/Bethel/Chris Tomlin (theater).</li>
+                  <li>Produced/hosted: Dive Motel (sold out), backyard show 400+.</li>
                 </ul>
               </div>
 
               <div class="resumeBlock">
-                <div class="resumeBlock__title">Business / Trust</div>
+                <div class="resumeBlock__title">Trust / Work</div>
                 <ul class="list">
                   <li>Secured show sponsorships (ex: $2k + product for Kenny Rogers event).</li>
-                  <li>Hospitality + run-of-show support on tours.</li>
                   <li>Top salesperson for Campesino Rum (relationship-driven work).</li>
                   <li>Paid promo photo work for Gibson.</li>
                 </ul>

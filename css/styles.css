@@ -20,6 +20,7 @@ html,body{height:100%}
 
 body{
   margin:0;
+  padding-bottom: env(safe-area-inset-bottom);
   background:
     radial-gradient(900px 600px at 15% 10%, rgba(224,162,74,.14), transparent 55%),
     radial-gradient(700px 520px at 85% 18%, rgba(216,109,74,.12), transparent 60%),
@@ -40,6 +41,7 @@ a:hover{opacity:.92}
   opacity:.10;
 }
 
+/* HEADER */
 .topbar{
   position:sticky;
   top:0;
@@ -54,7 +56,7 @@ a:hover{opacity:.92}
   backdrop-filter: blur(10px);
 }
 
-.brand{display:flex; flex-direction:column; gap:6px}
+.brand{display:flex; flex-direction:column; gap:6px; min-width: 220px}
 .brand__title{
   font-family: var(--head);
   text-transform: uppercase;
@@ -70,7 +72,13 @@ a:hover{opacity:.92}
 }
 .dot{color:var(--accent); margin:0 8px}
 
-.nav{display:flex; gap:14px; align-items:center}
+.nav{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
 .nav__link{
   font-size: 12px;
   color: var(--muted);
@@ -81,6 +89,7 @@ a:hover{opacity:.92}
 }
 .nav__link:hover{color:var(--text); background:rgba(255,255,255,.06)}
 
+/* WRAP */
 .wrap{
   width:min(1180px, calc(100% - 40px));
   margin:0 auto;
@@ -124,13 +133,20 @@ a:hover{opacity:.92}
   overflow:hidden;
 }
 
+/* PLAYER */
 .player{padding:18px}
+.playerTop{
+  display:flex;
+  gap:16px;
+  align-items:center;
+}
 
 .playBtn{
   display:grid;
   place-items:center;
   width:86px;
   height:86px;
+  flex: 0 0 auto;
   border-radius: 999px;
   border: 1px solid rgba(224,162,74,.55);
   background:
@@ -152,7 +168,7 @@ a:hover{opacity:.92}
   color: var(--text);
 }
 
-.now{margin-top:14px}
+.now{min-width: 0}
 .now__kicker{
   font-size: 11px;
   color: var(--muted);
@@ -166,11 +182,9 @@ a:hover{opacity:.92}
   letter-spacing:.06em;
   font-size: 22px;
   line-height: 1.15;
-}
-.now__meta{
-  margin-top:6px;
-  color: var(--muted);
-  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .transport{
@@ -208,6 +222,7 @@ a:hover{opacity:.92}
 }
 .ghost:hover{background: rgba(255,255,255,.06)}
 
+/* TABS */
 .tabs{
   display:flex;
   gap:10px;
@@ -231,6 +246,7 @@ a:hover{opacity:.92}
   background: rgba(224,162,74,.10);
 }
 
+/* TRACK LIST — titles only */
 .tracks{padding: 12px 10px 16px}
 .trackList{
   display:flex;
@@ -264,20 +280,16 @@ a:hover{opacity:.92}
   text-transform: uppercase;
   letter-spacing:.06em;
   font-size: 14px;
-  line-height: 1.1;
-}
-.track__sub{
-  color: var(--muted);
-  font-size: 11px;
-  margin-top:4px;
+  line-height: 1.15;
 }
 .track__right{
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing:.10em;
+  color: rgba(251,247,239,.78);
+  font-size: 11px;
+  letter-spacing:.14em;
   text-transform:uppercase;
 }
 
+/* RIGHT COLUMN */
 .stack{display:flex; flex-direction:column; gap:16px}
 
 .photoCard__top{
@@ -306,7 +318,16 @@ a:hover{opacity:.92}
   transition: opacity .22s ease;
 }
 .photoFrame img.is-ready{opacity:1}
+.photoHint{
+  padding: 10px 16px 14px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing:.12em;
+  text-transform: uppercase;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
 
+/* RESUME */
 .resume{padding:16px}
 .resume__row{
   display:flex;
@@ -377,6 +398,7 @@ a:hover{opacity:.92}
   font-size: 12px;
 }
 
+/* GALLERY */
 .gallery{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
@@ -402,6 +424,7 @@ a:hover{opacity:.92}
   aspect-ratio: 4/3;
 }
 
+/* CONTACT + FOOTER */
 .contactCard{padding:16px}
 .contactLine{
   display:flex;
@@ -439,102 +462,67 @@ a:hover{opacity:.92}
   color: var(--muted);
   font-size: 12px;
 }
-/* =========================
-   CLEANER MOBILE LAYOUT
-   ========================= */
 
-/* 1) Remove the "FINISHED / DEMOS / BOARDTAPES" sublabel under each track (everywhere) */
-.track__meta,
-.track .meta,
-.track .sub,
-.track .tagline,
-.track .kind,
-.track small {
-  display: none !important;
-}
-
-/* 2) Mobile tightening */
+/* MOBILE — cleaner, less cramped, better readability */
 @media (max-width: 640px) {
-  /* give the page breathing room + safe area */
-  body {
-    padding-bottom: calc(110px + env(safe-area-inset-bottom));
+  .wrap{
+    width: calc(100% - 28px);
   }
 
-  /* header / top area */
-  .topbar {
-    padding: 18px 16px;
+  .topbar{
+    padding: 16px 14px;
+    align-items:flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .mark__name {
-    font-size: 34px;
-    line-height: 0.95;
-    letter-spacing: 0.02em;
+  .brand__title{
+    font-size: 16px;
   }
 
-  /* optional: hide the extra header subtitle line to reduce reading */
-  .mark__sub {
-    display: none;
-  }
-
-  /* nav: make it horizontally scrollable instead of crammed */
-  .topbar__nav {
+  .nav{
+    width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    gap: 14px;
-    padding-bottom: 6px;
-    white-space: nowrap;
-  }
-  .topbar__nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* main content spacing */
-  .section,
-  .wrap,
-  .container {
-    padding: 16px !important;
-  }
-
-  /* cards/panels: less bulky */
-  .panel,
-  .card,
-  .glass {
-    border-radius: 18px;
-  }
-
-  /* tabs/buttons: smaller + cleaner */
-  .tabs,
-  .pillRow,
-  .filters {
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content:flex-start;
+    padding-bottom: 2px;
+  }
+  .nav::-webkit-scrollbar{display:none}
+
+  .h1{
+    font-size: 30px;
+    letter-spacing: .06em;
   }
 
-  .tab,
-  .pill,
-  .chip,
-  button {
-    font-size: 12px;
-    padding: 10px 14px;
+  .playerTop{
+    gap: 12px;
   }
 
-  /* song rows: tighter */
-  .track,
-  .row,
-  .item {
-    padding: 14px 14px;
+  .playBtn{
+    width:72px;
+    height:72px;
   }
 
-  .track__title,
-  .title {
-    font-size: 16px;
-    letter-spacing: 0.03em;
+  .now__title{
+    font-size: 18px;
   }
 
-  /* if you have a "Next" floating button and it feels random on mobile, hide it */
-  .next,
-  .nextBtn,
-  .nextButton {
-    display: none !important;
+  .trackList{
+    max-height: 320px;
+  }
+
+  .track__title{
+    font-size: 15px;
+  }
+
+  .resume__name{
+    font-size: 20px;
+  }
+
+  .list{
+    font-size: 13px;
+    line-height: 1.7;
   }
 }

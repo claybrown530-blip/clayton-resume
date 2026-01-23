@@ -1,7 +1,10 @@
 /* CLAYTON — Dossier player
-   - Minimal copy
-   - Track titles fixed (filters real audio files only)
-   - “Babe I Know You” pinned first
+   Goals:
+   - One obvious “Play”
+   - Titles only (no “FINISHED” metadata under tracks)
+   - “Babe I Know You” first
+   - Random photos rotate while audio plays
+   - Hide broken images in gallery
 */
 
 const $ = (sel) => document.querySelector(sel);
@@ -10,7 +13,6 @@ const audio = $("#audio");
 const playBtn = $("#playBtn");
 const playIcon = playBtn.querySelector(".playBtn__icon");
 const nowTitle = $("#nowTitle");
-const nowMeta = $("#nowMeta");
 const seek = $("#seek");
 const tCur = $("#tCur");
 const tDur = $("#tDur");
@@ -28,6 +30,7 @@ let groups = {};
 let currentGroup = "finished";
 let currentIndex = -1;
 let currentTracks = [];
+let photoTimer = null;
 
 const AUDIO_EXT = [".mp3", ".m4a", ".wav", ".aiff", ".flac", ".aac", ".ogg"];
 
@@ -43,14 +46,9 @@ function isAudioFile(path) {
 function prettifyTitleFromPath(path) {
   const parts = String(path || "").split("/");
   let file = parts[parts.length - 1] || "";
-  // If path ends with slash or empty, fallback to previous segment
   if (!file && parts.length > 1) file = parts[parts.length - 2] || "";
   const base = decodeURIComponent(file).replace(/\.[^/.]+$/, "");
-  const cleaned = base
-    .replace(/[_]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-  return cleaned || "Untitled";
+  return base.replace(/[_]+/g, " ").replace(/\s+/g, " ").trim() || "Untitled";
 }
 
 function fmtTime(sec) {
@@ -68,10 +66,32 @@ function setPlayUI(isPlaying) {
 
 function pickRandomPhoto() {
   if (!imagePool.length) return;
-  const src = safeUrl(imagePool[Math.floor(Math.random() * imagePool.length)]);
-  photo.classList.remove("is-ready");
-  photo.onload = () => photo.classList.add("is-ready");
-  photo.src = src;
+
+  // Try a few times in case some images are broken
+  for (let i = 0; i < 6; i++) {
+    const src = safeUrl(imagePool[Math.floor(Math.random() * imagePool.length)]);
+    if (!src) continue;
+
+    photo.classList.remove("is-ready");
+    photo.onload = () => photo.classList.add("is-ready");
+    photo.onerror = () => {
+      // if an image fails, try another next tick
+      setTimeout(() => pickRandomPhoto(), 50);
+    };
+    photo.src = src;
+    break;
+  }
+}
+
+function startPhotoRotation() {
+  stopPhotoRotation();
+  // rotate every ~18s while music plays
+  photoTimer = setInterval(() => pickRandomPhoto(), 18000);
+}
+
+function stopPhotoRotation() {
+  if (photoTimer) clearInterval(photoTimer);
+  photoTimer = null;
 }
 
 function renderTabs() {
@@ -79,7 +99,6 @@ function renderTabs() {
   tabs.forEach((t) => {
     const g = t.dataset.group;
 
-    // Hide empty groups
     if (!groups[g] || groups[g].length === 0) {
       t.style.display = "none";
       return;
@@ -87,11 +106,16 @@ function renderTabs() {
 
     t.style.display = "";
     t.classList.toggle("is-active", g === currentGroup);
+    t.setAttribute("aria-selected", g === currentGroup ? "true" : "false");
 
     t.onclick = () => {
       currentGroup = g;
-      tabs.forEach((x) => x.classList.remove("is-active"));
+      tabs.forEach((x) => {
+        x.classList.remove("is-active");
+        x.setAttribute("aria-selected", "false");
+      });
       t.classList.add("is-active");
+      t.setAttribute("aria-selected", "true");
       loadGroup(g);
     };
   });
@@ -105,10 +129,7 @@ function renderTrackList(tracks) {
     btn.className = "track";
     btn.type = "button";
     btn.innerHTML = `
-      <div>
-        <div class="track__title">${tr.title}</div>
-        <div class="track__sub">${tr.groupLabel}</div>
-      </div>
+      <div class="track__title">${tr.title}</div>
       <div class="track__right"></div>
     `;
     btn.onclick = () => playIndex(idx);
@@ -135,7 +156,6 @@ function playIndex(idx) {
   audio.src = safeUrl(tr.path);
   audio.play().catch(() => {});
   nowTitle.textContent = tr.title;
-  nowMeta.textContent = tr.groupLabel;
 
   pickRandomPhoto();
   highlightActive();
@@ -149,11 +169,8 @@ function nextTrack() {
 
 function loadGroup(groupKey) {
   const list = (groups[groupKey] || [])
-    .filter(isAudioFile) // IMPORTANT: filters out folders so you don’t see “finished finished…”
-    .map((path) => {
-      const title = prettifyTitleFromPath(path);
-      return { path, title, groupLabel: groupKey.toUpperCase() };
-    });
+    .filter(isAudioFile) // critical: prevents “finished finished finished”
+    .map((path) => ({ path, title: prettifyTitleFromPath(path) }));
 
   // Pin “Babe I Know You” first
   const pin = "babe i know you";
@@ -170,10 +187,8 @@ function loadGroup(groupKey) {
   currentIndex = -1;
   renderTrackList(currentTracks);
 
-  // Set the “preview” line to Babe if it exists
   if (currentTracks[0]) {
     nowTitle.textContent = currentTracks[0].title;
-    nowMeta.textContent = currentTracks[0].groupLabel;
   }
 }
 
@@ -186,44 +201,43 @@ function buildImagePool(m) {
 
 function buildGroups(m) {
   const aud = m.audio || {};
-  const out = {};
-
-  const finished = []
-    .concat(aud.finished || [])
-    .concat(aud["finished-tracks"] || []);
-
-  const demos = []
-    .concat(aud.demos || [])
-    .concat(aud["day1-demos"] || [])
-    .concat(aud["day-1-demos"] || []);
-
-  const boardtapes = []
-    .concat(aud.boardtapes || [])
-    .concat(aud["board-tapes"] || [])
-    .concat(aud["boardtapes"] || []);
-
-  out.finished = finished;
-  out.demos = demos;
-  out.boardtapes = boardtapes;
-
-  return out;
+  return {
+    finished: []
+      .concat(aud.finished || [])
+      .concat(aud["finished-tracks"] || []),
+    demos: []
+      .concat(aud.demos || [])
+      .concat(aud["day1-demos"] || [])
+      .concat(aud["day-1-demos"] || []),
+    boardtapes: []
+      .concat(aud.boardtapes || [])
+      .concat(aud["board-tapes"] || [])
+      .concat(aud["boardtapes"] || []),
+  };
 }
 
 function renderGallery() {
   if (!imagePool.length) return;
   galleryGrid.innerHTML = "";
 
-  // Keep it fast
+  // Keep iPhone fast: show a shuffled slice, hide broken items
   const max = Math.min(imagePool.length, 60);
   const shuffled = [...imagePool].sort(() => Math.random() - 0.5).slice(0, max);
 
   shuffled.forEach((src) => {
     const div = document.createElement("div");
     div.className = "gItem";
+
     const img = document.createElement("img");
     img.loading = "lazy";
     img.alt = "CLAYTON image";
     img.src = safeUrl(src);
+
+    img.onerror = () => {
+      // If an image fails (HEIC / bad path), remove the tile entirely
+      div.remove();
+    };
+
     div.appendChild(img);
     galleryGrid.appendChild(div);
   });
@@ -255,9 +269,20 @@ function wireUI() {
     if (e.code === "ArrowRight") nextTrack();
   });
 
-  audio.addEventListener("play", () => setPlayUI(true));
-  audio.addEventListener("pause", () => setPlayUI(false));
-  audio.addEventListener("ended", () => nextTrack());
+  audio.addEventListener("play", () => {
+    setPlayUI(true);
+    startPhotoRotation();
+  });
+
+  audio.addEventListener("pause", () => {
+    setPlayUI(false);
+    stopPhotoRotation();
+  });
+
+  audio.addEventListener("ended", () => {
+    stopPhotoRotation();
+    nextTrack();
+  });
 
   audio.addEventListener("loadedmetadata", () => {
     tDur.textContent = fmtTime(audio.duration);
@@ -291,15 +316,11 @@ async function init() {
   pickRandomPhoto();
   renderGallery();
 
-  // Load finished, so Babe pins first
+  // default group
   loadGroup("finished");
-
-  // Optional: rotate photo at track-change even before first click
-  // (it will rotate on playIndex anyway)
 }
 
 init().catch((err) => {
   console.error(err);
   nowTitle.textContent = "manifest.json failed to load";
-  nowMeta.textContent = "Check deploy + paths";
 });
