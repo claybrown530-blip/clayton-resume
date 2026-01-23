@@ -1,17 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CLAYTON — IF ALL ISN'T LOST, WHERE IS IT?</title>
+  <title>IF ALL ISN'T LOST, WHERE IS IT? — CLAYTON</title>
 
-  <meta name="theme-color" content="#0b0a08" />
+  <meta name="theme-color" content="#0b0b0a" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Boss-y headline + typewriter utility -->
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -20,239 +18,170 @@
   <div class="grain" aria-hidden="true"></div>
 
   <header class="topbar">
-    <div class="brand">
-      <div class="brand__mark">CLAYTON</div>
-      <div class="brand__sub">IF ALL ISN'T LOST, WHERE IS IT?</div>
-    </div>
+    <a class="brand" href="#dossier" aria-label="Go to Dossier">
+      <div class="brand__title">IF ALL ISN'T LOST, WHERE IS IT?</div>
+      <div class="brand__sub">CLAYTON <span class="dot">•</span> Born to run</div>
+    </a>
 
-    <nav class="topnav" aria-label="Primary">
-      <a href="#dossier" data-route="dossier">DOSSIER</a>
-      <a href="#music" data-route="music">MUSIC</a>
-      <a href="#live" data-route="live">LIVE</a>
-      <a href="#archive" data-route="archive">ARCHIVE</a>
-      <a href="#contact" data-route="contact">CONTACT</a>
+    <nav class="nav">
+      <a href="#dossier" class="nav__link">Dossier</a>
+      <a href="#gallery" class="nav__link">Gallery</a>
+      <a href="#contact" class="nav__link">Contact</a>
     </nav>
-
-    <div class="topbar__right">
-      <button class="btn btn--ghost" id="btnSearch" type="button" title="Search">
-        Search
-      </button>
-      <button class="btn" id="btnDownload" type="button" title="Download Press Kit">
-        Press Kit
-      </button>
-    </div>
   </header>
 
-  <main class="shell">
-    <aside class="rail" aria-label="Dossier rail">
-      <div class="rail__block">
-        <div class="rail__label">STATUS</div>
-        <div class="rail__value" id="statusLine">Born to run.</div>
+  <main class="wrap">
+    <!-- DOSSIER -->
+    <section id="dossier" class="panel">
+      <div class="panel__head">
+        <h1 class="h1">Press play.</h1>
+        <p class="lede">Listen while you read. No maze. No gimmicks.</p>
       </div>
 
-      <div class="rail__block">
-        <div class="rail__label">CONTENTS</div>
-        <ul class="rail__list" id="counts">
-          <li><span>Audio</span><strong id="countAudio">—</strong></li>
-          <li><span>Photos</span><strong id="countImages">—</strong></li>
-          <li><span>Videos</span><strong id="countVideo">—</strong></li>
-        </ul>
-      </div>
-
-      <div class="rail__block">
-        <div class="rail__label">QUICK LINKS</div>
-        <div class="rail__chips">
-          <a class="chip" href="#music">Latest</a>
-          <a class="chip" href="#live">Footage</a>
-          <a class="chip" href="#archive">Gallery</a>
-        </div>
-      </div>
-
-      <div class="rail__block rail__block--small">
-        <div class="rail__label">NOTE</div>
-        <div class="rail__note">
-          Surface level = clean.<br/>
-          Click deeper = the world opens up.
-        </div>
-      </div>
-    </aside>
-
-    <section class="stage">
-      <!-- ROUTES -->
-      <section class="route is-active" data-view="dossier">
-        <div class="hero">
-          <div class="hero__kicker">DOSSIER</div>
-          <h1 class="hero__title">CLAYTON</h1>
-          <p class="hero__tag">
-            <span class="mono">Born to run.</span>
-            <span class="dot">•</span>
-            <span class="mono">Portfolio / Resume / Archive</span>
-          </p>
-
-          <div class="hero__grid">
-            <button class="tile" data-open="about" type="button">
-              <div class="tile__title">Who I am</div>
-              <div class="tile__desc">The short version + the real version.</div>
+      <div class="grid">
+        <!-- LEFT: PLAYER + LIST -->
+        <div class="card">
+          <div class="player">
+            <button id="playBtn" class="playBtn" aria-label="Play/Pause">
+              <span class="playBtn__icon" aria-hidden="true">▶</span>
             </button>
 
-            <button class="tile" data-open="highlights" type="button">
-              <div class="tile__title">Highlights</div>
-              <div class="tile__desc">Fast facts, wins, credibility.</div>
-            </button>
+            <div class="now">
+              <div class="now__kicker">NOW PLAYING</div>
+              <div id="nowTitle" class="now__title">Choose a track</div>
+              <div id="nowMeta" class="now__meta">—</div>
+            </div>
 
-            <button class="tile" data-open="music" type="button">
-              <div class="tile__title">Music</div>
-              <div class="tile__desc">Finished, demos, boardtapes.</div>
-            </button>
+            <div class="transport">
+              <input id="seek" class="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
+              <div class="time">
+                <span id="tCur">0:00</span>
+                <span class="time__sep">/</span>
+                <span id="tDur">0:00</span>
+              </div>
+              <div class="transport__right">
+                <button id="shufflePhoto" class="ghost" type="button">Shuffle photo</button>
+                <button id="nextBtn" class="ghost" type="button">Next</button>
+              </div>
+            </div>
 
-            <button class="tile" data-open="gallery" type="button">
-              <div class="tile__title">Photos</div>
-              <div class="tile__desc">Live / studio / candid / artwork.</div>
-            </button>
+            <audio id="audio" preload="metadata"></audio>
+          </div>
 
-            <button class="tile" data-open="live" type="button">
-              <div class="tile__title">Live</div>
-              <div class="tile__desc">Evidence. Energy. Proof.</div>
-            </button>
+          <div class="tabs">
+            <button class="tab is-active" data-group="finished" type="button">Finished</button>
+            <button class="tab" data-group="demos" type="button">Demos</button>
+            <button class="tab" data-group="boardtapes" type="button">Boardtapes</button>
+          </div>
 
-            <button class="tile tile--accent" data-open="contact" type="button">
-              <div class="tile__title">Book / Contact</div>
-              <div class="tile__desc">Email + socials + press info.</div>
-            </button>
+          <div class="tracks">
+            <div id="trackList" class="trackList" aria-live="polite"></div>
           </div>
         </div>
 
-        <div class="paper">
-          <div class="paper__header">
-            <div class="paper__stamp">FIELD REPORT</div>
-            <div class="paper__date" id="today"></div>
-          </div>
-          <div class="paper__body" id="fieldReport">
-            Loading your archive…
-          </div>
-        </div>
-      </section>
-
-      <section class="route" data-view="music">
-        <div class="route__head">
-          <h2>MUSIC</h2>
-          <p>Finished + demos + boardtapes. Click a track and the bottom player wakes up.</p>
-        </div>
-
-        <div class="toolbar">
-          <input class="input" id="audioFilter" placeholder="Filter tracks… (type to search)" />
-          <div class="seg">
-            <button class="seg__btn is-on" data-audio-scope="all" type="button">All</button>
-            <button class="seg__btn" data-audio-scope="finished" type="button">Finished</button>
-            <button class="seg__btn" data-audio-scope="demos" type="button">Demos</button>
-            <button class="seg__btn" data-audio-scope="boardtapes" type="button">Boardtapes</button>
-          </div>
-        </div>
-
-        <div class="lists" id="audioLists"></div>
-      </section>
-
-      <section class="route" data-view="live">
-        <div class="route__head">
-          <h2>LIVE</h2>
-          <p>Video comes later if you want. For now, this is a photo-first “proof of life” wall.</p>
-        </div>
-
-        <div class="grid" id="liveGrid"></div>
-      </section>
-
-      <section class="route" data-view="archive">
-        <div class="route__head">
-          <h2>ARCHIVE</h2>
-          <p>A gallery you can dig through. Click to open, arrows to move, escape to close.</p>
-        </div>
-
-        <div class="toolbar">
-          <div class="seg">
-            <button class="seg__btn is-on" data-img-scope="all" type="button">All</button>
-            <button class="seg__btn" data-img-scope="live" type="button">Live</button>
-            <button class="seg__btn" data-img-scope="studio" type="button">Studio</button>
-            <button class="seg__btn" data-img-scope="candid" type="button">Candid</button>
-            <button class="seg__btn" data-img-scope="artwork" type="button">Artwork</button>
-          </div>
-        </div>
-
-        <div class="grid" id="archiveGrid"></div>
-      </section>
-
-      <section class="route" data-view="contact">
-        <div class="route__head">
-          <h2>CONTACT</h2>
-          <p>Make it stupid easy for someone to say yes.</p>
-        </div>
-
-        <div class="contact">
-          <div class="contact__card">
-            <div class="contact__label">EMAIL</div>
-            <a class="contact__value" href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
+        <!-- RIGHT: PHOTO + RESUME -->
+        <div class="stack">
+          <div class="card photoCard">
+            <div class="photoCard__top">
+              <div class="photoCard__label">VISUALS</div>
+            </div>
+            <div class="photoFrame">
+              <img id="photo" alt="CLAYTON photo" loading="lazy" />
+            </div>
           </div>
 
-          <div class="contact__card">
-            <div class="contact__label">PRESS / BOOKING</div>
-            <div class="contact__value mono">Drop your booking email + socials in <code>js/app.js</code> (PROFILE object).</div>
-          </div>
+          <div class="card resume">
+            <div class="resume__row">
+              <div class="resume__left">
+                <div class="resume__name">CLAYTON</div>
+                <div class="resume__tag">Artist / Writer / Performer</div>
+              </div>
+              <div class="resume__right">
+                <!-- EDIT THESE -->
+                <a class="pill" href="#" target="_blank" rel="noreferrer">EPK</a>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">Spotify</a>
+                <a class="pill" href="#" target="_blank" rel="noreferrer">IG</a>
+              </div>
+            </div>
 
-          <div class="contact__card">
-            <div class="contact__label">ONE-LINER</div>
-            <div class="contact__value">
-              Indie rock / alt-pop storyteller — funny, raw, cinematic.
+            <div class="resume__cols">
+              <div class="resumeBlock">
+                <div class="resumeBlock__title">Snapshot</div>
+                <ul class="list">
+                  <li>Nashville-based indie / alt-pop songwriter.</li>
+                  <li>Hooks + storytelling. Clean chaos live.</li>
+                  <li>Looking for: mgmt / publishing / touring partners.</li>
+                </ul>
+              </div>
+
+              <div class="resumeBlock">
+                <div class="resumeBlock__title">Live</div>
+                <ul class="list">
+                  <li>High-energy sets, built for rooms that sweat.</li>
+                  <li>Video + photos below (Gallery).</li>
+                  <li>Ask and I’ll send a full show reel.</li>
+                </ul>
+              </div>
+
+              <div class="resumeBlock">
+                <div class="resumeBlock__title">Select work</div>
+                <ul class="list">
+                  <li>“Sitcom”</li>
+                  <li>“Doormat”</li>
+                  <li>“Cards”</li>
+                  <li>“Shitty Song”</li>
+                </ul>
+              </div>
+
+              <div class="resumeBlock">
+                <div class="resumeBlock__title">Contact</div>
+                <ul class="list">
+                  <li><span class="muted">Email:</span> <a href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a></li>
+                  <li><span class="muted">Based:</span> Nashville, TN</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="resume__note">
+              Tip: hit <span class="kbd">Space</span> to play/pause.
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
+    <!-- GALLERY -->
+    <section id="gallery" class="panel">
+      <div class="panel__head">
+        <h2 class="h2">Gallery</h2>
+        <p class="lede">Moments. Artwork. Proof of life.</p>
+      </div>
+
+      <div id="galleryGrid" class="gallery" aria-live="polite"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="panel">
+      <div class="panel__head">
+        <h2 class="h2">Contact</h2>
+        <p class="lede">If it hits, email me.</p>
+      </div>
+
+      <div class="card contactCard">
+        <div class="contactLine">
+          <div class="contactLabel">Email</div>
+          <a class="contactValue" href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <!-- MODAL -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal__backdrop" data-close="1"></div>
-    <div class="modal__panel" role="document">
-      <div class="modal__top">
-        <div class="modal__title" id="modalTitle">—</div>
-        <button class="btn btn--ghost" id="modalClose" type="button">Close</button>
-      </div>
-      <div class="modal__body" id="modalBody"></div>
+  <footer class="footer">
+    <div class="footer__inner">
+      <span>© <span id="year"></span> CLAYTON</span>
+      <span class="muted">IF ALL ISN'T LOST, WHERE IS IT?</span>
     </div>
-  </div>
-
-  <!-- PLAYER -->
-  <div class="player" id="player" aria-label="Audio player">
-    <div class="player__meta">
-      <div class="player__title" id="nowTitle">Nothing playing</div>
-      <div class="player__sub mono" id="nowSub">Pick a track.</div>
-    </div>
-
-    <audio id="audio" preload="metadata"></audio>
-
-    <div class="player__controls">
-      <button class="btn btn--ghost" id="btnPrev" type="button">Prev</button>
-      <button class="btn" id="btnPlay" type="button">Play</button>
-      <button class="btn btn--ghost" id="btnNext" type="button">Next</button>
-    </div>
-
-    <div class="player__bar">
-      <input id="seek" class="seek" type="range" min="0" max="1000" value="0" />
-      <div class="player__time mono">
-        <span id="tCur">0:00</span>
-        <span class="dot">•</span>
-        <span id="tDur">0:00</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightbox__close" id="lbClose" type="button">Close</button>
-    <button class="lightbox__nav lightbox__nav--left" id="lbPrev" type="button">‹</button>
-    <button class="lightbox__nav lightbox__nav--right" id="lbNext" type="button">›</button>
-    <img id="lbImg" alt="" />
-    <div class="lightbox__cap mono" id="lbCap"></div>
-  </div>
+  </footer>
 
   <script src="js/app.js"></script>
 </body>
