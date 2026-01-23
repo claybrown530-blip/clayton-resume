@@ -439,3 +439,102 @@ a:hover{opacity:.92}
   color: var(--muted);
   font-size: 12px;
 }
+/* =========================
+   CLEANER MOBILE LAYOUT
+   ========================= */
+
+/* 1) Remove the "FINISHED / DEMOS / BOARDTAPES" sublabel under each track (everywhere) */
+.track__meta,
+.track .meta,
+.track .sub,
+.track .tagline,
+.track .kind,
+.track small {
+  display: none !important;
+}
+
+/* 2) Mobile tightening */
+@media (max-width: 640px) {
+  /* give the page breathing room + safe area */
+  body {
+    padding-bottom: calc(110px + env(safe-area-inset-bottom));
+  }
+
+  /* header / top area */
+  .topbar {
+    padding: 18px 16px;
+  }
+
+  .mark__name {
+    font-size: 34px;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+  }
+
+  /* optional: hide the extra header subtitle line to reduce reading */
+  .mark__sub {
+    display: none;
+  }
+
+  /* nav: make it horizontally scrollable instead of crammed */
+  .topbar__nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding-bottom: 6px;
+    white-space: nowrap;
+  }
+  .topbar__nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* main content spacing */
+  .section,
+  .wrap,
+  .container {
+    padding: 16px !important;
+  }
+
+  /* cards/panels: less bulky */
+  .panel,
+  .card,
+  .glass {
+    border-radius: 18px;
+  }
+
+  /* tabs/buttons: smaller + cleaner */
+  .tabs,
+  .pillRow,
+  .filters {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tab,
+  .pill,
+  .chip,
+  button {
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+
+  /* song rows: tighter */
+  .track,
+  .row,
+  .item {
+    padding: 14px 14px;
+  }
+
+  .track__title,
+  .title {
+    font-size: 16px;
+    letter-spacing: 0.03em;
+  }
+
+  /* if you have a "Next" floating button and it feels random on mobile, hide it */
+  .next,
+  .nextBtn,
+  .nextButton {
+    display: none !important;
+  }
+}
