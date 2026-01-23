@@ -1,556 +1,432 @@
-const $ = (sel, root=document) => root.querySelector(sel);
-const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+(() => {
+  const $ = (q, el = document) => el.querySelector(q);
+  const $$ = (q, el = document) => Array.from(el.querySelectorAll(q));
 
-const overlay = $("#overlay");
-const roomTitle = $("#roomTitle");
-const roomBody = $("#roomBody");
-const statusLine = $("#statusLine");
-const quickFacts = $("#quickFacts");
-const latestLine = $("#latestLine");
+  const state = {
+    manifest: null,
+    room: null,
+    playlist: [],
+    index: -1
+  };
 
-const audio = $("#audio");
-const nowTitle = $("#nowTitle");
-const btnPlay = $("#btnPlay");
-const btnPrev = $("#btnPrev");
-const btnNext = $("#btnNext");
-const seek = $("#seek");
-const tCur = $("#tCur");
-const tDur = $("#tDur");
+  const el = {
+    statusText: $("#statusText"),
 
-const palette = $("#palette");
-const palInput = $("#palInput");
-const palList = $("#palList");
-const btnCmd = $("#btnCmd");
+    overlay: $("#overlay"),
+    roomTitle: $("#roomTitle"),
+    roomBody: $("#roomBody"),
 
-let MANIFEST = null;
-let TRACKS = [];
-let currentIndex = -1;
-let isPlaying = false;
+    palette: $("#palette"),
+    paletteInput: $("#paletteInput"),
+    paletteList: $("#paletteList"),
 
-const ROOMS = [
-  { id:"work", title:"Work — Featured", desc:"Finished songs + key pieces" },
-  { id:"archive", title:"Archive — Demos / Board Tapes", desc:"Day-one stuff, the raw folder" },
-  { id:"live", title:"Live — Chaos + proof", desc:"Photos now, video hooks later" },
-  { id:"photos", title:"Photos — Years of the project", desc:"Gallery by folder" },
-  { id:"about", title:"About", desc:"Who you are, what you do" },
-  { id:"contact", title:"Contact", desc:"Booking / links / email" },
-];
+    audio: $("#audio"),
+    nowPlaying: $("#nowPlaying"),
+    tCur: $("#tCur"),
+    tDur: $("#tDur"),
+    seek: $("#seek")
+  };
 
-init().catch(err => {
-  console.error(err);
-  statusLine.textContent = "Couldn’t load manifest.json. (Run npm run generate + push)";
-  quickFacts.textContent = "manifest.json missing or unreadable.";
-});
+  const rooms = [
+    { id: "work", label: "WORK", hint: "featured tracks + sessions" },
+    { id: "archive", label: "ARCHIVE", hint: "demos + board tapes" },
+    { id: "live", label: "LIVE", hint: "photos now, videos later" },
+    { id: "photos", label: "PHOTOS", hint: "years of the project" },
+    { id: "about", label: "ABOUT", hint: "the story + quick facts" },
+    { id: "contact", label: "CONTACT", hint: "booking + links" }
+  ];
 
-async function init(){
-  wireUI();
-  statusLine.textContent = "Loading manifest.json…";
+  // ---------- helpers ----------
+  function fmtTime(sec) {
+    if (!isFinite(sec)) return "0:00";
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${String(s).padStart(2, "0")}`;
+  }
 
-  MANIFEST = await loadManifest();
-  const files = normalizeFiles(MANIFEST);
+  function safeName(path) {
+    // path: assets/audio/finished/Doormat.wav
+    const file = (path || "").split("/").pop() || "";
+    return decodeURIComponent(file).replace(/\.[^/.]+$/, "");
+  }
 
-  const imgs = files.filter(p => isImage(p));
-  const auds = files.filter(p => isAudio(p));
+  function pickThumbForAudio(filePath) {
+    // if you later add cover art mapping, do it here.
+    // for now, pull a generic stamp.
+    return null;
+  }
 
-  TRACKS = auds.map(p => ({ path:p, title: prettifyName(p) }));
+  async function loadManifest() {
+    // cache-bust so Netlify updates immediately after deploy
+    const url = `manifest.json?v=${Date.now()}`;
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`manifest fetch failed: ${res.status}`);
+    return await res.json();
+  }
 
-  statusLine.textContent = `Loaded ${imgs.length} photos • ${TRACKS.length} audio files`;
-  quickFacts.textContent = `${imgs.length} photos • ${TRACKS.length} audio files • local-first`;
-  latestLine.textContent = pickLatestLine(imgs, TRACKS);
+  function manifestStats(m) {
+    const img = m?.images ? Object.values(m.images).reduce((a, arr) => a + arr.length, 0) : 0;
+    const aud = m?.audio ? Object.values(m.audio).reduce((a, arr) => a + arr.length, 0) : 0;
+    return { img, aud };
+  }
 
-  // Hash routing
-  routeFromHash();
+  // ---------- palette ----------
+  function openPalette() {
+    el.palette.classList.add("isOpen");
+    el.palette.setAttribute("aria-hidden", "false");
+    el.paletteInput.value = "";
+    renderPalette("");
+    setTimeout(() => el.paletteInput.focus(), 20);
+  }
 
-  // Default room if user clicks / deep links
-  window.addEventListener("hashchange", routeFromHash);
+  function closePalette() {
+    el.palette.classList.remove("isOpen");
+    el.palette.setAttribute("aria-hidden", "true");
+  }
 
-  // Build command palette list
-  buildPalette();
-}
+  function renderPalette(query) {
+    const q = (query || "").trim().toLowerCase();
 
-function wireUI(){
-  // Open room buttons
-  $$("[data-open]").forEach(btn => {
-    btn.addEventListener("click", () => openRoom(btn.dataset.open));
-  });
+    const items = rooms
+      .filter(r => !q || r.label.toLowerCase().includes(q) || r.id.includes(q))
+      .map(r => ({
+        id: r.id,
+        left: r.label,
+        right: r.hint
+      }));
 
-  // Close overlay
-  $$("[data-close]").forEach(el => el.addEventListener("click", closeRoom));
+    el.paletteList.innerHTML = items
+      .map(i => `
+        <button class="pItem" data-room="${i.id}">
+          <div class="pItem__left">${i.left}</div>
+          <div class="pItem__right">${i.right}</div>
+        </button>
+      `)
+      .join("");
 
-  // Keyboard
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape"){
-      if (palette.getAttribute("aria-hidden") === "false") closePalette();
-      else closeRoom();
+    if (!items.length) {
+      el.paletteList.innerHTML = `<div class="smallNote" style="padding:10px;">No matches.</div>`;
     }
-    if ((e.key.toLowerCase() === "k") && !e.metaKey && !e.ctrlKey && !e.altKey){
-      // If typing in an input, don't steal focus
-      const tag = (document.activeElement?.tagName || "").toLowerCase();
-      if (tag !== "input" && tag !== "textarea") openPalette();
-    }
-  });
-
-  // Command palette open
-  btnCmd?.addEventListener("click", openPalette);
-  $$("[data-pal-close]").forEach(el => el.addEventListener("click", closePalette));
-
-  palInput?.addEventListener("input", () => filterPalette(palInput.value));
-  palInput?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter"){
-      const first = $(".palItem", palList);
-      if (first) first.click();
-    }
-    if (e.key === "Escape") closePalette();
-  });
-
-  // Audio controls
-  btnPlay.addEventListener("click", togglePlay);
-  btnPrev.addEventListener("click", () => playIndex(currentIndex - 1));
-  btnNext.addEventListener("click", () => playIndex(currentIndex + 1));
-
-  audio.addEventListener("timeupdate", () => {
-    if (!audio.duration) return;
-    seek.value = String(Math.floor((audio.currentTime / audio.duration) * 100));
-    tCur.textContent = fmtTime(audio.currentTime);
-  });
-
-  audio.addEventListener("loadedmetadata", () => {
-    tDur.textContent = fmtTime(audio.duration || 0);
-  });
-
-  audio.addEventListener("ended", () => {
-    isPlaying = false;
-    btnPlay.textContent = "Play";
-    playIndex(currentIndex + 1);
-  });
-
-  seek.addEventListener("input", () => {
-    if (!audio.duration) return;
-    const pct = Number(seek.value) / 100;
-    audio.currentTime = pct * audio.duration;
-  });
-}
-
-async function loadManifest(){
-  // Works on Netlify and local server
-  const res = await fetch("./manifest.json", { cache:"no-store" });
-  if (!res.ok) throw new Error(`manifest.json fetch failed: ${res.status}`);
-  return await res.json();
-}
-
-function normalizeFiles(man){
-  // Accept multiple shapes:
-  // 1) { files: [...] }
-  // 2) { photos: [...], audio: [...] }
-  // 3) [ "assets/..." , ... ]
-  if (Array.isArray(man)) return man;
-  if (man?.files && Array.isArray(man.files)) return man.files;
-  const out = [];
-  for (const key of ["photos","images","img","audio","songs","tracks","videos"]){
-    if (Array.isArray(man?.[key])) out.push(...man[key]);
-  }
-  // fallback: flatten any arrays in object
-  if (!out.length && man && typeof man === "object"){
-    Object.values(man).forEach(v => { if (Array.isArray(v)) out.push(...v); });
-  }
-  return out.filter(Boolean);
-}
-
-function isImage(p){ return /\.(png|jpe?g|webp|gif|heic)$/i.test(p); }
-function isAudio(p){ return /\.(mp3|wav|m4a|aac|ogg)$/i.test(p); }
-
-function prettifyName(path){
-  const base = path.split("/").pop() || path;
-  const noExt = base.replace(/\.[^.]+$/, "");
-  return decodeURIComponent(noExt)
-    .replace(/[_-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function pickLatestLine(imgs, tracks){
-  const imgHint = imgs.length ? `Latest photo loaded.` : `No photos yet.`;
-  const trHint = tracks.length ? `Audio dock ready.` : `No audio yet.`;
-  return `${imgHint} ${trHint}`;
-}
-
-function openRoom(id){
-  const room = ROOMS.find(r => r.id === id) || ROOMS[0];
-  roomTitle.textContent = room.title;
-
-  // Update hash
-  history.replaceState(null, "", `#room=${room.id}`);
-
-  overlay.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-
-  renderRoom(room.id);
-}
-
-function closeRoom(){
-  overlay.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-  roomBody.innerHTML = "";
-  // Clear hash
-  history.replaceState(null, "", "#");
-}
-
-function routeFromHash(){
-  const m = location.hash.match(/room=([a-z]+)/i);
-  if (m && m[1]){
-    openRoom(m[1].toLowerCase());
-  }
-}
-
-function renderRoom(id){
-  if (!MANIFEST){
-    roomBody.innerHTML = `<p>manifest.json not loaded yet.</p>`;
-    return;
   }
 
-  const files = normalizeFiles(MANIFEST);
-  const imgs = files.filter(isImage);
-  const auds = files.filter(isAudio);
+  // ---------- rooms ----------
+  function openRoom(roomId) {
+    state.room = roomId;
+    el.overlay.classList.add("isOpen");
+    el.overlay.setAttribute("aria-hidden", "false");
 
-  if (id === "work"){
-    roomBody.innerHTML = `
-      <div class="tools">
-        <input class="input" id="qWork" placeholder="Search finished tracks..." />
-        <button class="pill" id="btnAllWork">All</button>
-        <button class="pill" id="btnFinished">Finished</button>
-        <button class="pill" id="btnDemos">Demos</button>
-      </div>
-      <div class="list" id="workList"></div>
-      <p style="color:rgba(244,240,232,.6);margin-top:14px;">
-        Tip: put “finished” files in <b>assets/audio/finished</b> and demos in <b>assets/audio/demos</b>.
-      </p>
-    `;
+    const room = rooms.find(r => r.id === roomId);
+    el.roomTitle.textContent = room ? room.label : roomId.toUpperCase();
 
-    const q = $("#qWork");
-    const list = $("#workList");
-
-    const all = auds.map(p => ({ path:p, title:prettifyName(p), bucket: bucketOf(p) }));
-
-    const paint = (mode="all", query="") => {
-      const qq = query.trim().toLowerCase();
-      const rows = all
-        .filter(x => mode==="all" ? true : x.bucket===mode)
-        .filter(x => qq ? x.title.toLowerCase().includes(qq) : true)
-        .slice(0, 200);
-
-      list.innerHTML = rows.length ? rows.map((x,i) => rowHTML(x, i)).join("") : `<div style="color:rgba(244,240,232,.65)">Nothing yet.</div>`;
-      $$("[data-play]", list).forEach(btn => {
-        btn.addEventListener("click", () => {
-          const path = btn.getAttribute("data-play");
-          const idx = TRACKS.findIndex(t => t.path === path);
-          playIndex(idx);
-        });
-      });
-    };
-
-    $("#btnAllWork").addEventListener("click", ()=>paint("all", q.value));
-    $("#btnFinished").addEventListener("click", ()=>paint("finished", q.value));
-    $("#btnDemos").addEventListener("click", ()=>paint("demos", q.value));
-    q.addEventListener("input", ()=>paint("all", q.value));
-
-    paint("all","");
-
-    return;
+    renderRoom(roomId);
+    window.location.hash = roomId;
   }
 
-  if (id === "archive"){
-    roomBody.innerHTML = `
-      <div class="tools">
-        <input class="input" id="qArch" placeholder="Search the archive..." />
-        <button class="pill" id="btnArchAudio">Audio</button>
-        <button class="pill" id="btnArchImg">Images</button>
-      </div>
-      <div id="archOut"></div>
-    `;
-
-    const q = $("#qArch");
-    const out = $("#archOut");
-    let mode = "audio";
-
-    const paint = () => {
-      const qq = q.value.trim().toLowerCase();
-      if (mode === "audio"){
-        const rows = TRACKS
-          .filter(t => qq ? t.title.toLowerCase().includes(qq) : true)
-          .slice(0, 250);
-
-        out.innerHTML = `<div class="list">${
-          rows.map((t) => `
-            <div class="row">
-              <div class="row__left">
-                <div class="row__title">${escapeHTML(t.title)}</div>
-                <div class="row__meta">${escapeHTML(shortPath(t.path))}</div>
-              </div>
-              <button class="row__btn" data-play="${escapeAttr(t.path)}">Play</button>
-            </div>
-          `).join("")
-        }</div>`;
-
-        $$("[data-play]", out).forEach(btn => {
-          btn.addEventListener("click", () => {
-            const path = btn.getAttribute("data-play");
-            const idx = TRACKS.findIndex(x => x.path === path);
-            playIndex(idx);
-          });
-        });
-      } else {
-        const rows = imgs
-          .filter(p => qq ? prettifyName(p).toLowerCase().includes(qq) : true)
-          .slice(0, 90);
-
-        out.innerHTML = `<div class="grid">${
-          rows.map(p => tileHTML(p)).join("")
-        }</div>`;
-      }
-    };
-
-    $("#btnArchAudio").addEventListener("click", ()=>{ mode="audio"; paint(); });
-    $("#btnArchImg").addEventListener("click", ()=>{ mode="img"; paint(); });
-    q.addEventListener("input", paint);
-
-    paint();
-    return;
+  function closeRoom() {
+    state.room = null;
+    el.overlay.classList.remove("isOpen");
+    el.overlay.setAttribute("aria-hidden", "true");
+    el.roomTitle.textContent = "—";
+    el.roomBody.innerHTML = "";
+    if (window.location.hash) history.replaceState(null, "", window.location.pathname + window.location.search);
   }
 
-  if (id === "live"){
-    const liveImgs = imgs.filter(p => /\/live\//i.test(p));
-    roomBody.innerHTML = `
-      <p style="color:rgba(244,240,232,.8);line-height:1.6;max-width:70ch;">
-        This room is built for proof. Right now it shows <b>live photos</b>.
-        Later we’ll add a “Video Wall” that uses local MP4 files (or YouTube links if you want lightweight).
-      </p>
-      <div class="grid">
-        ${liveImgs.slice(0, 60).map(p => tileHTML(p)).join("")}
-      </div>
-    `;
-    return;
-  }
+  function renderRoom(roomId) {
+    const m = state.manifest || {};
+    const data = window.CLAYTON_DATA || {};
 
-  if (id === "photos"){
-    const groups = groupByFolder(imgs);
-    roomBody.innerHTML = `
-      <div class="tools">
-        <input class="input" id="qPhotos" placeholder="Search photos..." />
-      </div>
-      <div id="photosOut"></div>
-    `;
-    const q = $("#qPhotos");
-    const out = $("#photosOut");
+    if (roomId === "work") {
+      const finished = (m.audio?.finished || []).slice();
+      const featured = (data.featured || []).map(f => {
+        const match = finished.find(p => safeName(p).toLowerCase().includes((f.fileHint || f.title).toLowerCase()));
+        return match ? { ...f, path: match } : null;
+      }).filter(Boolean);
 
-    const paint = () => {
-      const qq = q.value.trim().toLowerCase();
-      const blocks = Object.entries(groups).map(([folder, arr]) => {
-        const filtered = qq
-          ? arr.filter(p => prettifyName(p).toLowerCase().includes(qq) || folder.toLowerCase().includes(qq))
-          : arr;
-
-        if (!filtered.length) return "";
-        const head = `<div style="margin:16px 0 10px;color:rgba(244,240,232,.75);letter-spacing:1px;text-transform:uppercase;font-size:12px;">${escapeHTML(folder)} (${filtered.length})</div>`;
-        const grid = `<div class="grid">${filtered.slice(0, 30).map(p => tileHTML(p)).join("")}</div>`;
-        return head + grid;
-      }).join("");
-
-      out.innerHTML = blocks || `<div style="color:rgba(244,240,232,.65)">No photos found.</div>`;
-    };
-
-    q.addEventListener("input", paint);
-    paint();
-    return;
-  }
-
-  if (id === "about"){
-    roomBody.innerHTML = `
-      <p style="color:rgba(244,240,232,.85);line-height:1.8;max-width:72ch;">
-        I make indie/alt music that’s honest, cinematic, and built on storytelling.
-        This site is my “everything folder” — finished work, raw demos, and the live proof.
-      </p>
-      <div style="margin-top:14px;color:rgba(244,240,232,.70);line-height:1.7;max-width:72ch;">
-        <div><b>Based in:</b> Nashville, TN</div>
-        <div><b>Sound:</b> indie rock / alternative / pop • warm + gritty</div>
-        <div><b>North Star:</b> make people feel seen, then give them a hook they can’t forget</div>
-      </div>
-      <p style="margin-top:14px;color:rgba(244,240,232,.60);line-height:1.7;max-width:72ch;">
-        Want this to feel even more “Boss”? Next pass we’ll add:
-        tour-poster typography, a “timeline” room, and a proper press-kit panel.
-      </p>
-    `;
-    return;
-  }
-
-  if (id === "contact"){
-    roomBody.innerHTML = `
-      <p style="color:rgba(244,240,232,.85);line-height:1.8;max-width:72ch;">
-        Booking, collabs, sessions, or label/management interest — hit me here:
-      </p>
-      <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;">
-        <div class="row">
-          <div class="row__left">
-            <div class="row__title">Email</div>
-            <div class="row__meta">claybrown530@gmail.com</div>
-          </div>
-          <a class="row__btn" href="mailto:claybrown530@gmail.com">Send</a>
+      el.roomBody.innerHTML = `
+        <div class="sectionTitle">Featured</div>
+        <p class="smallNote">The surface pitch. Hit play and you’ll get it.</p>
+        <div class="list">
+          ${featured.length ? featured.map(rowAudioCard).join("") : `<div class="smallNote">Add matches in <b>js/data.js</b> (featured[]). Or drop more finished files.</div>`}
         </div>
-        <div class="row">
-          <div class="row__left">
-            <div class="row__title">Press / EPK</div>
-            <div class="row__meta">Coming next (we’ll build a clean panel)</div>
+
+        <div class="sectionTitle" style="margin-top:18px;">All Finished</div>
+        <p class="smallNote">Everything in <b>assets/audio/finished/</b></p>
+        <div class="list">
+          ${finished.map(p => rowAudioCard({ title: safeName(p), path: p })).join("") || `<div class="smallNote">No finished audio found yet.</div>`}
+        </div>
+      `;
+      return;
+    }
+
+    if (roomId === "archive") {
+      const demos = (m.audio?.demos || m.audio?.["day1-demos"] || []).slice();
+      const boardtapes = (m.audio?.boardtapes || m.audio?.["board-tapes"] || []).slice();
+
+      el.roomBody.innerHTML = `
+        <div class="sectionTitle">Demos</div>
+        <p class="smallNote">Raw truth. <b>assets/audio/demos/</b> (or day1-demos).</p>
+        <div class="list">
+          ${demos.map(p => rowAudioCard({ title: safeName(p), path: p, sub: "DEMO" })).join("") || `<div class="smallNote">No demos found yet.</div>`}
+        </div>
+
+        <div class="sectionTitle" style="margin-top:18px;">Board Tapes</div>
+        <p class="smallNote">Sketches + momentum. <b>assets/audio/boardtapes/</b></p>
+        <div class="list">
+          ${boardtapes.map(p => rowAudioCard({ title: safeName(p), path: p, sub: "BOARD TAPE" })).join("") || `<div class="smallNote">No board tapes found yet.</div>`}
+        </div>
+      `;
+      return;
+    }
+
+    if (roomId === "live") {
+      const livePhotos = (m.images?.live || []).slice();
+      el.roomBody.innerHTML = `
+        <div class="sectionTitle">Live Proof</div>
+        <p class="smallNote">Photos now. When you’re ready, we’ll add the videos folder and a proper player.</p>
+        ${livePhotos.length ? renderGallery(livePhotos) : `<div class="smallNote">No live photos found yet.</div>`}
+      `;
+      return;
+    }
+
+    if (roomId === "photos") {
+      const studio = (m.images?.studio || []).slice();
+      const candid = (m.images?.candid || []).slice();
+      const artwork = (m.images?.artwork || []).slice();
+
+      el.roomBody.innerHTML = `
+        <div class="sectionTitle">Artwork</div>
+        <p class="smallNote">covers, posters, artifacts</p>
+        ${artwork.length ? renderGallery(artwork) : `<div class="smallNote">No artwork found yet.</div>`}
+
+        <div class="sectionTitle" style="margin-top:18px;">Studio</div>
+        <p class="smallNote">work-in-progress world</p>
+        ${studio.length ? renderGallery(studio) : `<div class="smallNote">No studio photos found yet.</div>`}
+
+        <div class="sectionTitle" style="margin-top:18px;">Candid</div>
+        <p class="smallNote">the years</p>
+        ${candid.length ? renderGallery(candid) : `<div class="smallNote">No candid photos found yet.</div>`}
+      `;
+      return;
+    }
+
+    if (roomId === "about") {
+      const facts = (data.quickFacts || []).map(f => `
+        <div class="item" style="grid-column: span 12;">
+          <div class="thumb">${(f.k || "").slice(0,2).toUpperCase()}</div>
+          <div class="item__meta">
+            <div class="item__title">${f.k}</div>
+            <div class="item__sub">${f.v}</div>
           </div>
-          <button class="row__btn" data-close type="button">Close</button>
+        </div>
+      `).join("");
+
+      el.roomBody.innerHTML = `
+        <div class="sectionTitle">The Story</div>
+        <p class="smallNote">${(data.about || []).join("<br/>")}</p>
+
+        <div class="sectionTitle" style="margin-top:18px;">Quick Facts</div>
+        <div class="list">${facts || `<div class="smallNote">Add facts in <b>js/data.js</b></div>`}</div>
+      `;
+      return;
+    }
+
+    if (roomId === "contact") {
+      const c = data.contact || {};
+      el.roomBody.innerHTML = `
+        <div class="sectionTitle">Booking / Contact</div>
+        <p class="smallNote">If you’re here for an interview, a show, or a writing room — let’s talk.</p>
+
+        <div class="list">
+          ${contactRow("EMAIL", c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : "add in js/data.js")}
+          ${contactRow("INSTAGRAM", c.instagram ? `<a target="_blank" rel="noreferrer" href="${c.instagram}">${c.instagram}</a>` : "add in js/data.js")}
+          ${contactRow("TIKTOK", c.tiktok ? `<a target="_blank" rel="noreferrer" href="${c.tiktok}">${c.tiktok}</a>` : "add in js/data.js")}
+          ${contactRow("YOUTUBE", c.youtube ? `<a target="_blank" rel="noreferrer" href="${c.youtube}">${c.youtube}</a>` : "add in js/data.js")}
+        </div>
+      `;
+      return;
+    }
+
+    el.roomBody.innerHTML = `<div class="smallNote">Unknown room.</div>`;
+  }
+
+  function contactRow(k, vHtml) {
+    return `
+      <div class="item" style="grid-column: span 12;">
+        <div class="thumb">${k.slice(0,2)}</div>
+        <div class="item__meta">
+          <div class="item__title">${k}</div>
+          <div class="item__sub">${vHtml}</div>
         </div>
       </div>
     `;
-    return;
   }
 
-  roomBody.innerHTML = `<p>Unknown room.</p>`;
-}
-
-/* ---------- Audio ---------- */
-
-function bucketOf(path){
-  if (/\/finished\//i.test(path)) return "finished";
-  if (/\/demo|\/demos|\/board/i.test(path)) return "demos";
-  return "finished";
-}
-
-function playIndex(idx){
-  if (!TRACKS.length) return;
-  if (idx < 0) idx = TRACKS.length - 1;
-  if (idx >= TRACKS.length) idx = 0;
-
-  currentIndex = idx;
-  const t = TRACKS[currentIndex];
-  audio.src = t.path;
-  nowTitle.textContent = t.title;
-  audio.play().then(() => {
-    isPlaying = true;
-    btnPlay.textContent = "Pause";
-  }).catch(() => {
-    isPlaying = false;
-    btnPlay.textContent = "Play";
-  });
-}
-
-function togglePlay(){
-  if (!TRACKS.length){
-    // if user hits play with no track loaded, load first
-    if (currentIndex === -1 && TRACKS[0]) playIndex(0);
-    return;
-  }
-  if (!audio.src && TRACKS[0]) playIndex(0);
-
-  if (isPlaying){
-    audio.pause();
-    isPlaying = false;
-    btnPlay.textContent = "Play";
-  } else {
-    audio.play().then(() => {
-      isPlaying = true;
-      btnPlay.textContent = "Pause";
-    }).catch(() => {
-      isPlaying = false;
-      btnPlay.textContent = "Play";
-    });
-  }
-}
-
-/* ---------- Command Palette ---------- */
-
-function buildPalette(){
-  palList.innerHTML = ROOMS.map(r => `
-    <div class="palItem" data-room="${r.id}">
-      <div style="font-family:var(--cond);letter-spacing:.8px;font-size:16px;">${escapeHTML(r.id)}</div>
-      <div style="color:rgba(244,240,232,.70);font-size:12px;margin-top:4px;">${escapeHTML(r.desc)}</div>
-    </div>
-  `).join("");
-
-  $$("[data-room]", palList).forEach(item => {
-    item.addEventListener("click", () => {
-      const id = item.getAttribute("data-room");
-      closePalette();
-      openRoom(id);
-    });
-  });
-}
-
-function openPalette(){
-  palette.setAttribute("aria-hidden","false");
-  palInput.value = "";
-  filterPalette("");
-  setTimeout(() => palInput.focus(), 30);
-}
-
-function closePalette(){
-  palette.setAttribute("aria-hidden","true");
-}
-
-function filterPalette(q){
-  const qq = q.trim().toLowerCase();
-  $$("[data-room]", palList).forEach(item => {
-    const id = (item.getAttribute("data-room") || "").toLowerCase();
-    item.style.display = (!qq || id.includes(qq)) ? "" : "none";
-  });
-}
-
-/* ---------- Helpers ---------- */
-
-function groupByFolder(imgs){
-  const map = {};
-  imgs.forEach(p => {
-    // assets/img/<folder>/file.jpg
-    const parts = p.split("/");
-    const idx = parts.findIndex(x => x === "img");
-    let folder = "misc";
-    if (idx !== -1 && parts[idx+1]) folder = parts[idx+1];
-    map[folder] = map[folder] || [];
-    map[folder].push(p);
-  });
-  return map;
-}
-
-function tileHTML(path){
-  const cap = prettifyName(path);
-  return `
-    <div class="tile">
-      <img class="tile__img" loading="lazy" src="${escapeAttr(path)}" alt="${escapeAttr(cap)}" />
-      <div class="tile__cap">${escapeHTML(cap)}</div>
-    </div>
-  `;
-}
-
-function rowHTML(x){
-  return `
-    <div class="row">
-      <div class="row__left">
-        <div class="row__title">${escapeHTML(x.title)}</div>
-        <div class="row__meta">${escapeHTML(shortPath(x.path))}</div>
+  function renderGallery(paths) {
+    const shots = paths.map(p => `
+      <div class="shot">
+        <img loading="lazy" src="${p}" alt="${safeName(p)}" />
+        <div class="shot__cap">${safeName(p)}</div>
       </div>
-      <button class="row__btn" data-play="${escapeAttr(x.path)}">Play</button>
-    </div>
-  `;
-}
+    `).join("");
+    return `<div class="gallery">${shots}</div>`;
+  }
 
-function shortPath(p){
-  return p.replace(/^\.?\//,"");
-}
+  function rowAudioCard({ title, path, sub }) {
+    const thumb = pickThumbForAudio(path);
+    return `
+      <div class="item">
+        <div class="thumb">${thumb ? `<img src="${thumb}" alt="cover"/>` : `AUDIO`}</div>
+        <div class="item__meta">
+          <div class="item__title">${title}</div>
+          <div class="item__sub">${sub || path.split("/").slice(-2, -1)[0].toUpperCase()}</div>
+        </div>
+        <button class="item__btn" data-action="play" data-path="${encodeURIComponent(path)}">Play</button>
+      </div>
+    `;
+  }
 
-function fmtTime(sec){
-  sec = Math.max(0, Number(sec || 0));
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60);
-  return `${m}:${String(s).padStart(2,"0")}`;
-}
+  // ---------- player ----------
+  function setPlaylist(paths, startPath) {
+    state.playlist = paths.slice();
+    const idx = Math.max(0, state.playlist.indexOf(startPath));
+    state.index = idx;
+  }
 
-function escapeHTML(s){
-  return String(s).replace(/[&<>"']/g, (c) => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[c]));
-}
-function escapeAttr(s){
-  return escapeHTML(s).replace(/"/g, "&quot;");
-}
+  function playPath(path) {
+    if (!path) return;
+
+    // Build a playlist from same folder type
+    const m = state.manifest || {};
+    const decoded = decodeURIComponent(path);
+    const parts = decoded.split("/");
+    const folder = parts.slice(0, -1).join("/");
+
+    const allAudio = Object.values(m.audio || {}).flat();
+    const group = allAudio.filter(p => p.startsWith(folder + "/"));
+
+    setPlaylist(group.length ? group : [decoded], decoded);
+
+    el.audio.src = decoded;
+    el.audio.play().catch(() => {});
+    el.nowPlaying.textContent = safeName(decoded);
+    updatePlayButton(true);
+  }
+
+  function updatePlayButton(isPlaying) {
+    const btn = document.querySelector('[data-action="toggle"]');
+    if (!btn) return;
+    btn.textContent = isPlaying ? "Pause" : "Play";
+  }
+
+  function prev() {
+    if (!state.playlist.length) return;
+    state.index = (state.index - 1 + state.playlist.length) % state.playlist.length;
+    playPath(state.playlist[state.index]);
+  }
+
+  function next() {
+    if (!state.playlist.length) return;
+    state.index = (state.index + 1) % state.playlist.length;
+    playPath(state.playlist[state.index]);
+  }
+
+  // ---------- events ----------
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    const action = btn.getAttribute("data-action");
+
+    if (action === "openPalette") openPalette();
+    if (action === "closePalette") closePalette();
+    if (action === "closeRoom") closeRoom();
+
+    if (action === "play") {
+      const path = btn.getAttribute("data-path");
+      playPath(path);
+    }
+
+    if (action === "toggle") {
+      if (el.audio.paused) el.audio.play().catch(() => {});
+      else el.audio.pause();
+    }
+    if (action === "prev") prev();
+    if (action === "next") next();
+  });
+
+  $$(".roomCard").forEach(card => {
+    card.addEventListener("click", () => openRoom(card.dataset.room));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") openRoom(card.dataset.room);
+    });
+    card.tabIndex = 0;
+  });
+
+  el.palette.addEventListener("click", (e) => {
+    if (e.target.matches(".palette__scrim")) closePalette();
+  });
+
+  el.paletteInput.addEventListener("input", () => renderPalette(el.paletteInput.value));
+  el.paletteList.addEventListener("click", (e) => {
+    const item = e.target.closest("[data-room]");
+    if (!item) return;
+    closePalette();
+    openRoom(item.dataset.room);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    const isMac = navigator.platform.toLowerCase().includes("mac");
+    const cmdK = (isMac && e.metaKey && e.key.toLowerCase() === "k") || (!isMac && e.ctrlKey && e.key.toLowerCase() === "k");
+
+    if (cmdK) {
+      e.preventDefault();
+      if (el.palette.classList.contains("isOpen")) closePalette();
+      else openPalette();
+    }
+
+    if (e.key === "Escape") {
+      if (el.palette.classList.contains("isOpen")) closePalette();
+      else if (el.overlay.classList.contains("isOpen")) closeRoom();
+    }
+  });
+
+  el.audio.addEventListener("play", () => updatePlayButton(true));
+  el.audio.addEventListener("pause", () => updatePlayButton(false));
+  el.audio.addEventListener("ended", () => next());
+
+  el.audio.addEventListener("loadedmetadata", () => {
+    el.tDur.textContent = fmtTime(el.audio.duration);
+  });
+
+  el.audio.addEventListener("timeupdate", () => {
+    el.tCur.textContent = fmtTime(el.audio.currentTime);
+    const pct = el.audio.duration ? (el.audio.currentTime / el.audio.duration) : 0;
+    el.seek.value = Math.round(pct * 1000);
+  });
+
+  el.seek.addEventListener("input", () => {
+    if (!el.audio.duration) return;
+    const pct = Number(el.seek.value) / 1000;
+    el.audio.currentTime = el.audio.duration * pct;
+  });
+
+  // ---------- boot ----------
+  async function init() {
+    try {
+      state.manifest = await loadManifest();
+      const { img, aud } = manifestStats(state.manifest);
+      el.statusText.textContent = `Loaded: ${aud} audio • ${img} photos`;
+
+      // deep link open
+      const hash = (window.location.hash || "").replace("#", "").trim();
+      if (hash && rooms.some(r => r.id === hash)) openRoom(hash);
+    } catch (err) {
+      console.error(err);
+      el.statusText.textContent = "Couldn’t load manifest.json (run generate + push).";
+    }
+
+    // build palette list
+    renderPalette("");
+  }
+
+  init();
+})();

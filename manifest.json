@@ -1,261 +1,101 @@
 {
-  "audio": {
-    "day1": [
-      {
-        "filename": ".DS_Store",
-        "path": "assets/audio/day1-demos/.DS_Store"
-      },
-      {
-        "filename": "21.wav",
-        "path": "assets/audio/day1-demos/21.wav"
-      },
-      {
-        "filename": "Another Angle.mp3",
-        "path": "assets/audio/day1-demos/Another Angle.mp3"
-      },
-      {
-        "filename": "BABE I KNOW U.m4a",
-        "path": "assets/audio/day1-demos/BABE I KNOW U.m4a"
-      },
-      {
-        "filename": "CATCHIN FISH!m4a.m4a",
-        "path": "assets/audio/day1-demos/CATCHIN FISH!m4a.m4a"
-      },
-      {
-        "filename": "DEVIL.m4a",
-        "path": "assets/audio/day1-demos/DEVIL.m4a"
-      },
-      {
-        "filename": "DREAM.m4a",
-        "path": "assets/audio/day1-demos/DREAM.m4a"
-      },
-      {
-        "filename": "If it Lasts.wav",
-        "path": "assets/audio/day1-demos/If it Lasts.wav"
-      },
-      {
-        "filename": "Lost you at hello.mp3",
-        "path": "assets/audio/day1-demos/Lost you at hello.mp3"
-      },
-      {
-        "filename": "Nice Guy.mp3",
-        "path": "assets/audio/day1-demos/Nice Guy.mp3"
-      },
-      {
-        "filename": "tough shit !.mp3",
-        "path": "assets/audio/day1-demos/tough shit !.mp3"
-      }
+  "generatedAt": "2026-01-23T11:54:11.149Z",
+  "images": {
+    "live": [
+      "assets/img/live/0714BA31-8814-483D-BFFE-FA3D341A034D 3.JPG",
+      "assets/img/live/0n3a0233.JPG",
+      "assets/img/live/0n3a0497 2.JPG",
+      "assets/img/live/0n3a0876.JPG",
+      "assets/img/live/0N3A1974.HEIC",
+      "assets/img/live/eosr6803 2.JPG",
+      "assets/img/live/eosr7247 2.JPG",
+      "assets/img/live/IMG_0964 2.JPG",
+      "assets/img/live/IMG_0965 2.JPG",
+      "assets/img/live/IMG_1018.JPG",
+      "assets/img/live/IMG_2777.HEIC",
+      "assets/img/live/IMG_5481.JPG",
+      "assets/img/live/IMG_5484.JPG",
+      "assets/img/live/IMG_5485.JPG",
+      "assets/img/live/IMG_9218.PNG",
+      "assets/img/live/live-01.jpg",
+      "assets/img/live/NS_6647_Gold 200_134837-R1-049-23-12BW.JPG",
+      "assets/img/live/NS_6647_Gold 200_134837-R1-053-25-9BW.JPG",
+      "assets/img/live/NS_6647_Gold 200_134837-R1-053-25.JPG",
+      "assets/img/live/NS_6647_Gold 200_134837-R1-057-27.JPG",
+      "assets/img/live/NS_6647_Gold 200_134837-R1-069-33.JPG",
+      "assets/img/live/NS_6648_Gold 200_134840-R1-015-6-3.JPG",
+      "assets/img/live/NS_6648_Gold 200_134840-R1-054-25A-4.JPG"
     ],
-    "finished": [
-      {
-        "filename": ".DS_Store",
-        "path": "assets/audio/finished/.DS_Store"
-      },
-      {
-        "filename": "Beverly.mp3",
-        "path": "assets/audio/finished/Beverly.mp3"
-      },
-      {
-        "filename": "Cards.mp3",
-        "path": "assets/audio/finished/Cards.mp3"
-      },
-      {
-        "filename": "Clayton_Mary_Masterr.m4a",
-        "path": "assets/audio/finished/Clayton_Mary_Masterr.m4a"
-      },
-      {
-        "filename": "Doormat.wav",
-        "path": "assets/audio/finished/Doormat.wav"
-      },
-      {
-        "filename": "Shitty Song.mp3",
-        "path": "assets/audio/finished/Shitty Song.mp3"
-      },
-      {
-        "filename": "Sitcom (M2) 2.wav",
-        "path": "assets/audio/finished/Sitcom (M2) 2.wav"
-      }
+    "studio": [
+      "assets/img/studio/studio-01.JPG"
     ],
-    "tapes": [
-      {
-        "filename": ".DS_Store",
-        "path": "assets/audio/board-tapes/.DS_Store"
-      },
-      {
-        "filename": "Enough.m4a",
-        "path": "assets/audio/board-tapes/Enough.m4a"
-      },
-      {
-        "filename": "HOLD.m4a",
-        "path": "assets/audio/board-tapes/HOLD.m4a"
-      },
-      {
-        "filename": "Right on the line.m4a",
-        "path": "assets/audio/board-tapes/Right on the line.m4a"
-      },
-      {
-        "filename": "THE SPINS.m4a",
-        "path": "assets/audio/board-tapes/THE SPINS.m4a"
-      },
-      {
-        "filename": "WALKIN.m4a",
-        "path": "assets/audio/board-tapes/WALKIN.m4a"
-      },
-      {
-        "filename": "What if?.m4a",
-        "path": "assets/audio/board-tapes/What if?.m4a"
-      },
-      {
-        "filename": "what the lovers do.m4a",
-        "path": "assets/audio/board-tapes/what the lovers do.m4a"
-      }
+    "candid": [],
+    "artwork": [
+      "assets/img/artwork/0714BA31-8814-483D-BFFE-FA3D341A034D 2.JPG",
+      "assets/img/artwork/85F60282-CDF4-46ED-829B-AB6523E00B36.JPG",
+      "assets/img/artwork/CARDS.JPG",
+      "assets/img/artwork/IMG_1001.JPG",
+      "assets/img/artwork/IMG_1011.JPG",
+      "assets/img/artwork/IMG_1016.JPG",
+      "assets/img/artwork/IMG_1135.JPG",
+      "assets/img/artwork/IMG_1461.JPG",
+      "assets/img/artwork/IMG_2239.jpg",
+      "assets/img/artwork/IMG_8826.JPG"
     ]
   },
-  "videos": [],
-  "photos": [
-    {
-      "filename": ".DS_Store",
-      "path": "assets/img/.DS_Store"
-    },
-    {
-      "filename": "0714BA31-8814-483D-BFFE-FA3D341A034D 2.JPG",
-      "path": "assets/img/artwork/0714BA31-8814-483D-BFFE-FA3D341A034D 2.JPG"
-    },
-    {
-      "filename": "85F60282-CDF4-46ED-829B-AB6523E00B36.JPG",
-      "path": "assets/img/artwork/85F60282-CDF4-46ED-829B-AB6523E00B36.JPG"
-    },
-    {
-      "filename": "CARDS.JPG",
-      "path": "assets/img/artwork/CARDS.JPG"
-    },
-    {
-      "filename": "IMG_1001.JPG",
-      "path": "assets/img/artwork/IMG_1001.JPG"
-    },
-    {
-      "filename": "IMG_1011.JPG",
-      "path": "assets/img/artwork/IMG_1011.JPG"
-    },
-    {
-      "filename": "IMG_1016.JPG",
-      "path": "assets/img/artwork/IMG_1016.JPG"
-    },
-    {
-      "filename": "IMG_1135.JPG",
-      "path": "assets/img/artwork/IMG_1135.JPG"
-    },
-    {
-      "filename": "IMG_1461.JPG",
-      "path": "assets/img/artwork/IMG_1461.JPG"
-    },
-    {
-      "filename": "IMG_2239.jpg",
-      "path": "assets/img/artwork/IMG_2239.jpg"
-    },
-    {
-      "filename": "IMG_8826.JPG",
-      "path": "assets/img/artwork/IMG_8826.JPG"
-    },
-    {
-      "filename": "clayton-headshot.jpg",
-      "path": "assets/img/headshots/clayton-headshot.jpg"
-    },
-    {
-      "filename": "0714BA31-8814-483D-BFFE-FA3D341A034D 3.JPG",
-      "path": "assets/img/live/0714BA31-8814-483D-BFFE-FA3D341A034D 3.JPG"
-    },
-    {
-      "filename": "0N3A1974.HEIC",
-      "path": "assets/img/live/0N3A1974.HEIC"
-    },
-    {
-      "filename": "0n3a0233.JPG",
-      "path": "assets/img/live/0n3a0233.JPG"
-    },
-    {
-      "filename": "0n3a0497 2.JPG",
-      "path": "assets/img/live/0n3a0497 2.JPG"
-    },
-    {
-      "filename": "0n3a0876.JPG",
-      "path": "assets/img/live/0n3a0876.JPG"
-    },
-    {
-      "filename": "IMG_0964 2.JPG",
-      "path": "assets/img/live/IMG_0964 2.JPG"
-    },
-    {
-      "filename": "IMG_0965 2.JPG",
-      "path": "assets/img/live/IMG_0965 2.JPG"
-    },
-    {
-      "filename": "IMG_1018.JPG",
-      "path": "assets/img/live/IMG_1018.JPG"
-    },
-    {
-      "filename": "IMG_2777.HEIC",
-      "path": "assets/img/live/IMG_2777.HEIC"
-    },
-    {
-      "filename": "IMG_5481.JPG",
-      "path": "assets/img/live/IMG_5481.JPG"
-    },
-    {
-      "filename": "IMG_5484.JPG",
-      "path": "assets/img/live/IMG_5484.JPG"
-    },
-    {
-      "filename": "IMG_5485.JPG",
-      "path": "assets/img/live/IMG_5485.JPG"
-    },
-    {
-      "filename": "IMG_9218.PNG",
-      "path": "assets/img/live/IMG_9218.PNG"
-    },
-    {
-      "filename": "NS_6647_Gold 200_134837-R1-049-23-12BW.JPG",
-      "path": "assets/img/live/NS_6647_Gold 200_134837-R1-049-23-12BW.JPG"
-    },
-    {
-      "filename": "NS_6647_Gold 200_134837-R1-053-25-9BW.JPG",
-      "path": "assets/img/live/NS_6647_Gold 200_134837-R1-053-25-9BW.JPG"
-    },
-    {
-      "filename": "NS_6647_Gold 200_134837-R1-053-25.JPG",
-      "path": "assets/img/live/NS_6647_Gold 200_134837-R1-053-25.JPG"
-    },
-    {
-      "filename": "NS_6647_Gold 200_134837-R1-057-27.JPG",
-      "path": "assets/img/live/NS_6647_Gold 200_134837-R1-057-27.JPG"
-    },
-    {
-      "filename": "NS_6647_Gold 200_134837-R1-069-33.JPG",
-      "path": "assets/img/live/NS_6647_Gold 200_134837-R1-069-33.JPG"
-    },
-    {
-      "filename": "NS_6648_Gold 200_134840-R1-015-6-3.JPG",
-      "path": "assets/img/live/NS_6648_Gold 200_134840-R1-015-6-3.JPG"
-    },
-    {
-      "filename": "NS_6648_Gold 200_134840-R1-054-25A-4.JPG",
-      "path": "assets/img/live/NS_6648_Gold 200_134840-R1-054-25A-4.JPG"
-    },
-    {
-      "filename": "eosr6803 2.JPG",
-      "path": "assets/img/live/eosr6803 2.JPG"
-    },
-    {
-      "filename": "eosr7247 2.JPG",
-      "path": "assets/img/live/eosr7247 2.JPG"
-    },
-    {
-      "filename": "live-01.jpg",
-      "path": "assets/img/live/live-01.jpg"
-    },
-    {
-      "filename": "studio-01.JPG",
-      "path": "assets/img/studio/studio-01.JPG"
-    }
-  ]
+  "audio": {
+    "finished": [
+      "assets/audio/finished/Beverly.mp3",
+      "assets/audio/finished/Cards.mp3",
+      "assets/audio/finished/Clayton_Mary_Masterr.m4a",
+      "assets/audio/finished/Doormat.wav",
+      "assets/audio/finished/Shitty Song.mp3",
+      "assets/audio/finished/Sitcom (M2) 2.wav"
+    ],
+    "demos": [
+      "assets/audio/demos/21.wav",
+      "assets/audio/demos/Another Angle.mp3",
+      "assets/audio/demos/BABE I KNOW U.m4a",
+      "assets/audio/demos/CATCHIN FISH!m4a.m4a",
+      "assets/audio/demos/DEVIL.m4a",
+      "assets/audio/demos/DREAM.m4a",
+      "assets/audio/demos/If it Lasts.wav",
+      "assets/audio/demos/Lost you at hello.mp3",
+      "assets/audio/demos/Nice Guy.mp3",
+      "assets/audio/demos/tough shit !.mp3"
+    ],
+    "boardtapes": [
+      "assets/audio/boardtapes/Enough.m4a",
+      "assets/audio/boardtapes/HOLD.m4a",
+      "assets/audio/boardtapes/Right on the line.m4a",
+      "assets/audio/boardtapes/THE SPINS.m4a",
+      "assets/audio/boardtapes/WALKIN.m4a",
+      "assets/audio/boardtapes/What if?.m4a",
+      "assets/audio/boardtapes/what the lovers do.m4a"
+    ],
+    "day1-demos": [
+      "assets/audio/day1-demos/21.wav",
+      "assets/audio/day1-demos/Another Angle.mp3",
+      "assets/audio/day1-demos/BABE I KNOW U.m4a",
+      "assets/audio/day1-demos/CATCHIN FISH!m4a.m4a",
+      "assets/audio/day1-demos/DEVIL.m4a",
+      "assets/audio/day1-demos/DREAM.m4a",
+      "assets/audio/day1-demos/If it Lasts.wav",
+      "assets/audio/day1-demos/Lost you at hello.mp3",
+      "assets/audio/day1-demos/Nice Guy.mp3",
+      "assets/audio/day1-demos/tough shit !.mp3"
+    ],
+    "board-tapes": [
+      "assets/audio/board-tapes/Enough.m4a",
+      "assets/audio/board-tapes/HOLD.m4a",
+      "assets/audio/board-tapes/Right on the line.m4a",
+      "assets/audio/board-tapes/THE SPINS.m4a",
+      "assets/audio/board-tapes/WALKIN.m4a",
+      "assets/audio/board-tapes/What if?.m4a",
+      "assets/audio/board-tapes/what the lovers do.m4a"
+    ]
+  },
+  "video": {
+    "live": []
+  }
 }

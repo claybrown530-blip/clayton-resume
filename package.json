@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
   "generate": "node generate-manifest.js",
-  "build": "npm run generate && echo \"no build necessary\""
+  "build": "npm run generate"
 }
 ,
   "keywords": [],

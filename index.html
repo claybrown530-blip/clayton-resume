@@ -1,16 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IF ALL ISN'T LOST, WHERE IS IT? â Dossier</title>
-
-  <meta name="description" content="IF ALL ISN'T LOST, WHERE IS IT? â songs, sessions, live footage, and the archive. A world you can explore." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b0a08" />
+  <title>IF ALL ISN'T LOST, WHERE IS IT? — CLAYTON</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -18,151 +16,175 @@
 <body>
   <div class="grain" aria-hidden="true"></div>
 
+  <!-- Top bar -->
   <header class="topbar">
     <div class="topbar__left">
       <div class="mark">
-        <div class="mark__name">IF ALL ISN'T LOST, WHERE IS IT?</div>
+        <div class="mark__name">CLAYTON</div>
         <div class="mark__sub">DOSSIER / PORTFOLIO / ARCHIVE</div>
       </div>
     </div>
 
     <div class="topbar__right">
-      <a class="chip" href="#room=contact" data-open="contact">BOOK / CONTACT</a>
-      <button class="chip chip--ghost" id="btnCmd" type="button" title="Open Command Palette (K)">âK</button>
+      <button class="chip" data-action="openPalette" title="Command palette (⌘K)">⌘K</button>
+      <a class="chip chip--ghost" href="#contact" title="Contact">CONTACT</a>
     </div>
   </header>
 
+  <!-- Main -->
   <main class="shell">
-    <aside class="nav">
-      <div class="nav__section">
-        <div class="nav__label">SETLIST</div>
-        <button class="nav__item" data-open="work">Work</button>
-        <button class="nav__item" data-open="archive">Archive</button>
-        <button class="nav__item" data-open="live">Live</button>
-        <button class="nav__item" data-open="photos">Photos</button>
-        <button class="nav__item" data-open="about">About</button>
-        <button class="nav__item" data-open="contact">Contact</button>
-      </div>
-
-      <div class="nav__section">
-        <div class="nav__label">STATUS</div>
-        <div class="nav__status" id="statusLine">Loading the worldâ¦</div>
-      </div>
-
-      <div class="nav__section">
-        <div class="nav__label">SHORTCUTS</div>
-        <div class="nav__hint">K â command palette</div>
-        <div class="nav__hint">Esc â close room</div>
-      </div>
-    </aside>
-
-    <section class="stage">
-      <div class="poster">
-        <div class="poster__kicker">THE FILE</div>
-        <h1 class="poster__title">BORN TO RUN MODE</h1>
-        <p class="poster__lede">
-          Tour-poster confidence with an everything-folder under it. Finished songs, demos, board tapes, live proof, photos â all in one place.
+    <section class="hero">
+      <div class="hero__title">
+        <h1>IF ALL ISN'T LOST,<br /><span>WHERE IS IT?</span></h1>
+        <p class="hero__lede">
+          <b>BORN TO RUN MODE:</b> tour-poster confidence with an everything-folder underneath it.
+          Finished songs, demos, board tapes, live proof, photos — all in one place.
           Stay on the surface if you want. Or go deep.
         </p>
-
-        <div class="poster__grid">
-          <button class="card" data-open="work">
-            <div class="card__title">WORK</div>
-            <div class="card__meta">featured tracks + sessions</div>
-          </button>
-
-          <button class="card" data-open="archive">
-            <div class="card__title">ARCHIVE</div>
-            <div class="card__meta">demos + board tapes</div>
-          </button>
-
-          <button class="card" data-open="live">
-            <div class="card__title">LIVE</div>
-            <div class="card__meta">photos now, videos later</div>
-          </button>
-
-          <button class="card" data-open="photos">
-            <div class="card__title">PHOTOS</div>
-            <div class="card__meta">years of the project</div>
-          </button>
-        </div>
-
-        <div class="poster__footer">
-          <div class="stamp">NASHVILLE / INDEPENDENT / ROCK & ROLL</div>
-          <div class="stamp stamp--muted">Keep it moving: update assets → run generate → push</div>
-        </div>
       </div>
 
-      <section class="quick">
-        <div class="quick__row">
-          <div class="quick__label">Quick Facts</div>
-          <div class="quick__value" id="quickFacts">â</div>
+      <div class="hero__meta">
+        <div class="metaCard">
+          <div class="metaCard__k">STATUS</div>
+          <div class="metaCard__v" id="statusText">Loading the world…</div>
         </div>
-        <div class="quick__row">
-          <div class="quick__label">Latest</div>
-          <div class="quick__value" id="latestLine">â</div>
-        </div>
-        <div class="quick__row">
-          <div class="quick__label">Tap In</div>
-          <div class="quick__value">
-            <a class="link" href="#room=work" data-open="work">Work</a> â¢
-            <a class="link" href="#room=archive" data-open="archive">Archive</a> â¢
-            <a class="link" href="#room=contact" data-open="contact">Contact</a>
+        <div class="metaCard">
+          <div class="metaCard__k">SHORTCUTS</div>
+          <div class="metaCard__v">
+            <div>⌘K → command palette</div>
+            <div>Esc → close room</div>
+            <div>Enter → open</div>
           </div>
         </div>
-      </section>
+      </div>
     </section>
+
+    <!-- Rooms -->
+    <section class="grid" aria-label="Rooms">
+      <button class="roomCard" data-room="work">
+        <div class="roomCard__top">
+          <div class="roomCard__title">WORK</div>
+          <div class="roomCard__tag">featured tracks + sessions</div>
+        </div>
+        <div class="roomCard__bottom">
+          <div class="roomCard__hint">Enter → open</div>
+        </div>
+      </button>
+
+      <button class="roomCard" data-room="archive">
+        <div class="roomCard__top">
+          <div class="roomCard__title">ARCHIVE</div>
+          <div class="roomCard__tag">demos + board tapes</div>
+        </div>
+        <div class="roomCard__bottom">
+          <div class="roomCard__hint">Enter → open</div>
+        </div>
+      </button>
+
+      <button class="roomCard" data-room="live">
+        <div class="roomCard__top">
+          <div class="roomCard__title">LIVE</div>
+          <div class="roomCard__tag">photos now, videos later</div>
+        </div>
+        <div class="roomCard__bottom">
+          <div class="roomCard__hint">Enter → open</div>
+        </div>
+      </button>
+
+      <button class="roomCard" data-room="photos">
+        <div class="roomCard__top">
+          <div class="roomCard__title">PHOTOS</div>
+          <div class="roomCard__tag">years of the project</div>
+        </div>
+        <div class="roomCard__bottom">
+          <div class="roomCard__hint">Enter → open</div>
+        </div>
+      </button>
+
+      <button class="roomCard roomCard--wide" data-room="about">
+        <div class="roomCard__top">
+          <div class="roomCard__title">ABOUT</div>
+          <div class="roomCard__tag">the story + quick facts</div>
+        </div>
+        <div class="roomCard__bottom">
+          <div class="roomCard__hint">Enter → open</div>
+        </div>
+      </button>
+
+      <button class="roomCard roomCard--wide" data-room="contact" id="contact">
+        <div class="roomCard__top">
+          <div class="roomCard__title">TAP IN</div>
+          <div class="roomCard__tag">booking + links</div>
+        </div>
+        <div class="roomCard__bottom">
+          <div class="roomCard__hint">Enter → open</div>
+        </div>
+      </button>
+    </section>
+
+    <!-- Footer line -->
+    <footer class="footerLine">
+      <div class="footerLine__left">NASHVILLE / INDEPENDENT / ROCK &amp; ROLL</div>
+      <div class="footerLine__right">Keep it moving: update assets → run generate → push</div>
+    </footer>
   </main>
 
-  <!-- ROOM OVERLAY -->
+  <!-- Room Overlay -->
   <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="overlay__backdrop" data-close></div>
+    <div class="overlay__scrim" data-action="closeRoom"></div>
 
-    <div class="room" role="dialog" aria-modal="true" aria-label="Room">
-      <div class="room__top">
-        <div class="room__title" id="roomTitle">Room</div>
-        <button class="room__close" type="button" data-close aria-label="Close">Esc</button>
-      </div>
+    <section class="room" role="dialog" aria-modal="true" aria-label="Room">
+      <header class="room__header">
+        <div>
+          <div class="room__eyebrow">ROOM</div>
+          <div class="room__title" id="roomTitle">—</div>
+        </div>
+        <button class="room__close" data-action="closeRoom" title="Close (Esc)">Esc</button>
+      </header>
 
       <div class="room__body" id="roomBody">
         <!-- injected -->
       </div>
-    </div>
+    </section>
   </div>
 
-  <!-- AUDIO DOCK -->
-  <footer class="dock" id="dock" aria-label="Audio player">
-    <div class="dock__now">
-      <div class="dock__label">Now Playing</div>
-      <div class="dock__title" id="nowTitle">â</div>
+  <!-- Player Dock -->
+  <div class="player" id="player">
+    <div class="player__left">
+      <div class="player__label">NOW PLAYING</div>
+      <div class="player__title" id="nowPlaying">—</div>
     </div>
 
-    <div class="dock__controls">
-      <button class="btn" id="btnPrev" type="button">Prev</button>
-      <button class="btn btn--primary" id="btnPlay" type="button">Play</button>
-      <button class="btn" id="btnNext" type="button">Next</button>
+    <div class="player__mid">
+      <button class="pbtn" data-action="prev">Prev</button>
+      <button class="pbtn pbtn--primary" data-action="toggle">Play</button>
+      <button class="pbtn" data-action="next">Next</button>
     </div>
 
-    <div class="dock__bar">
-      <input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek" />
-      <div class="dock__time">
-        <span id="tCur">0:00</span> / <span id="tDur">0:00</span>
+    <div class="player__right">
+      <div class="timeRow">
+        <span id="tCur">0:00</span>
+        <input id="seek" type="range" min="0" max="1000" value="0" />
+        <span id="tDur">0:00</span>
       </div>
     </div>
 
     <audio id="audio" preload="metadata"></audio>
-  </footer>
+  </div>
 
-  <!-- COMMAND PALETTE -->
+  <!-- Command Palette -->
   <div class="palette" id="palette" aria-hidden="true">
-    <div class="palette__backdrop" data-pal-close></div>
+    <div class="palette__scrim" data-action="closePalette"></div>
     <div class="palette__panel" role="dialog" aria-modal="true" aria-label="Command palette">
-      <input class="palette__input" id="palInput" placeholder="Type a room (work, archive, live, photos, about, contact)..." />
-      <div class="palette__list" id="palList"></div>
-      <div class="palette__hint">Enter â open â¢ Esc â close</div>
+      <div class="palette__top">
+        <div class="palette__hint">Type to search — Enter to open</div>
+        <input class="palette__input" id="paletteInput" type="text" placeholder="Work, Archive, Photos, Contact…" autocomplete="off" />
+      </div>
+      <div class="palette__list" id="paletteList"></div>
     </div>
   </div>
 
-  <script type="module" src="js/app.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
