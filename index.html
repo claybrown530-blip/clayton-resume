@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLAYTON — IF ALL ISN'T LOST, WHERE IS IT?</title>
+
   <meta name="theme-color" content="#0b0a08" />
-  <title>IF ALL ISN'T LOST, WHERE IS IT? — CLAYTON</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- Boss-y headline + typewriter utility -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -16,175 +19,241 @@
 <body>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- Top bar -->
   <header class="topbar">
-    <div class="topbar__left">
-      <div class="mark">
-        <div class="mark__name">CLAYTON</div>
-        <div class="mark__sub">DOSSIER / PORTFOLIO / ARCHIVE</div>
-      </div>
+    <div class="brand">
+      <div class="brand__mark">CLAYTON</div>
+      <div class="brand__sub">IF ALL ISN'T LOST, WHERE IS IT?</div>
     </div>
 
+    <nav class="topnav" aria-label="Primary">
+      <a href="#dossier" data-route="dossier">DOSSIER</a>
+      <a href="#music" data-route="music">MUSIC</a>
+      <a href="#live" data-route="live">LIVE</a>
+      <a href="#archive" data-route="archive">ARCHIVE</a>
+      <a href="#contact" data-route="contact">CONTACT</a>
+    </nav>
+
     <div class="topbar__right">
-      <button class="chip" data-action="openPalette" title="Command palette (⌘K)">⌘K</button>
-      <a class="chip chip--ghost" href="#contact" title="Contact">CONTACT</a>
+      <button class="btn btn--ghost" id="btnSearch" type="button" title="Search">
+        Search
+      </button>
+      <button class="btn" id="btnDownload" type="button" title="Download Press Kit">
+        Press Kit
+      </button>
     </div>
   </header>
 
-  <!-- Main -->
   <main class="shell">
-    <section class="hero">
-      <div class="hero__title">
-        <h1>IF ALL ISN'T LOST,<br /><span>WHERE IS IT?</span></h1>
-        <p class="hero__lede">
-          <b>BORN TO RUN MODE:</b> tour-poster confidence with an everything-folder underneath it.
-          Finished songs, demos, board tapes, live proof, photos — all in one place.
-          Stay on the surface if you want. Or go deep.
-        </p>
+    <aside class="rail" aria-label="Dossier rail">
+      <div class="rail__block">
+        <div class="rail__label">STATUS</div>
+        <div class="rail__value" id="statusLine">Born to run.</div>
       </div>
 
-      <div class="hero__meta">
-        <div class="metaCard">
-          <div class="metaCard__k">STATUS</div>
-          <div class="metaCard__v" id="statusText">Loading the world…</div>
+      <div class="rail__block">
+        <div class="rail__label">CONTENTS</div>
+        <ul class="rail__list" id="counts">
+          <li><span>Audio</span><strong id="countAudio">—</strong></li>
+          <li><span>Photos</span><strong id="countImages">—</strong></li>
+          <li><span>Videos</span><strong id="countVideo">—</strong></li>
+        </ul>
+      </div>
+
+      <div class="rail__block">
+        <div class="rail__label">QUICK LINKS</div>
+        <div class="rail__chips">
+          <a class="chip" href="#music">Latest</a>
+          <a class="chip" href="#live">Footage</a>
+          <a class="chip" href="#archive">Gallery</a>
         </div>
-        <div class="metaCard">
-          <div class="metaCard__k">SHORTCUTS</div>
-          <div class="metaCard__v">
-            <div>⌘K → command palette</div>
-            <div>Esc → close room</div>
-            <div>Enter → open</div>
+      </div>
+
+      <div class="rail__block rail__block--small">
+        <div class="rail__label">NOTE</div>
+        <div class="rail__note">
+          Surface level = clean.<br/>
+          Click deeper = the world opens up.
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <!-- ROUTES -->
+      <section class="route is-active" data-view="dossier">
+        <div class="hero">
+          <div class="hero__kicker">DOSSIER</div>
+          <h1 class="hero__title">CLAYTON</h1>
+          <p class="hero__tag">
+            <span class="mono">Born to run.</span>
+            <span class="dot">•</span>
+            <span class="mono">Portfolio / Resume / Archive</span>
+          </p>
+
+          <div class="hero__grid">
+            <button class="tile" data-open="about" type="button">
+              <div class="tile__title">Who I am</div>
+              <div class="tile__desc">The short version + the real version.</div>
+            </button>
+
+            <button class="tile" data-open="highlights" type="button">
+              <div class="tile__title">Highlights</div>
+              <div class="tile__desc">Fast facts, wins, credibility.</div>
+            </button>
+
+            <button class="tile" data-open="music" type="button">
+              <div class="tile__title">Music</div>
+              <div class="tile__desc">Finished, demos, boardtapes.</div>
+            </button>
+
+            <button class="tile" data-open="gallery" type="button">
+              <div class="tile__title">Photos</div>
+              <div class="tile__desc">Live / studio / candid / artwork.</div>
+            </button>
+
+            <button class="tile" data-open="live" type="button">
+              <div class="tile__title">Live</div>
+              <div class="tile__desc">Evidence. Energy. Proof.</div>
+            </button>
+
+            <button class="tile tile--accent" data-open="contact" type="button">
+              <div class="tile__title">Book / Contact</div>
+              <div class="tile__desc">Email + socials + press info.</div>
+            </button>
           </div>
         </div>
-      </div>
+
+        <div class="paper">
+          <div class="paper__header">
+            <div class="paper__stamp">FIELD REPORT</div>
+            <div class="paper__date" id="today"></div>
+          </div>
+          <div class="paper__body" id="fieldReport">
+            Loading your archive…
+          </div>
+        </div>
+      </section>
+
+      <section class="route" data-view="music">
+        <div class="route__head">
+          <h2>MUSIC</h2>
+          <p>Finished + demos + boardtapes. Click a track and the bottom player wakes up.</p>
+        </div>
+
+        <div class="toolbar">
+          <input class="input" id="audioFilter" placeholder="Filter tracks… (type to search)" />
+          <div class="seg">
+            <button class="seg__btn is-on" data-audio-scope="all" type="button">All</button>
+            <button class="seg__btn" data-audio-scope="finished" type="button">Finished</button>
+            <button class="seg__btn" data-audio-scope="demos" type="button">Demos</button>
+            <button class="seg__btn" data-audio-scope="boardtapes" type="button">Boardtapes</button>
+          </div>
+        </div>
+
+        <div class="lists" id="audioLists"></div>
+      </section>
+
+      <section class="route" data-view="live">
+        <div class="route__head">
+          <h2>LIVE</h2>
+          <p>Video comes later if you want. For now, this is a photo-first “proof of life” wall.</p>
+        </div>
+
+        <div class="grid" id="liveGrid"></div>
+      </section>
+
+      <section class="route" data-view="archive">
+        <div class="route__head">
+          <h2>ARCHIVE</h2>
+          <p>A gallery you can dig through. Click to open, arrows to move, escape to close.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="seg">
+            <button class="seg__btn is-on" data-img-scope="all" type="button">All</button>
+            <button class="seg__btn" data-img-scope="live" type="button">Live</button>
+            <button class="seg__btn" data-img-scope="studio" type="button">Studio</button>
+            <button class="seg__btn" data-img-scope="candid" type="button">Candid</button>
+            <button class="seg__btn" data-img-scope="artwork" type="button">Artwork</button>
+          </div>
+        </div>
+
+        <div class="grid" id="archiveGrid"></div>
+      </section>
+
+      <section class="route" data-view="contact">
+        <div class="route__head">
+          <h2>CONTACT</h2>
+          <p>Make it stupid easy for someone to say yes.</p>
+        </div>
+
+        <div class="contact">
+          <div class="contact__card">
+            <div class="contact__label">EMAIL</div>
+            <a class="contact__value" href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
+          </div>
+
+          <div class="contact__card">
+            <div class="contact__label">PRESS / BOOKING</div>
+            <div class="contact__value mono">Drop your booking email + socials in <code>js/app.js</code> (PROFILE object).</div>
+          </div>
+
+          <div class="contact__card">
+            <div class="contact__label">ONE-LINER</div>
+            <div class="contact__value">
+              Indie rock / alt-pop storyteller — funny, raw, cinematic.
+            </div>
+          </div>
+        </div>
+      </section>
+
     </section>
-
-    <!-- Rooms -->
-    <section class="grid" aria-label="Rooms">
-      <button class="roomCard" data-room="work">
-        <div class="roomCard__top">
-          <div class="roomCard__title">WORK</div>
-          <div class="roomCard__tag">featured tracks + sessions</div>
-        </div>
-        <div class="roomCard__bottom">
-          <div class="roomCard__hint">Enter → open</div>
-        </div>
-      </button>
-
-      <button class="roomCard" data-room="archive">
-        <div class="roomCard__top">
-          <div class="roomCard__title">ARCHIVE</div>
-          <div class="roomCard__tag">demos + board tapes</div>
-        </div>
-        <div class="roomCard__bottom">
-          <div class="roomCard__hint">Enter → open</div>
-        </div>
-      </button>
-
-      <button class="roomCard" data-room="live">
-        <div class="roomCard__top">
-          <div class="roomCard__title">LIVE</div>
-          <div class="roomCard__tag">photos now, videos later</div>
-        </div>
-        <div class="roomCard__bottom">
-          <div class="roomCard__hint">Enter → open</div>
-        </div>
-      </button>
-
-      <button class="roomCard" data-room="photos">
-        <div class="roomCard__top">
-          <div class="roomCard__title">PHOTOS</div>
-          <div class="roomCard__tag">years of the project</div>
-        </div>
-        <div class="roomCard__bottom">
-          <div class="roomCard__hint">Enter → open</div>
-        </div>
-      </button>
-
-      <button class="roomCard roomCard--wide" data-room="about">
-        <div class="roomCard__top">
-          <div class="roomCard__title">ABOUT</div>
-          <div class="roomCard__tag">the story + quick facts</div>
-        </div>
-        <div class="roomCard__bottom">
-          <div class="roomCard__hint">Enter → open</div>
-        </div>
-      </button>
-
-      <button class="roomCard roomCard--wide" data-room="contact" id="contact">
-        <div class="roomCard__top">
-          <div class="roomCard__title">TAP IN</div>
-          <div class="roomCard__tag">booking + links</div>
-        </div>
-        <div class="roomCard__bottom">
-          <div class="roomCard__hint">Enter → open</div>
-        </div>
-      </button>
-    </section>
-
-    <!-- Footer line -->
-    <footer class="footerLine">
-      <div class="footerLine__left">NASHVILLE / INDEPENDENT / ROCK &amp; ROLL</div>
-      <div class="footerLine__right">Keep it moving: update assets → run generate → push</div>
-    </footer>
   </main>
 
-  <!-- Room Overlay -->
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="overlay__scrim" data-action="closeRoom"></div>
-
-    <section class="room" role="dialog" aria-modal="true" aria-label="Room">
-      <header class="room__header">
-        <div>
-          <div class="room__eyebrow">ROOM</div>
-          <div class="room__title" id="roomTitle">—</div>
-        </div>
-        <button class="room__close" data-action="closeRoom" title="Close (Esc)">Esc</button>
-      </header>
-
-      <div class="room__body" id="roomBody">
-        <!-- injected -->
+  <!-- MODAL -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__panel" role="document">
+      <div class="modal__top">
+        <div class="modal__title" id="modalTitle">—</div>
+        <button class="btn btn--ghost" id="modalClose" type="button">Close</button>
       </div>
-    </section>
+      <div class="modal__body" id="modalBody"></div>
+    </div>
   </div>
 
-  <!-- Player Dock -->
-  <div class="player" id="player">
-    <div class="player__left">
-      <div class="player__label">NOW PLAYING</div>
-      <div class="player__title" id="nowPlaying">—</div>
-    </div>
-
-    <div class="player__mid">
-      <button class="pbtn" data-action="prev">Prev</button>
-      <button class="pbtn pbtn--primary" data-action="toggle">Play</button>
-      <button class="pbtn" data-action="next">Next</button>
-    </div>
-
-    <div class="player__right">
-      <div class="timeRow">
-        <span id="tCur">0:00</span>
-        <input id="seek" type="range" min="0" max="1000" value="0" />
-        <span id="tDur">0:00</span>
-      </div>
+  <!-- PLAYER -->
+  <div class="player" id="player" aria-label="Audio player">
+    <div class="player__meta">
+      <div class="player__title" id="nowTitle">Nothing playing</div>
+      <div class="player__sub mono" id="nowSub">Pick a track.</div>
     </div>
 
     <audio id="audio" preload="metadata"></audio>
-  </div>
 
-  <!-- Command Palette -->
-  <div class="palette" id="palette" aria-hidden="true">
-    <div class="palette__scrim" data-action="closePalette"></div>
-    <div class="palette__panel" role="dialog" aria-modal="true" aria-label="Command palette">
-      <div class="palette__top">
-        <div class="palette__hint">Type to search — Enter to open</div>
-        <input class="palette__input" id="paletteInput" type="text" placeholder="Work, Archive, Photos, Contact…" autocomplete="off" />
+    <div class="player__controls">
+      <button class="btn btn--ghost" id="btnPrev" type="button">Prev</button>
+      <button class="btn" id="btnPlay" type="button">Play</button>
+      <button class="btn btn--ghost" id="btnNext" type="button">Next</button>
+    </div>
+
+    <div class="player__bar">
+      <input id="seek" class="seek" type="range" min="0" max="1000" value="0" />
+      <div class="player__time mono">
+        <span id="tCur">0:00</span>
+        <span class="dot">•</span>
+        <span id="tDur">0:00</span>
       </div>
-      <div class="palette__list" id="paletteList"></div>
     </div>
   </div>
 
-  <script src="js/data.js"></script>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" id="lbClose" type="button">Close</button>
+    <button class="lightbox__nav lightbox__nav--left" id="lbPrev" type="button">‹</button>
+    <button class="lightbox__nav lightbox__nav--right" id="lbNext" type="button">›</button>
+    <img id="lbImg" alt="" />
+    <div class="lightbox__cap mono" id="lbCap"></div>
+  </div>
+
   <script src="js/app.js"></script>
 </body>
 </html>
