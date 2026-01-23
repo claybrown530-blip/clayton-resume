@@ -257,18 +257,21 @@ a:hover{opacity:.92}
   padding: 0 8px;
 }
 
+/* iPhone: prevent default blue button text + make titles orange */
 .track{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding: 12px 12px;
-  border-radius: 14px;
+  -webkit-appearance: none;
+  appearance: none;
   border:1px solid rgba(255,255,255,.10);
   background: rgba(0,0,0,.16);
-  cursor:pointer;
-  text-align:left;
-  width:100%;
+  color: var(--text);
+  font-family: var(--mono);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.track__title{
+  color: var(--accent);
+}
+
 }
 .track:hover{background: rgba(255,255,255,.06)}
 .track.is-active{
@@ -326,6 +329,48 @@ a:hover{opacity:.92}
   text-transform: uppercase;
   border-top: 1px solid rgba(255,255,255,.08);
 }
+
+/* WHY I’M HERE block (beside Play) */
+.why{
+  margin-left: auto;
+  max-width: 420px;
+  padding-left: 10px;
+}
+
+.why__kicker{
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.why__text{
+  margin: 8px 0 0;
+  color: rgba(251,247,239,.82);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+/* Mobile: stack it cleanly under Now Playing */
+@media (max-width: 640px){
+  .playerTop{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .why{
+    margin-left: 0;
+    max-width: none;
+    padding-left: 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,.10);
+    width: 100%;
+  }
+  .why__text{
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}
+
 
 /* RESUME */
 .resume{padding:16px}
