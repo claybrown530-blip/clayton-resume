@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Clayton Brown — Producer / Writer / Mixer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="#top" class="logo">CLAYTON BROWN</a>
+    <nav class="site-nav">
+      <a href="#work">Work</a>
+      <a href="#archive">Archive</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="cta">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO GALLERY -->
+  <section id="top" class="hero-gallery">
+    <div class="gallery-grid" id="heroGrid">
+      <!-- JS will insert images here -->
+    </div>
+    <div class="hero-overlay">
+      <h1>Studio‑Ready. Taste‑Forward.</h1>
+      <p class="hero-sub">Producer, writer, mixer & collaborator — based in Nashville.</p>
+    </div>
+  </section>
+
+  <!-- WORK / FEATURED -->
+  <section id="work" class="section">
+    <h2>Featured Sessions</h2>
+    <div class="featured-grid" id="featuredGrid">
+      <!-- JS will insert featured cards here -->
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section id="archive" class="section">
+    <h2>Archive</h2>
+    <p class="archive-note">Dig through demos, finished tracks, and tapes. Numbered for exploration.</p>
+    <div class="archive-grid" id="archiveGrid">
+      <!-- JS will insert archive entries here -->
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h2>About</h2>
+    <p>
+      I’m Clayton Brown — a Nashville‑based producer, writer, mixer, and all‑around studio operator.
+      I’ve been writing a song a day for over a year, producing for artists on Music Row, selling out shows as an independent artist,
+      and working arena tours as a production assistant. I make records that feel as good as they sound, move fast with limited tools,
+      and keep the energy right in every session.
+    </p>
+    <p>
+      Whether you need someone to lead a session, build a track from scratch, mix a project to radio‑ready, or support your live show,
+      I’m ready to go.
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
+    <h2>Contact</h2>
+    <p>Prefer text. Let’s talk sessions, production, or live ops.</p>
+    <a href="sms:+12563850539" class="btn primary">Text: 256‑385‑0539</a>
+    <a href="mailto:claybrown530@gmail.com" class="btn">Email: claybrown530@gmail.com</a>
+  </section>
+
+  <footer class="site-footer">
+    © <span id="year"></span> Clayton Brown. Built for Music Row.
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
