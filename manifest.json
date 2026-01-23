@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-23T13:06:54.589Z",
+  "generatedAt": "2026-01-23T13:13:12.310Z",
   "images": {
     "live": [
       "assets/img/live/0714BA31-8814-483D-BFFE-FA3D341A034D 3.JPG",
@@ -45,8 +45,10 @@
   },
   "audio": {
     "finished": [
-      "assets/audio/finished/Beverly.mp3",
+      "assets/audio/finished/BABE I KNOW U.m4a",
       "assets/audio/finished/Cards.mp3",
+      "assets/audio/finished/CATCHIN FISH!m4a.m4a",
+      "assets/audio/finished/DEVIL.m4a",
       "assets/audio/finished/Doormat.wav",
       "assets/audio/finished/Mary.m4a",
       "assets/audio/finished/Shitty Song.mp3",
@@ -55,9 +57,7 @@
     "demos": [
       "assets/audio/demos/21.wav",
       "assets/audio/demos/Another Angle.mp3",
-      "assets/audio/demos/BABE I KNOW U.m4a",
-      "assets/audio/demos/CATCHIN FISH!m4a.m4a",
-      "assets/audio/demos/DEVIL.m4a",
+      "assets/audio/demos/Beverly.mp3",
       "assets/audio/demos/DREAM.m4a",
       "assets/audio/demos/If it Lasts.wav",
       "assets/audio/demos/Lost you at hello.mp3",
