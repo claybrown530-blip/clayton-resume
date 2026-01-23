@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"no build necessary\""
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "generate": "node generate-manifest.js",
+  "build": "npm run generate && echo \"no build necessary\""
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",

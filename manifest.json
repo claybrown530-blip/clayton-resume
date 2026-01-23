@@ -1,0 +1,85 @@
+{
+  "audio": {
+    "day1": [
+      {
+        "filename": ".DS_Store",
+        "path": "assets/audio/day1-demos/.DS_Store"
+      },
+      {
+        "filename": "BABE I KNOW U.m4a",
+        "path": "assets/audio/day1-demos/BABE I KNOW U.m4a"
+      },
+      {
+        "filename": "CATCHIN FISH!m4a.m4a",
+        "path": "assets/audio/day1-demos/CATCHIN FISH!m4a.m4a"
+      },
+      {
+        "filename": "DEVIL.m4a",
+        "path": "assets/audio/day1-demos/DEVIL.m4a"
+      },
+      {
+        "filename": "DREAM.m4a",
+        "path": "assets/audio/day1-demos/DREAM.m4a"
+      }
+    ],
+    "finished": [
+      {
+        "filename": "Cards (M3).mp3",
+        "path": "assets/audio/finished/Cards (M3).mp3"
+      },
+      {
+        "filename": "Clayton_Mary_Masterr.m4a",
+        "path": "assets/audio/finished/Clayton_Mary_Masterr.m4a"
+      },
+      {
+        "filename": "Doormat (M3) 2.wav",
+        "path": "assets/audio/finished/Doormat (M3) 2.wav"
+      },
+      {
+        "filename": "Sitcom (M2) 2.wav",
+        "path": "assets/audio/finished/Sitcom (M2) 2.wav"
+      }
+    ],
+    "tapes": [
+      {
+        "filename": ".DS_Store",
+        "path": "assets/audio/board-tapes/.DS_Store"
+      },
+      {
+        "filename": "HOLD.m4a",
+        "path": "assets/audio/board-tapes/HOLD.m4a"
+      },
+      {
+        "filename": "THE SPINS.m4a",
+        "path": "assets/audio/board-tapes/THE SPINS.m4a"
+      },
+      {
+        "filename": "WALKIN.m4a",
+        "path": "assets/audio/board-tapes/WALKIN.m4a"
+      }
+    ]
+  },
+  "videos": [],
+  "photos": [
+    {
+      "filename": ".DS_Store",
+      "path": "assets/img/.DS_Store"
+    },
+    {
+      "filename": "CARDS.JPG",
+      "path": "assets/img/artwork/CARDS.JPG"
+    },
+    {
+      "filename": "clayton-headshot.jpg",
+      "path": "assets/img/headshots/clayton-headshot.jpg"
+    },
+    {
+      "filename": "live-01.jpg",
+      "path": "assets/img/live/live-01.jpg"
+    },
+    {
+      "filename": "studio-01.JPG",
+      "path": "assets/img/studio/studio-01.JPG"
+    }
+  ]
+}
