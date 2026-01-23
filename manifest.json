@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-01-23T12:14:32.204Z",
+  "generatedAt": "2026-01-23T12:40:45.313Z",
   "images": {
     "live": [
       "assets/img/live/0714BA31-8814-483D-BFFE-FA3D341A034D 3.JPG",
@@ -47,10 +47,10 @@
     "finished": [
       "assets/audio/finished/Beverly.mp3",
       "assets/audio/finished/Cards.mp3",
-      "assets/audio/finished/Clayton_Mary_Masterr.m4a",
       "assets/audio/finished/Doormat.wav",
+      "assets/audio/finished/Mary.m4a",
       "assets/audio/finished/Shitty Song.mp3",
-      "assets/audio/finished/Sitcom (M2) 2.wav"
+      "assets/audio/finished/Sitcom.wav"
     ],
     "demos": [
       "assets/audio/demos/21.wav",
@@ -73,27 +73,8 @@
       "assets/audio/boardtapes/what if.m4a",
       "assets/audio/boardtapes/what the lovers do.m4a"
     ],
-    "day1-demos": [
-      "assets/audio/day1-demos/21.wav",
-      "assets/audio/day1-demos/Another Angle.mp3",
-      "assets/audio/day1-demos/BABE I KNOW U.m4a",
-      "assets/audio/day1-demos/CATCHIN FISH!m4a.m4a",
-      "assets/audio/day1-demos/DEVIL.m4a",
-      "assets/audio/day1-demos/DREAM.m4a",
-      "assets/audio/day1-demos/If it Lasts.wav",
-      "assets/audio/day1-demos/Lost you at hello.mp3",
-      "assets/audio/day1-demos/Nice Guy.mp3",
-      "assets/audio/day1-demos/tough shit !.mp3"
-    ],
-    "board-tapes": [
-      "assets/audio/board-tapes/Enough.m4a",
-      "assets/audio/board-tapes/HOLD.m4a",
-      "assets/audio/board-tapes/Right on the line.m4a",
-      "assets/audio/board-tapes/THE SPINS.m4a",
-      "assets/audio/board-tapes/WALKIN.m4a",
-      "assets/audio/board-tapes/what the lovers do.m4a",
-      "assets/audio/board-tapes/what-if.m4a"
-    ]
+    "day1-demos": [],
+    "board-tapes": []
   },
   "video": {
     "live": []
