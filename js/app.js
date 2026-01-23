@@ -1,166 +1,110 @@
-(function () {
-  const DATA = window.CLAYTON_DATA;
+// js/app.js
 
-  // Year
-  const y = document.getElementById("year");
-  if (y) y.textContent = new Date().getFullYear();
+// Utility to shuffle an array
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
 
-  // Smooth scroll chips
-  document.querySelectorAll("[data-scrollto]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const sel = btn.getAttribute("data-scrollto");
-      const el = document.querySelector(sel);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+// Build the hero gallery
+function renderHeroGallery(photos) {
+  const grid = document.getElementById('heroGrid');
+  if (!grid) return;
+  // Choose up to 8 photos
+  const selected = shuffle(photos).slice(0, 8);
+  selected.forEach((p) => {
+    const img = document.createElement('img');
+    img.src = p.path;
+    img.alt = p.filename;
+    grid.appendChild(img);
+  });
+}
+
+// Create a card for featured work
+function createFeaturedCard(title, note, filePath) {
+  const article = document.createElement('article');
+  article.className = 'card';
+
+  const h3 = document.createElement('h3');
+  h3.textContent = title;
+
+  const p = document.createElement('p');
+  p.textContent = note;
+
+  const audio = document.createElement('audio');
+  audio.controls = true;
+  audio.preload = 'metadata';
+  audio.src = filePath;
+
+  article.appendChild(h3);
+  article.appendChild(p);
+  article.appendChild(audio);
+
+  return article;
+}
+
+// Render the featured section
+function renderFeatured(manifest) {
+  const container = document.getElementById('featuredGrid');
+  if (!container) return;
+  // Choose first item from each lane
+  ['day1', 'finished', 'tapes'].forEach((lane) => {
+    const items = manifest.audio[lane];
+    if (items && items.length > 0) {
+      const item = items[0];
+      const title = `${lane.charAt(0).toUpperCase() + lane.slice(1)} — ${item.filename}`;
+      const note = `Featured from ${lane}`;
+      const card = createFeaturedCard(title, note, item.path);
+      container.appendChild(card);
+    }
+  });
+}
+
+// Render the archive list
+function renderArchive(manifest) {
+  const container = document.getElementById('archiveGrid');
+  if (!container) return;
+  let count = 1;
+  ['day1', 'finished', 'tapes'].forEach((lane) => {
+    manifest.audio[lane].forEach((item) => {
+      const div = document.createElement('div');
+      div.className = 'archive-item';
+      const num = document.createElement('span');
+      num.className = 'number';
+      num.textContent = String(count).padStart(2, '0');
+      const title = document.createElement('span');
+      title.textContent = `${lane} — ${item.filename}`;
+      div.appendChild(num);
+      div.appendChild(title);
+      // click to open audio in a new window
+      div.addEventListener('click', () => {
+        const audioWin = window.open('', '_blank', 'width=400,height=100');
+        audioWin.document.write(`<audio controls autoplay src="${item.path}"></audio>`);
+      });
+      container.appendChild(div);
+      count += 1;
     });
   });
+}
 
-  // Copy buttons
-  const copyTextBtn = document.getElementById("copyTextBtn");
-  const copyAllBtn = document.getElementById("copyAllBtn");
+// Populate the year in the footer
+document.addEventListener('DOMContentLoaded', () => {
+  const y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+});
 
-  async function copyToClipboard(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (e) {
-      // fallback
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        return true;
-      } catch (err) {
-        document.body.removeChild(ta);
-        return false;
-      }
+// Fetch the manifest and render sections
+fetch('manifest.json')
+  .then((res) => res.json())
+  .then((manifest) => {
+    // If there are photos, build a mosaic hero
+    if (manifest.photos && manifest.photos.length) {
+      renderHeroGallery(manifest.photos);
     }
-  }
-
-  if (copyTextBtn) {
-    copyTextBtn.addEventListener("click", async () => {
-      const ok = await copyToClipboard(DATA.contact.phoneCopy);
-      copyTextBtn.textContent = ok ? "Copied ✅" : "Copy failed";
-      setTimeout(() => (copyTextBtn.textContent = "Copy my number"), 1200);
-    });
-  }
-
-  if (copyAllBtn) {
-    copyAllBtn.addEventListener("click", async () => {
-      const blob = `Clayton Brown\nText: ${DATA.contact.phoneDisplay}\nEmail: ${DATA.contact.email}`;
-      const ok = await copyToClipboard(blob);
-      copyAllBtn.textContent = ok ? "Copied ✅" : "Copy failed";
-      setTimeout(() => (copyAllBtn.textContent = "Copy contact"), 1200);
-    });
-  }
-
-  // Tabs + Work rendering
-  const workGrid = document.getElementById("workGrid");
-  const tabs = document.querySelectorAll(".tab");
-
-  function trackCard(t) {
-    const wrap = document.createElement("article");
-    wrap.className = "track";
-
-    const img = document.createElement("img");
-    img.className = "track__art";
-    img.src = t.art;
-    img.alt = t.title;
-
-    const body = document.createElement("div");
-    body.className = "track__body";
-
-    const h = document.createElement("h3");
-    h.className = "track__title";
-    h.textContent = t.title;
-
-    const meta = document.createElement("p");
-    meta.className = "track__meta";
-    meta.textContent = t.meta;
-
-    const audio = document.createElement("audio");
-    audio.setAttribute("controls", "controls");
-    audio.setAttribute("preload", "metadata");
-
-    const source = document.createElement("source");
-    source.src = t.audio;
-    source.type = "audio/mpeg";
-
-    audio.appendChild(source);
-
-    body.appendChild(h);
-    body.appendChild(meta);
-    body.appendChild(audio);
-
-    wrap.appendChild(img);
-    wrap.appendChild(body);
-    return wrap;
-  }
-
-  function renderWork(key) {
-    if (!workGrid) return;
-    workGrid.innerHTML = "";
-    const list = DATA.work[key] || [];
-    list.forEach(t => workGrid.appendChild(trackCard(t)));
-  }
-
-  function setActiveTab(key) {
-    tabs.forEach(t => {
-      const is = t.dataset.tab === key;
-      t.classList.toggle("is-active", is);
-      t.setAttribute("aria-selected", is ? "true" : "false");
-    });
-    renderWork(key);
-  }
-
-  tabs.forEach(t => t.addEventListener("click", () => setActiveTab(t.dataset.tab)));
-  setActiveTab("day1");
-
-  // Gallery render + modal
-  const galleryGrid = document.getElementById("galleryGrid");
-  const modal = document.getElementById("modal");
-  const modalImg = document.getElementById("modalImg");
-  const modalClose = document.getElementById("modalClose");
-
-  function openModal(src, alt) {
-    if (!modal || !modalImg) return;
-    modalImg.src = src;
-    modalImg.alt = alt || "Preview";
-    modal.classList.remove("is-hidden");
-  }
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.add("is-hidden");
-    if (modalImg) modalImg.src = "";
-  }
-
-  if (galleryGrid) {
-    DATA.gallery.forEach((g) => {
-      const b = document.createElement("button");
-      b.className = "thumb";
-      b.type = "button";
-
-      const img = document.createElement("img");
-      img.src = g.src;
-      img.alt = g.alt;
-
-      b.appendChild(img);
-      b.addEventListener("click", () => openModal(g.src, g.alt));
-      galleryGrid.appendChild(b);
-    });
-  }
-
-  if (modalClose) modalClose.addEventListener("click", closeModal);
-  if (modal) modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-
-  // Resume PDF auto-link (won't break if missing)
-  const resumeLink = document.getElementById("resumeLink");
-  if (resumeLink) {
-    // Can't truly check file existence reliably without server-side,
-    // but we can show the link anyway; user can remove if not needed.
-    resumeLink.classList.remove("is-hidden");
-  }
-})();
+    // Render featured cards
+    renderFeatured(manifest);
+    // Render archive list
+    renderArchive(manifest);
+  })
+  .catch((err) => {
+    console.error('Error loading manifest:', err);
+  });

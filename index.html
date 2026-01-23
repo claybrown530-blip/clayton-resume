@@ -1,293 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Clayton Brown — Studio / Producer / Artist</title>
-  <meta name="description" content="Studio-ready producer, writer, mixer, and all-around operator based in Nashville. Sessions, production, live, and promo experience." />
-  <meta property="og:title" content="Clayton Brown — Studio / Producer / Artist" />
-  <meta property="og:description" content="A swiss-army creative: production, writing, mixing, live direction, and on-the-ground professionalism." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/img/headshots/clayton-headshot.jpg" />
-  <link rel="icon" href="assets/img/headshots/clayton-headshot.jpg" />
+  <meta charset="utf-8">
+  <title>Clayton Brown — Producer / Writer / Mixer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
-  <div class="grain" aria-hidden="true"></div>
-
-  <header class="topbar">
-    <a class="brand" href="#top" aria-label="Back to top">
-      <span class="brand__dot"></span>
-      <span class="brand__text">CLAYTON BROWN</span>
-    </a>
-
-    <nav class="nav">
+  <header class="site-header">
+    <a href="#top" class="logo">CLAYTON BROWN</a>
+    <nav class="site-nav">
       <a href="#work">Work</a>
-      <a href="#skills">Skills</a>
-      <a href="#live">Live</a>
-      <a href="#proof">Proof</a>
-      <a href="#contact" class="nav__cta">Hit me up</a>
+      <a href="#archive">Archive</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="cta">Contact</a>
     </nav>
   </header>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero__content">
-        <p class="kicker">Nashville, TN • Studio / Producer / Writer / Mixer • Available nights & weekends</p>
+  <!-- HERO GALLERY -->
+  <section id="top" class="hero-gallery">
+    <div class="gallery-grid" id="heroGrid">
+      <!-- JS will insert images here -->
+    </div>
+    <div class="hero-overlay">
+      <h1>Studio‑Ready. Taste‑Forward.</h1>
+      <p class="hero-sub">Producer, writer, mixer & collaborator — based in Nashville.</p>
+    </div>
+  </section>
 
-        <h1 class="headline">
-          Studio-ready creative with
-          <span class="headline__accent">taste</span>,
-          <span class="headline__accent">speed</span>, and
-          <span class="headline__accent">people skills</span>.
-        </h1>
+  <!-- WORK / FEATURED -->
+  <section id="work" class="section">
+    <h2>Featured Sessions</h2>
+    <div class="featured-grid" id="featuredGrid">
+      <!-- JS will insert featured cards here -->
+    </div>
+  </section>
 
-        <p class="subhead">
-          I wear a lot of hats — writer in the room, producer at the helm, mixer when it needs finishing,
-          and the person who keeps the energy clean and the session moving.
-        </p>
+  <!-- ARCHIVE -->
+  <section id="archive" class="section">
+    <h2>Archive</h2>
+    <p class="archive-note">Dig through demos, finished tracks, and tapes. Numbered for exploration.</p>
+    <div class="archive-grid" id="archiveGrid">
+      <!-- JS will insert archive entries here -->
+    </div>
+  </section>
 
-        <div class="hero__buttons">
-          <a class="btn btn--primary" href="#contact">Hit me up</a>
-          <button class="btn btn--ghost" id="copyTextBtn" type="button">Copy my number</button>
-          <a class="btn btn--ghost" href="#work">Listen to work</a>
-        </div>
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h2>About</h2>
+    <p>
+      I’m Clayton Brown — a Nashville‑based producer, writer, mixer, and all‑around studio operator.
+      I’ve been writing a song a day for over a year, producing for artists on Music Row, selling out shows as an independent artist,
+      and working arena tours as a production assistant. I make records that feel as good as they sound, move fast with limited tools,
+      and keep the energy right in every session.
+    </p>
+    <p>
+      Whether you need someone to lead a session, build a track from scratch, mix a project to radio‑ready, or support your live show,
+      I’m ready to go.
+    </p>
+  </section>
 
-        <div class="quickproof" role="list" aria-label="Highlights">
-          <div class="qp" role="listitem">
-            <div class="qp__big">Song-a-day</div>
-            <div class="qp__small">Built speed + instincts through repetition</div>
-          </div>
-          <div class="qp" role="listitem">
-            <div class="qp__big">Sold-out shows</div>
-            <div class="qp__small">Nashville + Atlanta (as artist & promoter)</div>
-          </div>
-          <div class="qp" role="listitem">
-            <div class="qp__big">Tour ops</div>
-            <div class="qp__small">Production Assistant on arena + amphitheater tours</div>
-          </div>
-          <div class="qp" role="listitem">
-            <div class="qp__big">Client brain</div>
-            <div class="qp__small">Top salesperson — Campesino Rum (relationships & follow-through)</div>
-          </div>
-        </div>
-      </div>
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
+    <h2>Contact</h2>
+    <p>Prefer text. Let’s talk sessions, production, or live ops.</p>
+    <a href="sms:+12563850539" class="btn primary">Text: 256‑385‑0539</a>
+    <a href="mailto:claybrown530@gmail.com" class="btn">Email: claybrown530@gmail.com</a>
+  </section>
 
-      <div class="hero__media">
-        <div class="portrait">
-          <img src="assets/img/headshots/clayton-headshot.jpg" alt="Clayton Brown headshot" />
-          <div class="portrait__label">
-            <span>Producer • Writer • Mixer</span>
-            <span class="dot">•</span>
-            <span>Music Row ready</span>
-          </div>
-        </div>
+  <footer class="site-footer">
+    © <span id="year"></span> Clayton Brown. Built for Music Row.
+  </footer>
 
-        <div class="mediaRow">
-          <button class="chip" data-scrollto="#work" type="button">▶ Featured listening</button>
-          <button class="chip" data-scrollto="#skills" type="button">⚙ Studio skills</button>
-          <button class="chip" data-scrollto="#live" type="button">⚡ Live / tours</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- WORK -->
-    <section class="section" id="work">
-      <div class="section__head">
-        <h2>Work</h2>
-        <p>
-          Local audio, hosted right here. Three lanes: raw demos, finished work, and board tapes.
-          Swap in your files by keeping the names listed in <span class="mono">js/data.js</span>.
-        </p>
-      </div>
-
-      <div class="workTabs" role="tablist" aria-label="Work categories">
-        <button class="tab is-active" role="tab" aria-selected="true" data-tab="day1">Day 1 demos</button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="finished">Fully finished</button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="tapes">Songwriting board tapes</button>
-      </div>
-
-      <div id="workGrid" class="workGrid" aria-live="polite"></div>
-
-      <div class="note">
-        <strong>Tip:</strong> MP3s are safest for browsers. Keep file sizes reasonable (under ~20–30MB each if possible).
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section" id="skills">
-      <div class="section__head">
-        <h2>Studio skills</h2>
-        <p>Logic-native. Taste-forward. Fast learner. I make it sound expensive with whatever we’ve got.</p>
-      </div>
-
-      <div class="cards">
-        <article class="card">
-          <h3>Core strengths</h3>
-          <ul class="bullets">
-            <li><strong>Production / arrangement:</strong> 9/10 — build the record, not just the loop</li>
-            <li><strong>Mixing:</strong> 8.5/10 — clarity + vibe + impact</li>
-            <li><strong>Vocal production:</strong> 8.6/10 — confident comps, tone, character</li>
-            <li><strong>Tracking:</strong> 8.2/10 — clean capture, quick decisions</li>
-            <li><strong>Editing:</strong> 7.6/10 — comping/timing/tuning with musical intent</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Tools I live in</h3>
-          <div class="pillRow">
-            <span class="pill">Logic Pro</span>
-            <span class="pill">FabFilter (full suite)</span>
-            <span class="pill">Soundtoys (MicroShift / Decapitator / Radiator / AlterBoy / Crystallizer / PanMan / EchoBoy)</span>
-            <span class="pill">Waves (full suite)</span>
-            <span class="pill">Amplitube 5</span>
-          </div>
-          <p class="muted">
-            I came up working with limited gear — which taught me how to solve problems creatively, move fast, and learn systems quickly.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>How I show up in sessions</h3>
-          <ul class="bullets">
-            <li>Writer brain + producer brain (especially for collabs)</li>
-            <li>Good hang — keeps the room light, focused, and productive</li>
-            <li>Clear communicator: next steps, takes, fixes, decisions</li>
-            <li>Protects the artist’s confidence while pushing the record forward</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <!-- LIVE / TOURS -->
-    <section class="section" id="live">
-      <div class="section__head">
-        <h2>Live + tours</h2>
-        <p>Artist-led shows, bandleading, musical direction, and real touring operations experience.</p>
-      </div>
-
-      <div class="twoCol">
-        <div class="card">
-          <h3>Live highlights</h3>
-          <ul class="bullets">
-            <li>Opened for <strong>Judah & the Lion</strong> — Mars Music Hall (Huntsville, AL) — <strong>sold out</strong> (Mar 25, 2023)</li>
-            <li><strong>Sold out</strong> The East Room (Nashville)</li>
-            <li>Played Marathon Music Works (Nashville) — <strong>sold out</strong></li>
-            <li><strong>Sold out</strong> Eddie’s Attic (Atlanta)</li>
-            <li>Dive Motel (Nashville) — <strong>sold out</strong> (self-promoted)</li>
-            <li>Backyard Halloween show — <strong>400+</strong> attendees (self-promoted)</li>
-            <li>Kenny Rogers’ former estate — <strong>sold out</strong> at <strong>227 cap</strong> (self-promoted)</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Tour / ops</h3>
-          <ul class="bullets">
-            <li><strong>Production Assistant</strong> — MercyMe (arena tour)</li>
-            <li><strong>Production Assistant</strong> — Dude Perfect (arena tour) (yes, also “the Panda”)</li>
-            <li><strong>Production Assistant</strong> — Kari Jobe / Bethel Music / Chris Tomlin (amphitheater tour)</li>
-            <li><strong>Festival staff</strong> — Rock the South (2018–2023)</li>
-            <li>Artist hospitality, day-to-day problem solving, schedules, load-in/out support</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROOF / BUSINESS -->
-    <section class="section" id="proof">
-      <div class="section__head">
-        <h2>Proof I can run it</h2>
-        <p>Studios hire people they can trust around artists, money, time, and pressure. That’s my lane.</p>
-      </div>
-
-      <div class="cards">
-        <article class="card">
-          <h3>Promotion + sponsorships</h3>
-          <ul class="bullets">
-            <li>Secured <strong>$2,000</strong> lead sponsorship + <strong>200 joints</strong> for a sold-out event (in exchange for prime banner placement)</li>
-            <li>Partnered with brands for giveaways (including Tito’s and Campesino Rum)</li>
-            <li>Experience running promo: planning, content, relationships, deliverables</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Client / relationship work</h3>
-          <ul class="bullets">
-            <li><strong>Top salesperson</strong> — Campesino Rum (Nashville market)</li>
-            <li>Cold outreach, relationship building, follow-up systems, tastings + events</li>
-            <li>Comfortable with high standards and high-touch client service</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>What you get with me</h3>
-          <ul class="bullets">
-            <li>Swiss-army operator: creative + technical + people</li>
-            <li>Fast learner in new rooms / new gear / new workflows</li>
-            <li>Punctual, prepared, and calm under pressure</li>
-            <li>Funny, respectful, and easy to be around</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="gallery">
-        <div class="gallery__head">
-          <h3>Photos</h3>
-          <p class="muted">Swap in your own. Click to enlarge.</p>
-        </div>
-        <div class="gallery__grid" id="galleryGrid"></div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section section--contact" id="contact">
-      <div class="contactCard">
-        <h2>Hit me up</h2>
-        <p class="contactSub">
-          Prefer text. Always down to talk sessions, assisting, running the room, or whatever needs doing.
-        </p>
-
-        <div class="contactRow">
-          <a class="btn btn--primary" href="sms:+12563850539">Text: 256-385-0539</a>
-          <a class="btn btn--ghost" href="mailto:claybrown530@gmail.com">Email: claybrown530@gmail.com</a>
-          <button class="btn btn--ghost" id="copyAllBtn" type="button">Copy contact</button>
-        </div>
-
-        <div class="contactMeta">
-          <span class="tag">Nashville, TN</span>
-          <span class="tag">Logic Pro</span>
-          <span class="tag">Producer / Writer / Mixer</span>
-          <span class="tag">Late nights + weekends OK</span>
-        </div>
-
-        <div class="tiny">
-          <span class="mono">Note:</span> If you want a PDF resume link, drop it at
-          <span class="mono">assets/docs/Clayton-Brown-Resume.pdf</span> and it will appear automatically.
-          <a id="resumeLink" class="inlineLink is-hidden" href="assets/docs/Clayton-Brown-Resume.pdf" target="_blank" rel="noopener">Open resume PDF</a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>© <span id="year"></span> Clayton Brown</span>
-      <span class="muted">Built for Music Row — clean, fast, and shareable.</span>
-    </footer>
-  </main>
-
-  <!-- Modal -->
-  <div class="modal is-hidden" id="modal" role="dialog" aria-modal="true" aria-label="Image preview">
-    <button class="modal__close" id="modalClose" aria-label="Close">×</button>
-    <img id="modalImg" alt="Preview" />
-  </div>
-
-  <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
