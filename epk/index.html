@@ -15,142 +15,189 @@
 <body>
   <div class="grain" aria-hidden="true"></div>
 
-  <header class="top">
-    <a class="brand" href="#top" aria-label="CLAYTON EPK home">
-      <div class="brand__title">CLAYTON</div>
-      <div class="brand__sub">still breathin • indie/alt rock songwriter + producer</div>
-    </a>
+  <!-- HERO ARTWORK (full screen) -->
+  <section class="hero" id="top">
+    <img class="hero__img" src="/assets/img/artwork/if-all-isnt-lost-where-is-it.png" alt="IF ALL ISN'T LOST, WHERE IS IT? — CLAYTON" loading="eager" />
 
-    <nav class="nav" aria-label="EPK navigation">
-      <a href="#listen">Listen</a>
-      <a href="#shows">Shows</a>
-      <a href="#sponsors">Sponsors</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <main class="wrap" id="top">
-
-    <!-- HERO / LISTEN -->
-    <section class="hero" id="listen">
-      <div class="hero__left">
-        <h1>EPK</h1>
-        <p class="lede">
-          Nashville-based. Artist + writer + producer. Good in rooms. Built to make great records and deliver a show.
-        </p>
-
-        <div class="hero__cta">
-          <button id="playBtn" class="play" type="button">
-            <span class="play__icon">▶</span>
-            <span class="play__text">Play “Babe I Know You”</span>
-          </button>
-
-          <a class="ghost" href="/#dossier">Full archive</a>
+    <div class="hero__overlay">
+      <header class="heroTop">
+        <div class="brand">
+          <div class="brand__title">CLAYTON</div>
+          <div class="brand__sub">still breathin • indie/alt rock songwriter + producer</div>
         </div>
 
-        <div class="mini">
-          <div class="mini__k">Social</div>
-          <div class="mini__v">@theclaytoon (all platforms)</div>
-        </div>
+        <nav class="nav">
+          <a href="#shows">Shows</a>
+          <a href="#music">Music</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
 
-        <div class="mini">
-          <div class="mini__k">Contact</div>
-          <div class="mini__v">
-            <a href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
-            <span class="dot">•</span>
-            <a href="tel:+12563850539">256-385-0539</a>
-          </div>
-        </div>
+      <div class="hero__bottom">
+        <button class="scrollCue" type="button" data-scroll="#shows" aria-label="Scroll to Show History">
+          <span class="scrollCue__k">EPK</span>
+          <span class="scrollCue__t">scroll</span>
+          <span class="scrollCue__arrow">↓</span>
+        </button>
       </div>
+    </div>
+  </section>
 
-      <div class="hero__right">
-        <div class="card art">
-          <div class="card__top">VISUALS</div>
-          <div class="frame"><img id="photo" alt="CLAYTON photo" loading="lazy" /></div>
-          <div class="card__foot">rotates while audio plays</div>
-        </div>
+  <main class="wrap">
 
-        <div class="card now">
-          <div class="card__top">NOW PLAYING</div>
-          <div id="nowTitle" class="now__title">Babe I Know You</div>
-          <div class="bar">
-            <input id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
-            <div class="time"><span id="tCur">0:00</span><span class="sep">/</span><span id="tDur">0:00</span></div>
-          </div>
-          <div class="row">
-            <button id="nextBtn" class="ghost" type="button">Next</button>
-            <div class="muted">Space = play/pause</div>
-          </div>
-          <audio id="audio" preload="metadata"></audio>
-        </div>
-      </div>
-    </section>
-
-    <!-- SHOW HISTORY -->
-    <section id="shows" class="section">
+    <!-- SHOW HISTORY w/ LIVE PHOTO WALL -->
+    <section class="section" id="shows">
       <div class="sectionHead">
         <h2>Show History</h2>
-        <div class="muted">tickets sold / attendance • sold-out badge where applicable</div>
+        <div class="muted">straight proof • sold-out badge where applicable</div>
       </div>
 
-      <div class="card">
-        <div class="table" id="showTable"></div>
-      </div>
-    </section>
+      <div class="showWall">
+        <!-- left photo column -->
+        <div class="photoCol" id="liveLeft" aria-hidden="true"></div>
 
-    <!-- SPONSORS -->
-    <section id="sponsors" class="section">
-      <div class="sectionHead">
-        <h2>Past Sponsors</h2>
-      </div>
+        <!-- center content -->
+        <div class="centerStack">
+          <div class="card pad">
+            <div class="card__top">LIVE</div>
+            <div class="table" id="showTable"></div>
+          </div>
 
-      <div class="card pad">
-        <div class="sponsorRow">
-          <span class="sponsor">Campesino Rum</span>
-          <span class="sponsor">Tito’s</span>
-          <span class="sponsor">Clara Jane</span>
-          <span class="sponsor">Gibson</span>
+          <div class="card pad">
+            <div class="card__top">THE CLAYTOON NETWORK</div>
+            <div class="fanNums">
+              <div class="fanNum">
+                <div class="fanNum__k">Email list</div>
+                <div class="fanNum__v">2,791</div>
+              </div>
+              <div class="fanNum">
+                <div class="fanNum__k">Phone list</div>
+                <div class="fanNum__v">1,484</div>
+              </div>
+              <div class="fanNum fanNum--note">
+                <div class="fanNum__k">What that means</div>
+                <div class="fanNum__v fanNum__v--small">real fans • direct outreach • fast ticket movement</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card pad">
+            <div class="card__top">PAST SPONSORS</div>
+            <div class="sponsorRow">
+              <span class="sponsor">Campesino</span>
+              <span class="sponsor">Tito’s</span>
+              <span class="sponsor">Clara Jane</span>
+              <span class="sponsor">Gibson</span>
+            </div>
+          </div>
         </div>
+
+        <!-- right photo column -->
+        <div class="photoCol" id="liveRight" aria-hidden="true"></div>
       </div>
     </section>
 
-    <!-- HOW I CAN HELP (quiet, end) -->
-    <section class="section" id="help">
+    <!-- MUSIC -->
+    <section class="section" id="music">
       <div class="sectionHead">
-        <h2>How I can help</h2>
+        <h2>Previously released</h2>
+        <div class="muted">SHITTY EP • play the record</div>
       </div>
 
-      <div class="card pad">
-        <ul class="clean">
-          <li>On short notice: content + promo + local outreach + street-level ticket push</li>
-          <li>In rooms: protect the energy, move fast, keep sessions focused</li>
-          <li>On the road: punctual, adaptable, zero ego, problem-solver</li>
-        </ul>
+      <div class="musicGrid">
+        <div class="card pad epCard">
+          <div class="epCard__top">
+            <div class="epTitle">SHITTY EP</div>
+            <div class="epSub muted">Doormat • Cards • Sitcom • Nice Guy • Mary • Shitty Song</div>
+          </div>
+
+          <div class="epStats">
+            <!-- placeholders: update anytime -->
+            <div class="stat">
+              <div class="stat__k">Streams</div>
+              <div class="stat__v" id="streamsTotal">—</div>
+            </div>
+            <div class="stat">
+              <div class="stat__k">Listeners</div>
+              <div class="stat__v" id="listenersTotal">—</div>
+            </div>
+            <div class="stat">
+              <div class="stat__k">Best track</div>
+              <div class="stat__v" id="bestTrack">—</div>
+            </div>
+          </div>
+
+          <div class="player">
+            <button id="playBtn" class="play" type="button">
+              <span class="play__icon">▶</span>
+              <span class="play__text">Play EP</span>
+            </button>
+
+            <div class="now">
+              <div class="now__k">Now playing</div>
+              <div id="nowTitle" class="now__t">—</div>
+            </div>
+
+            <div class="bar">
+              <input id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
+              <div class="time"><span id="tCur">0:00</span><span class="sep">/</span><span id="tDur">0:00</span></div>
+            </div>
+
+            <div class="row">
+              <button id="nextBtn" class="ghost" type="button">Next</button>
+              <div class="muted">Space = play/pause</div>
+            </div>
+
+            <audio id="audio" preload="metadata"></audio>
+          </div>
+
+          <div class="trackList" id="epTrackList" aria-live="polite"></div>
+        </div>
+
+        <div class="card pad actions">
+          <div class="card__top">EXTRAS</div>
+
+          <button class="ghost full" id="watchBtn" type="button">
+            Watch a vid
+          </button>
+
+          <button class="ghost full wink" id="pjBtn" type="button" aria-expanded="false">
+            Pretty Jane click me ;)
+          </button>
+
+          <div id="pjPanel" class="pjPanel" hidden>
+            <div class="pjPanel__k">gift (optional)</div>
+            <div class="pjPanel__t">My plan to put asses in seats</div>
+            <p class="pjPanel__p">
+              This is my system + my relationships in each city. It’s a lever you only get if I’m on the bill.
+              When it’s populated, it becomes a city-by-city contact map: influencers, tastemakers, curators, appearances, sponsors.
+            </p>
+            <div class="pjPanel__foot muted">We’ll paste the researched lists here when ready.</div>
+          </div>
+
+          <div class="muted tiny">
+            (Videos last — we’ll drop them in once you pick the best 2.)
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="section">
+    <section class="section" id="contact">
       <div class="sectionHead">
         <h2>Contact</h2>
+        <div class="muted">@theclaytoon (all platforms)</div>
       </div>
 
       <div class="card">
         <div class="contactRow">
-          <div class="muted">Social</div>
-          <div>@theclaytoon (all platforms)</div>
-        </div>
-
-        <div class="contactRow">
           <div class="muted">Artist Email</div>
           <a href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
         </div>
-
         <div class="contactRow">
           <div class="muted">Text</div>
           <a href="tel:+12563850539">256-385-0539</a>
         </div>
-
         <div class="contactRow">
           <div class="muted">Manager</div>
           <div>
@@ -158,18 +205,17 @@
             <a href="mailto:cjbrownmanagement@gmail.com">cjbrownmanagement@gmail.com</a>
           </div>
         </div>
-
         <div class="contactRow">
           <div class="muted">Archive</div>
           <a href="/#dossier">Full dossier / archive</a>
         </div>
       </div>
-    </section>
 
-    <footer class="footer">
-      <span>© <span id="year"></span> CLAYTON</span>
-      <span class="muted">still breathin</span>
-    </footer>
+      <footer class="footer">
+        <span>© <span id="year"></span> CLAYTON</span>
+        <span class="muted">still breathin</span>
+      </footer>
+    </section>
 
   </main>
 

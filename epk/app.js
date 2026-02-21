@@ -1,5 +1,115 @@
 const $ = (s) => document.querySelector(s);
 
+const yearEl = $("#year");
+yearEl.textContent = new Date().getFullYear();
+
+// Smooth scroll cue
+document.querySelectorAll("[data-scroll]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const target = btn.getAttribute("data-scroll");
+    const el = document.querySelector(target);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
+// Pretty Jane panel toggle
+const pjBtn = $("#pjBtn");
+const pjPanel = $("#pjPanel");
+pjBtn?.addEventListener("click", () => {
+  const isHidden = pjPanel.hasAttribute("hidden");
+  if (isHidden) pjPanel.removeAttribute("hidden");
+  else pjPanel.setAttribute("hidden", "");
+  pjBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+});
+
+// Watch button placeholder (we’ll wire to videos section later)
+const watchBtn = $("#watchBtn");
+watchBtn?.addEventListener("click", () => {
+  alert("Videos coming next — pick your best 2 and we’ll drop them in.");
+});
+
+/* ---------- SHOW HISTORY ---------- */
+const showTable = $("#showTable");
+
+const SHOWS = [
+  { venue: "Mars Music Hall (Huntsville, AL) — opener for Judah & the Lion", nums: "827 / 1575", soldOut: true },
+  { venue: "Strawberry Fest (Cullman, AL)", nums: "260 tickets sold", soldOut: false },
+
+  { venue: "Dive Motel (Nashville) — opener", nums: "SOLD OUT (cap 110)", soldOut: true },
+  { venue: "The East Room (Nashville)", nums: "SOLD OUT (cap 300)", soldOut: true },
+  { venue: "Marathon Music Works (Nashville)", nums: "SOLD OUT", soldOut: true },
+
+  { venue: "Eddie’s Attic (Atlanta) — headliner", nums: "SOLD OUT (cap 165)", soldOut: true },
+
+  { venue: "CLAYTON Halloween Backyard Show (Nashville)", nums: "541 attended", soldOut: true },
+  { venue: "Copperline Ranch (Kenny Rogers Estate) — self-thrown", nums: "227 / 227 • $25", soldOut: true },
+];
+
+function renderShows(){
+  showTable.innerHTML = SHOWS.map(s => {
+    const badge = s.soldOut
+      ? `<span class="badge">SOLD OUT</span>`
+      : `<span class="badge off">—</span>`;
+    return `
+      <div class="srow">
+        <div class="svenue">${s.venue}</div>
+        <div class="snums">${s.nums}</div>
+        ${badge}
+      </div>
+    `;
+  }).join("");
+}
+
+renderShows();
+
+/* ---------- LIVE PHOTO WALL (from manifest.json) ---------- */
+const liveLeft = $("#liveLeft");
+const liveRight = $("#liveRight");
+
+function safeUrl(p){ return encodeURI(p); }
+
+async function loadManifest(){
+  const res = await fetch("/manifest.json", { cache: "no-store" });
+  return res.json();
+}
+
+function shuffle(arr){
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function renderPhotoCol(el, paths, count = 4){
+  if (!el) return;
+  el.innerHTML = "";
+  const picks = shuffle(paths).slice(0, count);
+  picks.forEach(p => {
+    const wrap = document.createElement("div");
+    wrap.className = "pimg";
+    const img = document.createElement("img");
+    img.loading = "lazy";
+    img.alt = "Live photo";
+    img.src = safeUrl(p);
+    wrap.appendChild(img);
+    el.appendChild(wrap);
+  });
+}
+
+(async function initPhotos(){
+  try{
+    const manifest = await loadManifest();
+    const imgs = manifest.images || {};
+    const live = (imgs.live || []).filter(Boolean);
+
+    // If there are not enough live images, fallback to any images
+    const pool = live.length >= 6 ? live : Object.values(imgs).flat();
+
+    renderPhotoCol(liveLeft, pool, 4);
+    renderPhotoCol(liveRight, pool, 4);
+  }catch(e){
+    console.warn("manifest.json failed for photos", e);
+  }
+})();
+
+/* ---------- SHITTY EP PLAYER (pulls from manifest audio) ---------- */
 const audio = $("#audio");
 const playBtn = $("#playBtn");
 const nowTitle = $("#nowTitle");
@@ -7,22 +117,14 @@ const seek = $("#seek");
 const tCur = $("#tCur");
 const tDur = $("#tDur");
 const nextBtn = $("#nextBtn");
-const yearEl = $("#year");
-const photo = $("#photo");
-const showTable = $("#showTable");
+const epTrackList = $("#epTrackList");
 
-yearEl.textContent = new Date().getFullYear();
-
-let manifest = null;
-let imagePool = [];
 let tracks = [];
 let idx = -1;
-let timer = null;
 
 const AUDIO_EXT = [".mp3",".m4a",".wav",".aiff",".flac",".aac",".ogg"];
-const PIN = "babe i know you";
+const EP_TITLES = ["doormat","cards","sitcom","nice guy","mary","shitty song"];
 
-function safeUrl(p){ return encodeURI(p); }
 function isAudio(p){
   const l = String(p||"").toLowerCase();
   return AUDIO_EXT.some(ext => l.endsWith(ext));
@@ -39,137 +141,112 @@ function fmt(sec){
   return `${m}:${String(s).padStart(2,"0")}`;
 }
 
-function pickPhoto(){
-  if (!imagePool.length) return;
-  const src = safeUrl(imagePool[Math.floor(Math.random()*imagePool.length)]);
-  photo.classList.remove("ready");
-  photo.onload = () => photo.classList.add("ready");
-  photo.onerror = () => setTimeout(pickPhoto, 50);
-  photo.src = src;
-}
-function startPics(){
-  stopPics();
-  timer = setInterval(pickPhoto, 18000);
-}
-function stopPics(){
-  if (timer) clearInterval(timer);
-  timer = null;
+function setNow(i){
+  if (!tracks[i]) return;
+  nowTitle.textContent = tracks[i].title;
+  document.querySelectorAll(".track").forEach((el, n) => {
+    el.classList.toggle("is-active", n === i);
+    const r = el.querySelector(".track__r");
+    if (r) r.textContent = (n === i) ? "PLAYING" : "";
+  });
 }
 
 function playAt(i){
   if (!tracks.length) return;
   idx = i;
-  const tr = tracks[idx];
-  audio.src = safeUrl(tr.path);
-  nowTitle.textContent = tr.title;
+  audio.src = safeUrl(tracks[idx].path);
   audio.play().catch(()=>{});
-  pickPhoto();
+  setNow(idx);
 }
+
 function next(){
   if (!tracks.length) return;
-  playAt((idx+1) % tracks.length);
+  playAt((idx + 1) % tracks.length);
 }
+
 function toggle(){
-  if (!audio.src){ playAt(0); return; }
+  if (!audio.src){
+    playAt(0);
+    return;
+  }
   if (audio.paused) audio.play().catch(()=>{});
   else audio.pause();
 }
 
-/* SHOW HISTORY
-   - “sold” is tickets sold or attendance
-   - “cap” is capacity when known
-   - soldOut true adds badge
-*/
-const SHOWS = [
-  { venue: "Mars Music Hall (Huntsville, AL) — opener for Judah & the Lion", sold: 827, cap: 1575, soldOut: true },
-  { venue: "Strawberry Fest (Cullman, AL)", sold: 260, cap: null, soldOut: false },
-  { venue: "Dive Motel (Nashville) — opener", sold: 93, cap: 110, soldOut: true },
-  { venue: "Eddie’s Attic (Atlanta) — headliner", sold: 83, cap: 165, soldOut: true }, // per your words; change if needed
-  { venue: "The East Room (Nashville)", sold: 76, cap: 300, soldOut: false },          // number from doc; if sold out headliner later, we’ll add it
-  { venue: "Backyard Halloween show (Nashville)", sold: 400, cap: null, soldOut: true, label: "attendance" },
-  { venue: "Kenny Rogers former estate show (Nashville)", sold: 227, cap: 227, soldOut: true },
-  { venue: "Marathon Music Works (Nashville)", sold: null, cap: null, soldOut: true },  // add numbers when you have them
-];
-
-function renderShows(){
-  showTable.innerHTML = SHOWS.map(s => {
-    const isAttendance = s.label === "attendance";
-    const left = s.venue;
-
-    let nums = "—";
-    if (s.sold != null && s.cap != null) nums = `${s.sold}/${s.cap}`;
-    else if (s.sold != null && s.cap == null) nums = isAttendance ? `${s.sold}+ attendance` : `${s.sold} tickets`;
-    else if (s.sold == null && s.cap == null) nums = s.soldOut ? `sold out` : `—`;
-
-    const badge = s.soldOut ? `<span class="badge">SOLD OUT</span>` : `<span class="badge off">—</span>`;
-
-    return `
-      <div class="srow">
-        <div class="svenue">${left}</div>
-        <div class="snums">${nums}</div>
-        ${badge}
-      </div>
-    `;
-  }).join("");
-}
-
-async function init(){
-  renderShows();
-  pickPhoto();
-
-  // load main manifest (site root)
-  const res = await fetch("/manifest.json", { cache: "no-store" });
-  manifest = await res.json();
-
-  // images
-  const imgs = manifest.images || {};
-  imagePool = Object.values(imgs).flat();
-
-  // finished tracks only (clean EPK)
-  const aud = manifest.audio || {};
-  const finished = []
-    .concat(aud.finished || [])
-    .concat(aud["finished-tracks"] || [])
-    .filter(isAudio)
-    .map(p => ({ path:p, title:titleFromPath(p) }));
-
-  finished.sort((a,b)=>{
-    const A = a.title.toLowerCase();
-    const B = b.title.toLowerCase();
-    const aPin = A.includes(PIN) ? 0 : 1;
-    const bPin = B.includes(PIN) ? 0 : 1;
-    if (aPin !== bPin) return aPin - bPin;
-    return A.localeCompare(B);
+function renderTrackList(){
+  epTrackList.innerHTML = "";
+  tracks.forEach((tr, i) => {
+    const row = document.createElement("button");
+    row.type = "button";
+    row.className = "track";
+    row.innerHTML = `<div class="track__t">${tr.title}</div><div class="track__r"></div>`;
+    row.addEventListener("click", () => playAt(i));
+    epTrackList.appendChild(row);
   });
-
-  tracks = finished;
-  idx = -1;
   if (tracks[0]) nowTitle.textContent = tracks[0].title;
-
-  playBtn.addEventListener("click", toggle);
-  nextBtn.addEventListener("click", next);
-
-  window.addEventListener("keydown", (e)=>{
-    if (e.code === "Space"){ e.preventDefault(); toggle(); }
-    if (e.code === "ArrowRight"){ next(); }
-  });
-
-  audio.addEventListener("loadedmetadata", ()=>{ tDur.textContent = fmt(audio.duration); });
-  audio.addEventListener("timeupdate", ()=>{
-    tCur.textContent = fmt(audio.currentTime);
-    if (audio.duration) seek.value = String((audio.currentTime/audio.duration)*100);
-  });
-  seek.addEventListener("input", ()=>{
-    if (!audio.duration) return;
-    audio.currentTime = (Number(seek.value)/100) * audio.duration;
-  });
-
-  audio.addEventListener("play", ()=> startPics());
-  audio.addEventListener("pause", ()=> stopPics());
-  audio.addEventListener("ended", ()=>{ stopPics(); next(); });
 }
 
-init().catch(err=>{
-  console.error(err);
-  nowTitle.textContent = "Audio failed to load (check manifest/paths)";
+async function initEP(){
+  try{
+    const manifest = await loadManifest();
+    const aud = manifest.audio || {};
+    const pool = []
+      .concat(aud.finished || [])
+      .concat(aud["finished-tracks"] || [])
+      .concat(aud.demos || [])
+      .concat(aud["day1-demos"] || [])
+      .concat(aud["day-1-demos"] || []);
+
+    const candidates = pool
+      .filter(isAudio)
+      .map(p => ({ path: p, title: titleFromPath(p) }));
+
+    // match the EP titles regardless of exact filename
+    const matches = candidates.filter(t => EP_TITLES.includes(t.title.toLowerCase()));
+
+    // keep EP order
+    tracks = EP_TITLES
+      .map(name => matches.find(m => m.title.toLowerCase() === name))
+      .filter(Boolean);
+
+    renderTrackList();
+  }catch(e){
+    console.warn("EP init failed", e);
+    nowTitle.textContent = "EP audio not found (check filenames/manifest)";
+  }
+}
+
+initEP();
+
+// wire player UI
+playBtn?.addEventListener("click", toggle);
+nextBtn?.addEventListener("click", next);
+
+window.addEventListener("keydown", (e)=>{
+  const tag = (e.target && e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "textarea") return;
+
+  if (e.code === "Space"){
+    e.preventDefault();
+    toggle();
+  }
+  if (e.code === "ArrowRight"){
+    next();
+  }
 });
+
+audio?.addEventListener("loadedmetadata", ()=>{ tDur.textContent = fmt(audio.duration); });
+audio?.addEventListener("timeupdate", ()=>{
+  tCur.textContent = fmt(audio.currentTime);
+  if (audio.duration) seek.value = String((audio.currentTime/audio.duration)*100);
+});
+seek?.addEventListener("input", ()=>{
+  if (!audio.duration) return;
+  audio.currentTime = (Number(seek.value)/100) * audio.duration;
+});
+audio?.addEventListener("ended", next);
+
+// streaming numbers placeholders (you’ll give me real values later)
+$("#streamsTotal").textContent = "—";
+$("#listenersTotal").textContent = "—";
+$("#bestTrack").textContent = "—";
