@@ -135,6 +135,7 @@ h1{
   cursor:pointer;
 }
 .ghost:hover{background: rgba(255,255,255,.06)}
+.wink{border-color: rgba(224,162,74,.25)}
 
 .bullets{
   margin-top:18px;
@@ -177,6 +178,8 @@ h2{
   border-radius: var(--radius);
   overflow:hidden;
 }
+
+.pad{padding:14px 14px}
 
 .card__top{
   padding:14px 16px;
@@ -244,7 +247,6 @@ h2{
   grid-template-columns: repeat(3, 1fr);
   gap:12px;
 }
-.grid3 .card{padding:14px 14px}
 .grid3 ul{margin:0; padding-left:18px; line-height:1.7}
 .grid3 b{color:var(--accent)}
 
@@ -281,6 +283,63 @@ h2{
   font-size:12px;
 }
 
+/* Pretty Jane gift panel */
+.pjPanel{
+  margin-top:16px;
+  border:1px solid rgba(224,162,74,.22);
+  background: rgba(0,0,0,.22);
+  border-radius: 16px;
+  padding: 14px 14px;
+}
+.pjPanel__top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-end;
+}
+.pjPanel__k{
+  color: var(--muted);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:11px;
+}
+.pjPanel__t{
+  font-family: var(--head);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-size:18px;
+}
+.pjPanel__p{
+  margin: 10px 0 0;
+  color: rgba(251,247,239,.82);
+  line-height: 1.6;
+}
+.pjGrid{
+  margin-top: 12px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+.pjCard{
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.16);
+  border-radius: 14px;
+  padding: 12px 12px;
+}
+.pjCard__k{
+  color: var(--muted);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:11px;
+  margin-bottom: 8px;
+}
+.pjCard ul{margin:0; padding-left:18px; line-height:1.7}
+.pjPanel__foot{
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 /* MOBILE */
 @media (max-width: 900px){
   .hero{grid-template-columns:1fr}
@@ -289,4 +348,5 @@ h2{
   .top{flex-direction:column; align-items:flex-start}
   .nav{width:100%; overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch}
   .nav::-webkit-scrollbar{display:none}
+  .pjGrid{grid-template-columns:1fr}
 }

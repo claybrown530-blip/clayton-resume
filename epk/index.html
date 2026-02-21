@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>CLAYTON — Tour Support / Opener Pitch (Pretty Jane)</title>
+  <title>CLAYTON — EPK</title>
   <meta name="theme-color" content="#0a0a09" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,32 +16,38 @@
   <div class="grain" aria-hidden="true"></div>
 
   <header class="top">
-    <div class="brand">
+    <a class="brand" href="#top">
       <div class="brand__title">CLAYTON</div>
       <div class="brand__sub">still breathin • indie/alt rock songwriter + producer</div>
-    </div>
+    </a>
 
-    <nav class="nav">
-      <a href="#pitch">Pitch</a>
+    <nav class="nav" aria-label="EPK navigation">
+      <a href="#listen">Listen</a>
       <a href="#proof">Proof</a>
       <a href="#tour">Tour</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <main class="wrap">
-    <section class="hero" id="pitch">
+  <main class="wrap" id="top">
+
+    <!-- HERO / LISTEN -->
+    <section class="hero" id="listen">
       <div class="hero__left">
-        <h1>Opener who sells tickets.</h1>
+        <h1>Listen while you read.</h1>
+
         <p class="lede">
-          I haven’t toured the west yet — but I will outwork anybody to move tickets, build buzz,
-          and make the room feel like something people talk about after.
+          Nashville-based. Writer brain + producer brain. I care about the room, the process, and making great records.
         </p>
 
         <div class="hero__cta">
           <button id="playBtn" class="play" type="button">
             <span class="play__icon">▶</span>
             <span class="play__text">Play “Babe I Know You”</span>
+          </button>
+
+          <button id="pjBtn" class="ghost wink" type="button" aria-expanded="false">
+            Pretty Jane click here ;)
           </button>
 
           <a class="ghost" href="/#dossier">Full archive</a>
@@ -57,8 +63,48 @@
             <div class="bullet__v">content + promo • local outreach • street-level ticket push</div>
           </div>
           <div class="bullet">
-            <div class="bullet__k">Goal</div>
-            <div class="bullet__v">make every date feel bigger than it should</div>
+            <div class="bullet__k">North star</div>
+            <div class="bullet__v">serve the song • make the night feel real</div>
+          </div>
+        </div>
+
+        <!-- Hidden “gift” section -->
+        <div id="pjPanel" class="pjPanel" hidden>
+          <div class="pjPanel__top">
+            <div class="pjPanel__k">For Pretty Jane</div>
+            <div class="pjPanel__t">If y’all want it, here’s the ticket plan.</div>
+          </div>
+
+          <p class="pjPanel__p">
+            This is a plug-and-play system I run to put asses in seats on short notice.
+            It only works if I’m on the bill — because it’s built on <b>my</b> relationships, my outreach style, and my follow-through.
+          </p>
+
+          <div class="pjGrid">
+            <div class="pjCard">
+              <div class="pjCard__k">Per city I build:</div>
+              <ul>
+                <li>10–14 influencers (Tok/IG/X/YouTube)</li>
+                <li>10–20 tastemakers (scene accounts, writers, playlist curators)</li>
+                <li>20–30 culture curators (radio, stores, newsletters, orgs)</li>
+                <li>4–6 appearances (radio/pod/store/acoustic)</li>
+                <li>2–8 sponsors (product + cash trades)</li>
+              </ul>
+            </div>
+
+            <div class="pjCard">
+              <div class="pjCard__k">How it activates:</div>
+              <ul>
+                <li>Announcement stack: short-form + local community posts</li>
+                <li>DM ladder: warm intros → tastemakers → curators → sponsors</li>
+                <li>Two “moment” ideas per city (collab/pop-up content)</li>
+                <li>Daily follow-up loop until doors</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pjPanel__foot">
+            When the research is done, this section turns into a city-by-city list with handles + contacts.
           </div>
         </div>
       </div>
@@ -74,7 +120,7 @@
           <div class="card__top">NOW PLAYING</div>
           <div id="nowTitle" class="now__title">Babe I Know You</div>
           <div class="bar">
-            <input id="seek" type="range" min="0" max="100" value="0" step="0.1" />
+            <input id="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
             <div class="time"><span id="tCur">0:00</span><span class="sep">/</span><span id="tDur">0:00</span></div>
           </div>
           <div class="row">
@@ -86,21 +132,22 @@
       </div>
     </section>
 
+    <!-- PROOF -->
     <section id="proof" class="section">
       <h2>Proof I can move people</h2>
 
       <div class="grid3">
-        <div class="card">
+        <div class="card pad">
           <div class="card__top">Ticketing</div>
           <ul>
-            <li>Mars Music Hall opener (Judah & the Lion): <b>827 tickets sold</b> (max 1575)</li>
+            <li>Mars Music Hall opener (Judah &amp; the Lion): <b>827 tickets sold</b> (max 1575)</li>
             <li>Strawberry Fest: <b>260 tickets sold</b> (by CLAYTON)</li>
             <li>Dive Motel opener: <b>93 tickets</b> (max 110)</li>
             <li>Eddie’s Attic headliner: <b>83 tickets</b> (max 165)</li>
           </ul>
         </div>
 
-        <div class="card">
+        <div class="card pad">
           <div class="card__top">Touring / Ops</div>
           <ul>
             <li>Production Assistant tours: MercyMe (arena), Dude Perfect (arena)</li>
@@ -109,7 +156,7 @@
           </ul>
         </div>
 
-        <div class="card">
+        <div class="card pad">
           <div class="card__top">Brand / Sponsorship</div>
           <ul>
             <li>Secured $2,000 lead sponsorship + product for a sold-out event</li>
@@ -120,6 +167,7 @@
       </div>
     </section>
 
+    <!-- TOUR -->
     <section id="tour" class="section">
       <h2>Tour dates (from the band’s list)</h2>
       <p class="muted">I’ll build city-by-city ticket plans + outreach lists for each stop.</p>
@@ -129,28 +177,45 @@
       </div>
     </section>
 
+    <!-- CONTACT -->
     <section id="contact" class="section">
       <h2>Contact</h2>
       <div class="card">
         <div class="contactRow">
-          <div class="muted">Email</div>
+          <div class="muted">Social</div>
+          <div>@theclaytoon (all platforms)</div>
+        </div>
+
+        <div class="contactRow">
+          <div class="muted">Artist Email</div>
           <a href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
         </div>
+
         <div class="contactRow">
           <div class="muted">Text</div>
           <a href="tel:+12563850539">256-385-0539</a>
         </div>
+
         <div class="contactRow">
-          <div class="muted">Link</div>
-          <a href="/">Full archive / dossier</a>
+          <div class="muted">Manager</div>
+          <div>
+            Caleb Brown • <a href="tel:+12563381936">(256) 338-1936</a> •
+            <a href="mailto:cjbrownmanagement@gmail.com">cjbrownmanagement@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="contactRow">
+          <div class="muted">Archive</div>
+          <a href="/#dossier">Full dossier / archive</a>
         </div>
       </div>
     </section>
 
     <footer class="footer">
       <span>© <span id="year"></span> CLAYTON</span>
-      <span class="muted">built to move tickets</span>
+      <span class="muted">still breathin</span>
     </footer>
+
   </main>
 
   <script src="./app.js"></script>

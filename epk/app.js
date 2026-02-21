@@ -11,6 +11,9 @@ const yearEl = $("#year");
 const photo = $("#photo");
 const tourTable = $("#tourTable");
 
+const pjBtn = $("#pjBtn");
+const pjPanel = $("#pjPanel");
+
 yearEl.textContent = new Date().getFullYear();
 
 let manifest = null;
@@ -109,15 +112,24 @@ async function init(){
   renderTour();
   pickPhoto();
 
-  // Try to use your existing manifest.json if present
+  // Gift button toggle (Pretty Jane)
+  pjBtn.addEventListener("click", () => {
+    const isHidden = pjPanel.hasAttribute("hidden");
+    if (isHidden) pjPanel.removeAttribute("hidden");
+    else pjPanel.setAttribute("hidden", "");
+
+    pjBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+  });
+
+  // Use the main site manifest
   const res = await fetch("/manifest.json", { cache: "no-store" });
   manifest = await res.json();
 
-  // images (any category)
+  // images
   const imgs = manifest.images || {};
   imagePool = Object.values(imgs).flat();
 
-  // finished tracks only for this page (keep it simple + strong)
+  // finished tracks (strongest lane for EPK)
   const aud = manifest.audio || {};
   const finished = []
     .concat(aud.finished || [])
@@ -137,10 +149,8 @@ async function init(){
   tracks = finished;
   idx = -1;
 
-  // Preload display title
   if (tracks[0]) nowTitle.textContent = tracks[0].title;
 
-  // UI
   playBtn.addEventListener("click", toggle);
   nextBtn.addEventListener("click", next);
 
