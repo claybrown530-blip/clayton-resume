@@ -12,16 +12,6 @@ document.querySelectorAll("[data-scroll]").forEach(btn => {
   });
 });
 
-// Pretty Jane panel toggle
-const pjBtn = $("#pjBtn");
-const pjPanel = $("#pjPanel");
-pjBtn?.addEventListener("click", () => {
-  const isHidden = pjPanel.hasAttribute("hidden");
-  if (isHidden) pjPanel.removeAttribute("hidden");
-  else pjPanel.setAttribute("hidden", "");
-  pjBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
-});
-
 // Watch button placeholder (we’ll wire to videos section later)
 const watchBtn = $("#watchBtn");
 watchBtn?.addEventListener("click", () => {
@@ -33,7 +23,7 @@ const showTable = $("#showTable");
 
 const SHOWS = [
   { venue: "Mars Music Hall (Huntsville, AL) — opener for Judah & the Lion", nums: "827 / 1575", soldOut: true },
-  { venue: "Strawberry Fest (Cullman, AL)", nums: "260 tickets sold", soldOut: false },
+  { venue: "Strawberry Fest (Cullman, AL) — 1 of 4 headliners", nums: "10,000 tickets sold", soldOut: false },
 
   { venue: "Dive Motel (Nashville) — opener", nums: "SOLD OUT (cap 110)", soldOut: true },
   { venue: "The East Room (Nashville)", nums: "SOLD OUT (cap 300)", soldOut: true },
@@ -59,7 +49,6 @@ function renderShows(){
     `;
   }).join("");
 }
-
 renderShows();
 
 /* ---------- LIVE PHOTO WALL (from manifest.json) ---------- */
@@ -67,17 +56,9 @@ const liveLeft = $("#liveLeft");
 const liveRight = $("#liveRight");
 
 function safeUrl(p){ return encodeURI(p); }
+function shuffle(arr){ return [...arr].sort(() => Math.random() - 0.5); }
 
-async function loadManifest(){
-  const res = await fetch("/manifest.json", { cache: "no-store" });
-  return res.json();
-}
-
-function shuffle(arr){
-  return [...arr].sort(() => Math.random() - 0.5);
-}
-
-function renderPhotoCol(el, paths, count = 4){
+function renderPhotoCol(el, paths, count = 5){
   if (!el) return;
   el.innerHTML = "";
   const picks = shuffle(paths).slice(0, count);
@@ -93,23 +74,25 @@ function renderPhotoCol(el, paths, count = 4){
   });
 }
 
+async function loadManifest(){
+  const res = await fetch("/manifest.json", { cache: "no-store" });
+  return res.json();
+}
+
 (async function initPhotos(){
   try{
     const manifest = await loadManifest();
     const imgs = manifest.images || {};
     const live = (imgs.live || []).filter(Boolean);
-
-    // If there are not enough live images, fallback to any images
-    const pool = live.length >= 6 ? live : Object.values(imgs).flat();
-
-    renderPhotoCol(liveLeft, pool, 4);
-    renderPhotoCol(liveRight, pool, 4);
+    const pool = live.length ? live : Object.values(imgs).flat();
+    renderPhotoCol(liveLeft, pool, 5);
+    renderPhotoCol(liveRight, pool, 5);
   }catch(e){
     console.warn("manifest.json failed for photos", e);
   }
 })();
 
-/* ---------- SHITTY EP PLAYER (pulls from manifest audio) ---------- */
+/* ---------- SHITTY EP PLAYER (hard-wired filenames) ---------- */
 const audio = $("#audio");
 const playBtn = $("#playBtn");
 const nowTitle = $("#nowTitle");
@@ -119,21 +102,17 @@ const tDur = $("#tDur");
 const nextBtn = $("#nextBtn");
 const epTrackList = $("#epTrackList");
 
-let tracks = [];
+let tracks = [
+  { title: "Doormat", path: "/assets/audio/finished/Doormat.wav" },
+  { title: "Cards", path: "/assets/audio/finished/Cards.wav" },
+  { title: "Sitcom", path: "/assets/audio/finished/Sitcom.wav" },
+  { title: "Nice Guy", path: "/assets/audio/finished/Nice Guy.mp3" },
+  { title: "Mary", path: "/assets/audio/finished/Mary.wav" },
+  { title: "Shitty Song", path: "/assets/audio/finished/Shitty Song.mp3" },
+];
+
 let idx = -1;
 
-const AUDIO_EXT = [".mp3",".m4a",".wav",".aiff",".flac",".aac",".ogg"];
-const EP_TITLES = ["doormat","cards","sitcom","nice guy","mary","shitty song"];
-
-function isAudio(p){
-  const l = String(p||"").toLowerCase();
-  return AUDIO_EXT.some(ext => l.endsWith(ext));
-}
-function titleFromPath(p){
-  const parts = String(p||"").split("/");
-  const file = parts[parts.length-1] || "";
-  return decodeURIComponent(file).replace(/\.[^/.]+$/, "").replace(/[_]+/g," ").replace(/\s+/g," ").trim() || "Untitled";
-}
 function fmt(sec){
   if (!isFinite(sec) || sec < 0) return "0:00";
   const m = Math.floor(sec/60);
@@ -144,6 +123,7 @@ function fmt(sec){
 function setNow(i){
   if (!tracks[i]) return;
   nowTitle.textContent = tracks[i].title;
+
   document.querySelectorAll(".track").forEach((el, n) => {
     el.classList.toggle("is-active", n === i);
     const r = el.querySelector(".track__r");
@@ -186,37 +166,7 @@ function renderTrackList(){
   if (tracks[0]) nowTitle.textContent = tracks[0].title;
 }
 
-async function initEP(){
-  try{
-    const manifest = await loadManifest();
-    const aud = manifest.audio || {};
-    const pool = []
-      .concat(aud.finished || [])
-      .concat(aud["finished-tracks"] || [])
-      .concat(aud.demos || [])
-      .concat(aud["day1-demos"] || [])
-      .concat(aud["day-1-demos"] || []);
-
-    const candidates = pool
-      .filter(isAudio)
-      .map(p => ({ path: p, title: titleFromPath(p) }));
-
-    // match the EP titles regardless of exact filename
-    const matches = candidates.filter(t => EP_TITLES.includes(t.title.toLowerCase()));
-
-    // keep EP order
-    tracks = EP_TITLES
-      .map(name => matches.find(m => m.title.toLowerCase() === name))
-      .filter(Boolean);
-
-    renderTrackList();
-  }catch(e){
-    console.warn("EP init failed", e);
-    nowTitle.textContent = "EP audio not found (check filenames/manifest)";
-  }
-}
-
-initEP();
+renderTrackList();
 
 // wire player UI
 playBtn?.addEventListener("click", toggle);
@@ -245,8 +195,3 @@ seek?.addEventListener("input", ()=>{
   audio.currentTime = (Number(seek.value)/100) * audio.duration;
 });
 audio?.addEventListener("ended", next);
-
-// streaming numbers placeholders (you’ll give me real values later)
-$("#streamsTotal").textContent = "—";
-$("#listenersTotal").textContent = "—";
-$("#bestTrack").textContent = "—";

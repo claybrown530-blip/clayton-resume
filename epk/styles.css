@@ -58,24 +58,8 @@ a:hover{opacity:.92}
   justify-content:space-between;
   padding:18px;
 }
-.heroTop{
-  display:flex;
-  justify-content:space-between;
-  gap:14px;
-  align-items:flex-end;
-}
-.brand__title{
-  font-family:var(--head);
-  text-transform:uppercase;
-  letter-spacing:.10em;
-  font-size:20px;
-}
-.brand__sub{
-  margin-top:6px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  font-size:12px;
+.heroTop--rightOnly{
+  justify-content:flex-end;
 }
 .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
 .nav a{
