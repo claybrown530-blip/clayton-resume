@@ -551,3 +551,171 @@ h2{
 .vModal[hidden]{
   display:none !important;
 }
+/* =========================
+   MOBILE PASS (EPK)
+   ========================= */
+@media (max-width: 640px){
+
+  /* overall spacing */
+  .wrap{
+    width: calc(100% - 28px);
+    padding: 18px 0 44px;
+  }
+  .section{
+    padding: 18px 0 26px;
+  }
+
+  /* headings: less huge, more premium */
+  .sectionHead{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-bottom:12px;
+  }
+  .sectionHead h2{
+    font-size: 28px;
+    letter-spacing: .08em;
+    line-height: 1.05;
+  }
+  .sectionHead .muted{
+    font-size: 12px;
+  }
+
+  /* hero: keep nav simple and not cramped */
+  .nav{
+    gap:10px;
+  }
+  .nav a{
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  /* cards: reduce bulk */
+  .card.pad{
+    padding: 14px;
+  }
+  .card{
+    border-radius: 18px;
+  }
+
+  /* SHOW WALL: make it a clean single column on mobile */
+  .showWall{
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  /* hide the side photo columns on mobile to avoid weird stacking */
+  .photoCol{
+    display:none !important;
+  }
+
+  /* show table rows: stack cleanly */
+  .srow{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:8px;
+    padding: 14px 0;
+  }
+  .svenue{
+    font-size: 14px;
+    line-height: 1.25;
+  }
+  .snums{
+    font-size: 12px;
+    letter-spacing: .10em;
+  }
+  .badge{
+    width: fit-content;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: 999px;
+  }
+
+  /* network + sponsors: tighter */
+  .fanNums{
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .fanNum__v{
+    font-size: 26px;
+  }
+  .sponsorRow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .sponsor{
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  /* MUSIC: one column, less vertical bloat */
+  .musicGrid{
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .epTitle{
+    font-size: 22px;
+    letter-spacing: .08em;
+  }
+  .epSub{
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .epStats{
+    gap: 10px;
+  }
+  .stat__v{
+    font-size: 18px;
+  }
+
+  /* player: tighten */
+  .player{
+    padding: 12px 0 0;
+  }
+  .play{
+    width: 100%;
+    justify-content:center;
+  }
+  .trackList{
+    gap: 8px;
+  }
+  .track{
+    padding: 12px 12px;
+  }
+  .track__t{
+    font-size: 14px;
+  }
+
+  /* WATCH: keep the tiles but reduce height */
+  .watchGrid{
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .vCard{
+    padding: 12px;
+  }
+  .vCard__mid{
+    aspect-ratio: 16/9;
+    border-radius: 14px;
+  }
+  .vPlay{
+    width: 56px;
+    height: 56px;
+  }
+
+  /* CONTACT: stack label/value so it doesn’t crunch */
+  .contactRow{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px 14px;
+  }
+  .contactRow a, .contactRow div{
+    word-break: break-word;
+  }
+
+  /* footer spacing */
+  .footer{
+    margin-top: 18px;
+  }
+}
