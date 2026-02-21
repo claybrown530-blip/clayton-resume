@@ -547,3 +547,7 @@ h2{
   cursor:pointer;
 }
 .vClose:hover{background: rgba(255,255,255,.06)}
+/* Force hidden modals to actually hide (prevents video modal showing on page load) */
+.vModal[hidden]{
+  display:none !important;
+}
