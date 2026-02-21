@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>CLAYTON — Tour Support / Opener Pitch (Pretty Jane)</title>
+  <meta name="theme-color" content="#0a0a09" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="top">
+    <div class="brand">
+      <div class="brand__title">CLAYTON</div>
+      <div class="brand__sub">still breathin • indie/alt rock songwriter + producer</div>
+    </div>
+
+    <nav class="nav">
+      <a href="#pitch">Pitch</a>
+      <a href="#proof">Proof</a>
+      <a href="#tour">Tour</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" id="pitch">
+      <div class="hero__left">
+        <h1>Opener who sells tickets.</h1>
+        <p class="lede">
+          I haven’t toured the west yet — but I will outwork anybody to move tickets, build buzz,
+          and make the room feel like something people talk about after.
+        </p>
+
+        <div class="hero__cta">
+          <button id="playBtn" class="play" type="button">
+            <span class="play__icon">▶</span>
+            <span class="play__text">Play “Babe I Know You”</span>
+          </button>
+
+          <a class="ghost" href="/#dossier">Full archive</a>
+        </div>
+
+        <div class="bullets">
+          <div class="bullet">
+            <div class="bullet__k">What you get</div>
+            <div class="bullet__v">bitchin live • good hang • fast setup • zero ego</div>
+          </div>
+          <div class="bullet">
+            <div class="bullet__k">How I help</div>
+            <div class="bullet__v">content + promo • local outreach • street-level ticket push</div>
+          </div>
+          <div class="bullet">
+            <div class="bullet__k">Goal</div>
+            <div class="bullet__v">make every date feel bigger than it should</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__right">
+        <div class="card art">
+          <div class="card__top">VISUALS</div>
+          <div class="frame"><img id="photo" alt="CLAYTON photo" loading="lazy" /></div>
+          <div class="card__foot">rotates while audio plays</div>
+        </div>
+
+        <div class="card now">
+          <div class="card__top">NOW PLAYING</div>
+          <div id="nowTitle" class="now__title">Babe I Know You</div>
+          <div class="bar">
+            <input id="seek" type="range" min="0" max="100" value="0" step="0.1" />
+            <div class="time"><span id="tCur">0:00</span><span class="sep">/</span><span id="tDur">0:00</span></div>
+          </div>
+          <div class="row">
+            <button id="nextBtn" class="ghost" type="button">Next</button>
+            <div class="muted">Space = play/pause</div>
+          </div>
+          <audio id="audio" preload="metadata"></audio>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof" class="section">
+      <h2>Proof I can move people</h2>
+
+      <div class="grid3">
+        <div class="card">
+          <div class="card__top">Ticketing</div>
+          <ul>
+            <li>Mars Music Hall opener (Judah & the Lion): <b>827 tickets sold</b> (max 1575)</li>
+            <li>Strawberry Fest: <b>260 tickets sold</b> (by CLAYTON)</li>
+            <li>Dive Motel opener: <b>93 tickets</b> (max 110)</li>
+            <li>Eddie’s Attic headliner: <b>83 tickets</b> (max 165)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card__top">Touring / Ops</div>
+          <ul>
+            <li>Production Assistant tours: MercyMe (arena), Dude Perfect (arena)</li>
+            <li>Kari Jobe / Bethel / Chris Tomlin (theater)</li>
+            <li>Hospitality + run-of-show support, load in/out, problem solving</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card__top">Brand / Sponsorship</div>
+          <ul>
+            <li>Secured $2,000 lead sponsorship + product for a sold-out event</li>
+            <li>Paid promo photo work for Gibson</li>
+            <li>Top salesperson for Campesino Rum (relationship-driven work)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="tour" class="section">
+      <h2>Tour dates (from the band’s list)</h2>
+      <p class="muted">I’ll build city-by-city ticket plans + outreach lists for each stop.</p>
+
+      <div class="card">
+        <div class="table" id="tourTable"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div class="card">
+        <div class="contactRow">
+          <div class="muted">Email</div>
+          <a href="mailto:claybrown530@gmail.com">claybrown530@gmail.com</a>
+        </div>
+        <div class="contactRow">
+          <div class="muted">Text</div>
+          <a href="tel:+12563850539">256-385-0539</a>
+        </div>
+        <div class="contactRow">
+          <div class="muted">Link</div>
+          <a href="/">Full archive / dossier</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> CLAYTON</span>
+      <span class="muted">built to move tickets</span>
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
