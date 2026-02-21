@@ -9,10 +9,7 @@ const tDur = $("#tDur");
 const nextBtn = $("#nextBtn");
 const yearEl = $("#year");
 const photo = $("#photo");
-const tourTable = $("#tourTable");
-
-const pjBtn = $("#pjBtn");
-const pjPanel = $("#pjPanel");
+const showTable = $("#showTable");
 
 yearEl.textContent = new Date().getFullYear();
 
@@ -68,60 +65,59 @@ function playAt(i){
   audio.play().catch(()=>{});
   pickPhoto();
 }
-
 function next(){
   if (!tracks.length) return;
   playAt((idx+1) % tracks.length);
 }
-
 function toggle(){
-  if (!audio.src){
-    playAt(0);
-    return;
-  }
+  if (!audio.src){ playAt(0); return; }
   if (audio.paused) audio.play().catch(()=>{});
   else audio.pause();
 }
 
-function renderTour(){
-  const rows = [
-    ["Sun 3/22", "Spokane, WA — The Chameleon"],
-    ["Mon 3/23", "Vancouver, BC — Wise Hall"],
-    ["Wed 3/25", "Seattle, WA — Baba Yaga"],
-    ["Thu 3/26", "Boise, ID — Treefort"],
-    ["Sat 3/28", "San Francisco, CA — Brick + Mortar"],
-    ["Mon 3/30", "San Diego, CA — Voodoo Room @ House of Blues"],
-    ["Fri 4/3", "Los Angeles, CA — The Wiltern"],
-    ["Sat 4/4", "Phoenix, AZ — The Van Buren"],
-    ["Mon 4/6", "Salt Lake City, UT — The Union"],
-    ["Wed 4/8", "Denver, CO — Paramount Theater"],
-    ["Fri 4/10", "Dallas, TX — House of Blues"],
-    ["Sat 4/11", "Houston, TX — House of Blues"],
-    ["Sun 4/12", "Austin, TX — ACL Live at the Moody Theater"],
-  ];
+/* SHOW HISTORY
+   - “sold” is tickets sold or attendance
+   - “cap” is capacity when known
+   - soldOut true adds badge
+*/
+const SHOWS = [
+  { venue: "Mars Music Hall (Huntsville, AL) — opener for Judah & the Lion", sold: 827, cap: 1575, soldOut: true },
+  { venue: "Strawberry Fest (Cullman, AL)", sold: 260, cap: null, soldOut: false },
+  { venue: "Dive Motel (Nashville) — opener", sold: 93, cap: 110, soldOut: true },
+  { venue: "Eddie’s Attic (Atlanta) — headliner", sold: 83, cap: 165, soldOut: true }, // per your words; change if needed
+  { venue: "The East Room (Nashville)", sold: 76, cap: 300, soldOut: false },          // number from doc; if sold out headliner later, we’ll add it
+  { venue: "Backyard Halloween show (Nashville)", sold: 400, cap: null, soldOut: true, label: "attendance" },
+  { venue: "Kenny Rogers former estate show (Nashville)", sold: 227, cap: 227, soldOut: true },
+  { venue: "Marathon Music Works (Nashville)", sold: null, cap: null, soldOut: true },  // add numbers when you have them
+];
 
-  tourTable.innerHTML = rows.map(([d,v]) => `
-    <div class="trow">
-      <div class="tdate">${d}</div>
-      <div class="tvenue">${v}</div>
-    </div>
-  `).join("");
+function renderShows(){
+  showTable.innerHTML = SHOWS.map(s => {
+    const isAttendance = s.label === "attendance";
+    const left = s.venue;
+
+    let nums = "—";
+    if (s.sold != null && s.cap != null) nums = `${s.sold}/${s.cap}`;
+    else if (s.sold != null && s.cap == null) nums = isAttendance ? `${s.sold}+ attendance` : `${s.sold} tickets`;
+    else if (s.sold == null && s.cap == null) nums = s.soldOut ? `sold out` : `—`;
+
+    const badge = s.soldOut ? `<span class="badge">SOLD OUT</span>` : `<span class="badge off">—</span>`;
+
+    return `
+      <div class="srow">
+        <div class="svenue">${left}</div>
+        <div class="snums">${nums}</div>
+        ${badge}
+      </div>
+    `;
+  }).join("");
 }
 
 async function init(){
-  renderTour();
+  renderShows();
   pickPhoto();
 
-  // Gift button toggle (Pretty Jane)
-  pjBtn.addEventListener("click", () => {
-    const isHidden = pjPanel.hasAttribute("hidden");
-    if (isHidden) pjPanel.removeAttribute("hidden");
-    else pjPanel.setAttribute("hidden", "");
-
-    pjBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
-  });
-
-  // Use the main site manifest
+  // load main manifest (site root)
   const res = await fetch("/manifest.json", { cache: "no-store" });
   manifest = await res.json();
 
@@ -129,7 +125,7 @@ async function init(){
   const imgs = manifest.images || {};
   imagePool = Object.values(imgs).flat();
 
-  // finished tracks (strongest lane for EPK)
+  // finished tracks only (clean EPK)
   const aud = manifest.audio || {};
   const finished = []
     .concat(aud.finished || [])
@@ -148,20 +144,14 @@ async function init(){
 
   tracks = finished;
   idx = -1;
-
   if (tracks[0]) nowTitle.textContent = tracks[0].title;
 
   playBtn.addEventListener("click", toggle);
   nextBtn.addEventListener("click", next);
 
   window.addEventListener("keydown", (e)=>{
-    if (e.code === "Space"){
-      e.preventDefault();
-      toggle();
-    }
-    if (e.code === "ArrowRight"){
-      next();
-    }
+    if (e.code === "Space"){ e.preventDefault(); toggle(); }
+    if (e.code === "ArrowRight"){ next(); }
   });
 
   audio.addEventListener("loadedmetadata", ()=>{ tDur.textContent = fmt(audio.duration); });
