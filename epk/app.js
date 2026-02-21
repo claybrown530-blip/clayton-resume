@@ -55,7 +55,13 @@ renderShows();
 const liveLeft = $("#liveLeft");
 const liveRight = $("#liveRight");
 
-function safeUrl(p){ return encodeURI(p); }
+function safeUrl(p){
+  const s = String(p || "");
+  // manifest.json uses "assets/..." (relative). On /epk/ that becomes /epk/assets/... (wrong).
+  // Force root-absolute paths.
+  const abs = s.startsWith("/") ? s : "/" + s;
+  return encodeURI(abs);
+}
 function shuffle(arr){ return [...arr].sort(() => Math.random() - 0.5); }
 
 function renderPhotoCol(el, paths, count = 5){
@@ -104,10 +110,10 @@ const epTrackList = $("#epTrackList");
 
 let tracks = [
   { title: "Doormat", path: "/assets/audio/finished/Doormat.wav" },
-  { title: "Cards", path: "/assets/audio/finished/Cards.wav" },
+  { title: "Cards", path: "/assets/audio/finished/Cards.mp3" },
   { title: "Sitcom", path: "/assets/audio/finished/Sitcom.wav" },
-  { title: "Nice Guy", path: "/assets/audio/finished/Nice Guy.mp3" },
-  { title: "Mary", path: "/assets/audio/finished/Mary.wav" },
+  { title: "Nice Guy", path: "/assets/audio/demos/Nice Guy.mp3" },
+  { title: "Mary", path: "/assets/audio/finished/Mary.m4a" },
   { title: "Shitty Song", path: "/assets/audio/finished/Shitty Song.mp3" },
 ];
 
