@@ -157,6 +157,37 @@
       </div>
     </section>
 
+<!-- WATCH -->
+<section class="section" id="watch">
+  <div class="sectionHead">
+    <h2>Watch</h2>
+  </div>
+
+  <div class="watchGrid">
+    <button class="vCard" type="button" data-video="/assets/video/CLAYTONshowReel.mp4">
+      <div class="vCard__top">Show Reel</div>
+      <div class="vCard__mid">
+        <div class="vPlay">▶</div>
+      </div>
+      <div class="vCard__bot muted">CLAYTONshowReel.mp4</div>
+    </button>
+
+    <button class="vCard" type="button" data-video="/assets/video/Doormat-Live-2.0.mov">
+      <div class="vCard__top">Live</div>
+      <div class="vCard__mid">
+        <div class="vPlay">▶</div>
+      </div>
+      <div class="vCard__bot muted">Doormat Live 2.0</div>
+    </button>
+  </div>
+
+  <!-- Video modal -->
+  <div id="vModal" class="vModal" hidden>
+    <button id="vClose" class="vClose" type="button" aria-label="Close video">✕</button>
+    <video id="vPlayer" class="vPlayer" controls playsinline></video>
+  </div>
+</section>
+
     <!-- CONTACT -->
     <section class="section" id="contact">
       <div class="sectionHead">

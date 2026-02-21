@@ -15,7 +15,42 @@ document.querySelectorAll("[data-scroll]").forEach(btn => {
 // Watch button placeholder (we’ll wire to videos section later)
 const watchBtn = $("#watchBtn");
 watchBtn?.addEventListener("click", () => {
-  alert("Videos coming next — pick your best 2 and we’ll drop them in.");
+  const el = document.querySelector("#watch");
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+// Video modal
+const vModal = $("#vModal");
+const vClose = $("#vClose");
+const vPlayer = $("#vPlayer");
+
+function openVideo(src){
+  if (!vModal || !vPlayer) return;
+  vPlayer.src = src;
+  vModal.removeAttribute("hidden");
+  vPlayer.play().catch(()=>{});
+}
+function closeVideo(){
+  if (!vModal || !vPlayer) return;
+  vPlayer.pause();
+  vPlayer.removeAttribute("src");
+  vPlayer.load();
+  vModal.setAttribute("hidden", "");
+}
+
+vClose?.addEventListener("click", closeVideo);
+vModal?.addEventListener("click", (e) => {
+  if (e.target === vModal) closeVideo();
+});
+
+document.querySelectorAll("[data-video]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const src = btn.getAttribute("data-video");
+    if (src) openVideo(src);
+  });
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeVideo();
 });
 
 /* ---------- SHOW HISTORY ---------- */

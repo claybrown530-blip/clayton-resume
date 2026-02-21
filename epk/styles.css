@@ -464,3 +464,86 @@ h2{
   .photoCol{grid-template-columns:1fr}
   .hero__overlay{padding:14px}
 }
+/* WATCH */
+.watchGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+@media (max-width: 980px){
+  .watchGrid{grid-template-columns:1fr;}
+}
+
+.vCard{
+  text-align:left;
+  border:1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.18));
+  border-radius: 18px;
+  padding:14px 14px;
+  cursor:pointer;
+  color: var(--text);
+  overflow:hidden;
+  box-shadow: var(--shadow);
+}
+.vCard:hover{background: rgba(255,255,255,.06)}
+.vCard__top{
+  color: var(--muted);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:11px;
+}
+.vCard__mid{
+  margin-top:12px;
+  border-radius: 16px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.22);
+  aspect-ratio: 16/9;
+  display:grid;
+  place-items:center;
+}
+.vPlay{
+  width:64px; height:64px;
+  border-radius:999px;
+  border:1px solid rgba(224,162,74,.55);
+  background: rgba(224,162,74,.10);
+  display:grid;
+  place-items:center;
+  font-family: var(--head);
+  font-size:18px;
+}
+.vCard__bot{
+  margin-top:12px;
+  text-transform:uppercase;
+  letter-spacing:.10em;
+  font-size:12px;
+}
+
+/* Video modal */
+.vModal{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background: rgba(0,0,0,.82);
+  display:grid;
+  place-items:center;
+  padding: 18px;
+}
+.vPlayer{
+  width:min(980px, 100%);
+  max-height: 78vh;
+  border-radius: 18px;
+  border:1px solid rgba(255,255,255,.14);
+  background: #000;
+}
+.vClose{
+  position:fixed;
+  top:18px;
+  right:18px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  color: var(--text);
+  border-radius: 999px;
+  padding:10px 12px;
+  cursor:pointer;
+}
+.vClose:hover{background: rgba(255,255,255,.06)}
